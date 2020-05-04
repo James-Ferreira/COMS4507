@@ -10,54 +10,39 @@ import {
   Button,
   TextField,
   InputAdornment,
-  Snackbar
+  Snackbar,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { FaPaw, FaSearch } from "react-icons/fa";
 import Dog from "./components/dog"; // Basic component for rendering a dog
 import Tree from "./components/tree"; // Render a tree structure using CSS
 
-import Web3 from "web3"; // Web3 for interaction with Ethereum
-/* Truffle contracts */
-import DogAncestry from "./contracts/DogAncestry.json";
-import { TRUFFLE_NETWORK_ID } from "./truffle";
-
 /* Utility functions*/
 import dogToTree from "./util/dogToTree";
+
+/* Global State */
+import Ethereum from "./state/ethereum";
 
 import "./App.css";
 
 function App() {
-  const [account, setAccount] = useState(0); // The ethereum account public key.
-  const [dogAncestry, setDogAncestry] = useState(null); // The Web3 DogAncestry contract interface.
+  const { web3, account, setAccount, contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
+
   const [selectedDog, setSelectedDog] = useState(null); // The selected dog for generating the ancestry tree.
   const [search, setSearch] = useState(""); // Microchip search string.
   const [showSearchError, setShowSearchError] = useState(false); // Whether the snackbar error should show.
 
-  /* Run this when the component first loads */
   useEffect(() => {
     (async () => {
-      /* Setup new Web3 instance */
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-
-      /* Get account data */
       const accounts = await web3.eth.getAccounts();
       setAccount(accounts[0]);
-
-      /* Create the DogAncestry contract interface */
-      setDogAncestry(
-        new web3.eth.Contract(
-          DogAncestry.abi,
-          DogAncestry.networks[TRUFFLE_NETWORK_ID].address
-        )
-      );
     })();
   }, []);
 
   /* Method for fetching a single dog entry from the smart contract mapping */
   const fetchDog = async () => {
     /* Get the dog structure from the blockchain using our custom method */
-    let dog = await dogAncestry.methods.getDog(search).call();
+    let dog = await contracts.dogAncestry.methods.getDog(search).call();
 
     /* Basic error handling */
     if (dog.microchipNumber == 0) {
@@ -73,12 +58,12 @@ function App() {
   const getAncestry = async (dog) => {
     let dam = 0;
     if (dog.dam != 0) {
-      dam = await dogAncestry.methods.getDog(dog.dam).call();
+      dam = await contracts.dogAncestry.methods.getDog(dog.dam).call();
     }
 
     let sire = 0;
     if (dog.sire != 0) {
-      sire = await dogAncestry.methods.getDog(dog.sire).call();
+      sire = await contracts.dogAncestry.methods.getDog(dog.sire).call();
     }
 
     return {
@@ -129,7 +114,7 @@ function App() {
           />
         </div>
         <div className="tree">
-          {selectedDog ? <Tree data={dogToTree(selectedDog)} /> : null}
+          {selectedDog ? <Tree data={dogToTree(selectedDog)}/> : null}
         </div>
       </div>
 

@@ -30,9 +30,13 @@ contract DogAncestry {
 
     // A special function only run during the creation of the contract
     constructor() public {
-        registerDog(100, "Jannet", "Poodle", 123456789, 0, 0);
-        registerDog(101, "Steve", "Labrador", 123456789, 0, 0);
-        registerDog(102, "Stevette", "Labradoodle", 123456789, 100, 101);
+        registerDog(100, "Jannet", "Poo", 123456789, 0, 0);
+        registerDog(101, "Steve", "Dle", 123456789, 0, 0);
+        registerDog(102, "Lindsay", "Labra", 123456789, 0, 0);
+        registerDog(103, "Jim", "Dor", 123456789, 0, 0);
+        registerDog(104, "Stevette", "Poodle", 123456789, 100, 101);
+        registerDog(105, "Jindsay", "Labrador", 123456789, 102, 103);
+        registerDog(106, "Jindette", "Labradoodle", 123456789, 104, 105);
     }
 
     // Register a new dog on the Blockchain.

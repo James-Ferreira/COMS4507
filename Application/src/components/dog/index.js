@@ -1,6 +1,6 @@
 /**
  * A card with some basic dog information.
- */ 
+ */
 
 import React from "react";
 import {
@@ -13,6 +13,7 @@ import {
 import { FaDog } from "react-icons/fa";
 
 const Dog = (props) => {
+  console.log(props);
   return (
     <Card>
       <CardHeader
@@ -21,16 +22,14 @@ const Dog = (props) => {
             <FaDog />
           </Avatar>
         }
-        title={props.name}
-        subheader={props.microchipNumber}
+        title={`${props.name} (${props.microchipNumber})`}
+        subheader={props.breed}
       />
-      <CardContent>
+      {/* <CardContent>
         <Typography variant="body2" color="textSecondary" component="div">
-          <p>Dam: {props.dam}</p>
-          <p>Sire: {props.sire}</p>
           <p>Offspring: {props.offspring}</p>
         </Typography>
-      </CardContent>
+      </CardContent> */}
     </Card>
   );
 };
