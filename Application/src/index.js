@@ -1,17 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import "./index.css";
+import Theme from "./theme";
+import { BrowserRouter as Router } from "react-router-dom";
 
 /* Web3 State */
 import Ethereum from "./state/ethereum";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Ethereum.Provider>
-      <App />
-    </Ethereum.Provider>
+    <Theme>
+      <Router>
+        <Ethereum.Provider>
+          <App />
+        </Ethereum.Provider>
+      </Router>
+    </Theme>
   </React.StrictMode>,
   document.getElementById("root")
 );

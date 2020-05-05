@@ -30,7 +30,7 @@ const Tree = (props) => {
   // };
 
   return (
-    <div>
+    <div className="tree">
       <ul>{renderNode(props.data)}</ul>
     </div>
   );

@@ -4,6 +4,7 @@
 
 import React from "react";
 import {
+  makeStyles,
   Card,
   CardHeader,
   CardContent,
@@ -13,6 +14,8 @@ import {
 import { FaDog } from "react-icons/fa";
 
 const Dog = (props) => {
+  const styles = useStyles();
+
   return (
     <Card>
       <CardHeader
@@ -32,5 +35,16 @@ const Dog = (props) => {
     </Card>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  toolbar: {
+    justifyContent: "space-between",
+  },
+
+  logo: {
+    display: "flex",
+    justifyContent: "flex-start",
+  },
+}));
 
 export default Dog;
