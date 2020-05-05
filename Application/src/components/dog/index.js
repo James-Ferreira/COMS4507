@@ -13,7 +13,6 @@ import {
 import { FaDog } from "react-icons/fa";
 
 const Dog = (props) => {
-  console.log(props);
   return (
     <Card>
       <CardHeader

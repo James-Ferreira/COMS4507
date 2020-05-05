@@ -59,11 +59,13 @@ function App() {
     let dam = 0;
     if (dog.dam != 0) {
       dam = await contracts.dogAncestry.methods.getDog(dog.dam).call();
+      dam = await getAncestry(dam)
     }
 
     let sire = 0;
     if (dog.sire != 0) {
       sire = await contracts.dogAncestry.methods.getDog(dog.sire).call();
+      sire = await getAncestry(sire);
     }
 
     return {

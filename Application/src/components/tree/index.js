@@ -7,7 +7,7 @@ import "./styles.css";
 
 const renderNode = (n) => {
   return (
-    <li key={n.content}>
+    <li key={n.key}>
       <a href="#">{n.content}</a>
       {n.children && n.children.length != 0 ? (
         <ul>
@@ -21,6 +21,7 @@ const renderNode = (n) => {
 };
 const Tree = (props) => {
   // const data = {
+  //   key: "map key"
   //   content: "html...",
   //   children: [
   //     { content: "html...", children: [...] },

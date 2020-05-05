@@ -12,6 +12,7 @@ export default function dogToTree(dog) {
   if (dog.dam != 0) children.push(dogToTree(dog.dam));
   if (dog.sire != 0) children.push(dogToTree(dog.sire));
   return {
+    key: dog.microchipNumber,
     content: <Dog {...dog} />,
     children,
   };
