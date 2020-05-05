@@ -16,6 +16,8 @@ import {
 import { Alert } from "@material-ui/lab";
 import { FaSearch } from "react-icons/fa";
 import Tree from "../components/tree"; // Render a tree structure using CSS
+import RoutedButton from "../components/routedButton";
+import Padder from "../components/padder";
 
 /* Utility functions*/
 import dogToTree from "../util/dogToTree";
@@ -71,7 +73,17 @@ function Home() {
   return (
     <>
       <div className={styles.pageContent}>
-        <div className={styles.search}>
+        <Padder height={theme.spacing(2)} />
+        <RoutedButton
+          asModal={isNotMobile}
+          to="/login"
+          variant="contained"
+          color="secondary"
+        >
+          Register Dog
+        </RoutedButton>
+        <Padder height={theme.spacing(2)} />
+        <div>
           <TextField
             fullWidth
             placeholder="Search Microchip Number"
@@ -114,18 +126,16 @@ function Home() {
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "stretch",
     [theme.breakpoints.down("sm")]: {
       margin: "0 5%",
     },
     [theme.breakpoints.up("sm")]: {
       margin: "0 100px",
     },
-  },
-
-  search: {
-    display: "flex",
-    alignContent: "center",
-    marginTop: theme.spacing(2),
   },
 }));
 
