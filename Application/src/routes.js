@@ -3,7 +3,7 @@ import { Dialog, DialogContent } from "@material-ui/core";
 import { useHistory, useLocation, Switch, Route } from "react-router-dom";
 
 import Home from "./containers/home";
-import Login from "./containers/login";
+import Register from "./containers/register";
 
 const Routes = (props) => {
   const location = useLocation();
@@ -22,8 +22,8 @@ const Routes = (props) => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/login">
-          <Login />
+        <Route path="/register">
+          <Register />
         </Route>
       </Switch>
 
@@ -31,7 +31,7 @@ const Routes = (props) => {
         <Route path={location.pathname}>
           <Dialog open onClose={closeDialog}>
             <DialogContent>
-              <Login />
+              <Register />
             </DialogContent>
           </Dialog>
         </Route>

@@ -7,9 +7,7 @@ import {
   makeStyles,
   Card,
   CardHeader,
-  CardContent,
   Avatar,
-  Typography,
 } from "@material-ui/core";
 import { FaDog } from "react-icons/fa";
 

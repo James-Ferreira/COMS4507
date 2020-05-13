@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import { useLocation } from "react-router-dom";
 import { FaPaw } from "react-icons/fa";
 
 import Ethereum from "../state/ethereum";

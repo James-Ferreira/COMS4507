@@ -2,22 +2,22 @@
  * Main application page.
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   useTheme,
   useMediaQuery,
-  Typography,
   Button,
   TextField,
   InputAdornment,
-  Snackbar,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import { FaSearch } from "react-icons/fa";
 import Tree from "../components/tree"; // Render a tree structure using CSS
 import RoutedButton from "../components/routedButton";
 import Padder from "../components/padder";
+
+/* Custom Hooks */
+import { useAlert, SEVERITY } from "../hooks/useAlert";
 
 /* Utility functions*/
 import dogToTree from "../util/dogToTree";
@@ -32,7 +32,7 @@ function Home() {
   const { contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [selectedDog, setSelectedDog] = useState(null); // The selected dog for generating the ancestry tree.
   const [search, setSearch] = useState(""); // Microchip search string.
-  const [showSearchError, setShowSearchError] = useState(false); // Whether the snackbar error should show.
+  const alert = useAlert(); // Snackbar alert
 
   /* Method for fetching a single dog entry from the smart contract mapping */
   const fetchDog = async () => {
@@ -41,7 +41,7 @@ function Home() {
 
     /* Basic error handling */
     if (dog.microchipNumber == 0) {
-      return setShowSearchError(true);
+      return alert.show("Dog not registered.", SEVERITY.ERROR)
     }
 
     /* Get dog's ancestry */
@@ -76,7 +76,7 @@ function Home() {
         <Padder height={theme.spacing(2)} />
         <RoutedButton
           asModal={isNotMobile}
-          to="/login"
+          to="/register"
           variant="contained"
           color="secondary"
         >
@@ -110,16 +110,7 @@ function Home() {
         <div>{selectedDog ? <Tree data={dogToTree(selectedDog)} /> : null}</div>
       </div>
 
-      {/* Alerts */}
-      <Snackbar
-        open={showSearchError}
-        autoHideDuration={3000}
-        onClose={() => setShowSearchError(false)}
-      >
-        <Alert onClose={() => setShowSearchError(false)} severity="error">
-          Dog not registered.
-        </Alert>
-      </Snackbar>
+      {alert.component}
     </>
   );
 }
