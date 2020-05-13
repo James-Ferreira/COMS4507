@@ -10,10 +10,10 @@ import { easeElastic } from 'd3-ease';
 
 export default class Pedigree extends Component {
 
-    //Props = selectedDogID
+    //Props = data
     constructor(props){
         super(props);
-        //this.onClick = this.onClick.bind(this);
+
     }
 
     /**
@@ -34,19 +34,24 @@ export default class Pedigree extends Component {
         };
     }
 
-    onClick(id){
-
-    }
    
     render(){
+        const data2 = {
+            name: 'Parent',
+            children: [{
+                name: 'Child One'
+            }, {
+                name: 'Child Two'
+            }]
+        };
 
         return (
 
             <div id="wrapper_pedigree">
 
-                <div class="custom-container">
+                <div id="tree-container">
                         <Tree 
-                            data={this.props.data} 
+                            data={this.generateTree(this.props.treeRoot)} 
                             height={700}
                             width={900}
                             nodeRadius={0}
@@ -57,8 +62,8 @@ export default class Pedigree extends Component {
                         }}/>
                 </div>
 
-                <div class="dog_information">
-                    <p> {this.props.rootDog.id} </p>
+                <div id="info-container">
+                    <Dog {...this.props.treeRoot}/>
                 </div>            
 
 

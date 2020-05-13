@@ -19,12 +19,39 @@ copied from my personal sites palette, use/change later
 body {
   font-family: sans-serif;
   font-size: 15px;
+
 }
 
-/* TREE STYLING */
-div.custom-container {
-  border: 1px solid red;
+#wrapper_pedigree {
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-evenly;
 }
+
+#tree-container {
+
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  background-color: var(--lightest-slate-colour);
+  border: 5px solid var(--dark-brown-colour);
+}
+
+#info-container {
+  width: 30%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid red;
+
+}
+
+
+/* TREE STYLING */
 
 svg.custom {
   padding-left: 5px;

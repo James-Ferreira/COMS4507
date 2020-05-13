@@ -20,13 +20,10 @@ import RoutedButton from "../components/routedButton";
 import Padder from "../components/padder";
 
 /* Tree */
-//import Tree from "../components/tree"; // Render a tree structure using CSS
-import Pedigree from '../components/padder'
-import Tree from 'react-tree-graph' //SVG Tree Structure
-import 'react-tree-graph/dist/style.css' //Default Tree Styling
+import Pedigree from '../components/tree/Pedigree'
 
 /* Utility functions */
-import dogToTree from "../util/dogToTree";
+
 
 /* Global State */
 import Ethereum from "../state/ethereum";
@@ -114,18 +111,12 @@ function Home() {
           />
         </div>
         {/* --- PEDIGREE TREE --- */}
-        <div class="custom-container">
-          {selectedDog ? 
-            <Tree 
-            data={dogToTree(selectedDog)} 
-            height={700}
-            width={900}
-            nodeRadius={0}
-            keyProp={"id"}
-            labelProp={"id"}
-            svgProps={{
-                className: 'custom'
-        }}/> : null}
+        <div>
+
+          {selectedDog ? <Pedigree treeRoot={selectedDog} /> : null}
+          
+
+
         </div>
       </div>
 

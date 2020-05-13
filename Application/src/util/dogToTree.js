@@ -1,5 +1,6 @@
 /**
  * Convert a Web3 Dog representation into a generic representation used by the Tree component.
+ * NO LONGER USED
  * @param {*} dog
  */
 
@@ -15,6 +16,7 @@ export default function dogToTree(dog) {
   return {
 
     id: dog.microchipNumber,
+    /*content: <Dog {...dog} />,*/
     children,
   };
 }
