@@ -23,6 +23,7 @@ Next, we need to connect an account to the extension. On the accounts page in Ga
 Install node modules from the root directory.
 ```
 yarn install
+npm install react-tree-graph --save
 ```
 
 ## Running The Project
@@ -48,6 +49,6 @@ View the app at [http://localhost:3000](http://localhost:3000).
 #### Truffle Commands
 - `truffle compile` - compile Solidity source code into a JSON representation of the contract
 - `truffle migrate` - migrate smart contract structure on the blockchain. Use the `--reset` flag to run all migrations from the beginning.
-- `truffle conosle` - run a cli console which allows interaction with the blockchain data.
+- `truffle console` - run a cli console which allows interaction with the blockchain data.
 ### React Source
 React source code is found in the `src` directory.

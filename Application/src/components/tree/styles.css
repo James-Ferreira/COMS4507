@@ -1,103 +1,55 @@
+/* 
+COLOUR PALETTE VARIABLES 
+copied from my personal sites palette, use/change later
+*/
+:root{
+  --dark-brown-grey-colour: #302b29;
+  --dark-brown-colour: #41250a;
+  --light-brown-colour: #5b3714;
+
+  --honey-yellow-colour: #b8902a;
+  --dull-gold-colour: #6f5e32;
+  --light-yellow-colour: #ffd15c;
+  --parchment-colour: #b3ae8f;
+
+  --lavender-colour: #534b54;
+}
+
+
 body {
   font-family: sans-serif;
   font-size: 15px;
 }
 
-.tree {
-  -webkit-transform: rotate(180deg);
-  transform: rotate(180deg);
-  -webkit-transform-origin: 50%;
-  transform-origin: 50%;
+/* TREE STYLING */
+div.custom-container {
+  border: 1px solid red;
 }
 
-.tree ul {
-  position: relative;
-  padding: 1em 0;
-  white-space: nowrap;
-  margin: 0 auto;
-  text-align: center;
-}
-.tree ul::after {
-  content: "";
-  display: table;
-  clear: both;
+svg.custom {
+  padding-left: 5px;
+  overflow: visible;
 }
 
-.tree li {
-  display: inline-block;
-  vertical-align: top;
-  text-align: center;
-  list-style-type: none;
-  position: relative;
-  padding: 1em 0.5em 0 0.5em;
-}
-.tree li::before,
-.tree li::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 50%;
-  border-top: 1px solid #ccc;
-  width: 50%;
-  height: 1em;
-}
-.tree li::after {
-  right: auto;
-  left: 50%;
-  border-left: 1px solid #ccc;
-}
-.tree li:only-child::after,
-.tree li:only-child::before {
-  display: none;
-}
-.tree li:only-child {
-  padding-top: 0;
-}
-.tree li:first-child::before,
-.tree li:last-child::after {
-  border: 0 none;
-}
-.tree li:last-child::before {
-  border-right: 1px solid #ccc;
-  border-radius: 0 5px 0 0;
-}
-.tree li:first-child::after {
-  border-radius: 5px 0 0 0;
+svg.custom .node circle {
+  fill: #F3F3FF;
+	stroke: var(--lavender-colour);
+	stroke-width: 1px;
 }
 
-.tree ul ul::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  border-left: 1px solid #ccc;
-  width: 0;
-  height: 1em;
+svg.custom .node text {
+  font-size: 18px;
+  font-weight: bold;
+  text-anchor: middle;
+  fill: black;
 }
 
-.tree li a {
-  /* border: 1px solid #ccc; */
-  /* padding: 0.5em 0.75em; */
-  text-decoration: none;
-  display: inline-block;
-  /* border-radius: 5px; */
-  color: #333;
-  position: relative;
-  top: 1px;
-  -webkit-transform: rotate(180deg);
-  transform: rotate(180deg);
+svg.custom .node {
+	cursor: pointer;
 }
 
-.tree li a:hover,
-.tree li a:hover + ul li a {
-  background: #e9453f;
-  color: #fff;
-  border: 1px solid #e9453f;
-}
-
-.tree li a:hover + ul li::after,
-.tree li a:hover + ul li::before,
-.tree li a:hover + ul::before,
-.tree li a:hover + ul ul::before {
-  border-color: #e9453f;
+svg.custom path.link {
+	fill: none;
+	stroke: #2593B8;
+	stroke-width: 5px;
 }

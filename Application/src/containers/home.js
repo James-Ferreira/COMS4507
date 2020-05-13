@@ -15,11 +15,17 @@ import {
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { FaSearch } from "react-icons/fa";
-import Tree from "../components/tree"; // Render a tree structure using CSS
+
 import RoutedButton from "../components/routedButton";
 import Padder from "../components/padder";
 
-/* Utility functions*/
+/* Tree */
+//import Tree from "../components/tree"; // Render a tree structure using CSS
+import Pedigree from '../components/padder'
+import Tree from 'react-tree-graph' //SVG Tree Structure
+import 'react-tree-graph/dist/style.css' //Default Tree Styling
+
+/* Utility functions */
 import dogToTree from "../util/dogToTree";
 
 /* Global State */
@@ -107,7 +113,20 @@ function Home() {
             }}
           />
         </div>
-        <div>{selectedDog ? <Tree data={dogToTree(selectedDog)} /> : null}</div>
+        {/* --- PEDIGREE TREE --- */}
+        <div class="custom-container">
+          {selectedDog ? 
+            <Tree 
+            data={dogToTree(selectedDog)} 
+            height={700}
+            width={900}
+            nodeRadius={0}
+            keyProp={"id"}
+            labelProp={"id"}
+            svgProps={{
+                className: 'custom'
+        }}/> : null}
+        </div>
       </div>
 
       {/* Alerts */}
