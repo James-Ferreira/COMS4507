@@ -34,7 +34,6 @@ body {
   flex-direction: row;
   justify-content: center;
 
-
 }
 
 #info-container {
@@ -75,4 +74,10 @@ svg.custom path.link {
 	fill: none;
 	stroke: #2593B8;
 	stroke-width: 5px;
+}
+
+
+/* CARD STYLING */
+#breed_graph_wrapper{
+  padding-left: 25%;
 }

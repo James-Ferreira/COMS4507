@@ -14,6 +14,7 @@ import {
   IconButton,
   Button,
   Typography,
+  Divider,
 } from "@material-ui/core";
 
 import clsx from 'clsx';
@@ -24,6 +25,12 @@ import {
   GradientDefs,
   XYPlot,
   HorizontalBarSeries,
+  DiscreteColorLegend,
+  VerticalGridLines,
+  HorizontalGridLines,
+  XAxis,
+  YAxis,
+  Borders,
 } from 'react-vis';
 
 
@@ -50,6 +57,14 @@ const useStyles = makeStyles((theme) => ({
   info: {
     marginBottom: 0,
   },
+  breedGraph: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  coiGraph: {
+    overflow: 'visible',
+  }
 
 }));
 
@@ -92,7 +107,6 @@ const DogCard = (props) => {
 
       {/*-- COLLAPSIBLE BREED DISPLAY -- */}
       <CardActions>
-        <Typography variant="h6">BREED</Typography>
         <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
@@ -107,7 +121,8 @@ const DogCard = (props) => {
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-
+        <Divider />
+        <div id="breed_graph_wrapper">
         <RadialChart
           colorType={'literal'}
           colorDomain={[0, 100]}
@@ -139,50 +154,58 @@ const DogCard = (props) => {
             </linearGradient>
           </GradientDefs>
       </RadialChart>
+      </div>
+
+      {/*-- INBREEDING DISPLAY -- */}
+      <XYPlot
+          className="coiGraph"
+          stackBy="x"
+          width={350}
+          height={75}
+          xDomain={[0, 100]}
+
+        >
+        <GradientDefs>
+            <linearGradient id="grad4" x1="0%" x2="100%" y1="0%" y2="0%">
+              <stop offset="0%" stopColor="purple" stopOpacity={0.4}/>
+              <stop offset="100%" stopColor="blue" stopOpacity={0.3} />
+            </linearGradient>
+          </GradientDefs>
+
+
+
+        <Borders style={{
+          bottom: {fill: '#fff'},
+          left: {fill: '#fff'},
+          right: {fill: '#fff'},
+          top: {fill: '#fff'}
+        }}/>
+
+        <XAxis tickTotal={10} style={{fontSize: '12px', fill: 'grey'}}/>
+
+
+        <HorizontalBarSeries
+        color={'url(#grad4)'}
+        style={{ rx: '5', ry: '5' }}
+            data={[
+              {x: 30, y: 1, gradientLabel: 'grad1', label: "curr"},
+            ]}
+          />
+
+
+        </XYPlot>
 
         </CardContent>
-    </Collapse>
-
-      {/*-- COLLAPSIBLE INBREEDING DISPLAY -- */}
-      <CardActions>
-        <Typography variant="h6">COEFFICIENT-OF-INBREEDING</Typography>
-        <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <FaChevronDown size={15}/>
-          </IconButton>
-      </CardActions>
-
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-
-          <XYPlot height={175} width={175} colour="#c7e9c0">
-            <HorizontalBarSeries 
-              data={[
-              {x: 33, y: 1, label: "curr"},
-              {x: 50, y: 2, label: "dam"},
-              {x: 100, y: 3, label: "sire"},
-            ]} 
-            
-            />
-          </XYPlot>
-
-
-        </CardContent>
-    </Collapse>
 
 
       {/*-- BOTTOM BUTTONS -- */}
-    <CardActions>
+      <CardActions>
         <Button size="small" color="primary">
           RECORDS
         </Button>
       </CardActions>
+    </Collapse>
+
   </Card>
   );
 };
