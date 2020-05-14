@@ -15,6 +15,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-tree-graph": "^4.1.0",
+    "react-vis": "^1.11.7",
     "unstated-next": "^1.1.0",
     "web3": "^1.2.7"
   },

@@ -1,9 +1,13 @@
 import React, {Component} from 'react'
 import './styles.css'
-import Dog from "../../components/dog";
+import DogCard from "../../components/dog";
 import Tree from 'react-tree-graph' //SVG Tree Structure
 
 //import 'react-tree-graph/dist/style.css' //Default Tree Styling
+
+//TODO investigate alternative
+// https://www.npmjs.com/package/react-hierarchy-tree-graph?activeTab=readme
+
 import './styles.css' //custom styling
 import { easeElastic } from 'd3-ease';
 
@@ -23,19 +27,30 @@ export default class Pedigree extends Component {
      */
     generateTree(dog) {
         if (!dog) return {};
+
         let children = [];
+
         if (dog.dam != 0) children.push(this.generateTree(dog.dam));
         if (dog.sire != 0) children.push(this.generateTree(dog.sire));
 
         return {
           id: dog.microchipNumber,
-          //content: <Dog {...dog} />,
           children,
+          content: dog,
         };
+    }
+
+    /**
+     * Traverse a tree and generate breed/inbreeding/genetic info
+     */
+    traverseTree(dog) {
+        let tree = this.generateTree(this.props.treeRoot)
     }
 
    
     render(){
+        let tree = this.generateTree(this.props.treeRoot)
+
         const data2 = {
             name: 'Parent',
             children: [{
@@ -58,12 +73,13 @@ export default class Pedigree extends Component {
                             keyProp={"id"}
                             labelProp={"id"}
                             svgProps={{
-                                className: 'custom'
+                                className: 'custom',
+                                //transform: 'rotate(90)'
                         }}/>
                 </div>
 
                 <div id="info-container">
-                    <Dog {...this.props.treeRoot}/>
+                    <DogCard {...this.props.treeRoot}/>
                 </div>            
 
 

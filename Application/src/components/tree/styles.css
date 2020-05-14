@@ -30,23 +30,19 @@ body {
 
 #tree-container {
 
-
   display: flex;
   flex-direction: row;
   justify-content: center;
 
-  background-color: var(--lightest-slate-colour);
-  border: 5px solid var(--dark-brown-colour);
+
 }
 
 #info-container {
   width: 30%;
-
   display: flex;
   justify-content: center;
   align-items: center;
 
-  border: 1px solid red;
 
 }
 
