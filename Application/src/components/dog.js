@@ -63,13 +63,13 @@ const useStyles = makeStyles((theme) => ({
 
 const DogCard = (props) => {
   const classes = useStyles();
-  const myData = [{ angle: 1 }, { angle: 5 }, { angle: 2 }];
 
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
 
   return (
     <Card className={classes.root} variant={"outlined"}>
@@ -86,6 +86,14 @@ const DogCard = (props) => {
       />
 
       <CardContent>
+        <Typography variant="caption" className={classes.info}>
+          <strong>GENERATION: </strong> {`${props.generation}`} <br />
+        </Typography>
+
+        <Typography variant="caption" className={classes.info}>
+          <strong>#ANCESTORS: </strong> {`${props.ancestors.size}`} <br />
+        </Typography>
+
         <Typography variant="caption" className={classes.info}>
           <strong>DOB: </strong> {`${props.dob}`} <br />
         </Typography>
@@ -123,6 +131,7 @@ const DogCard = (props) => {
               colorType={"literal"}
               colorDomain={[0, 100]}
               colorRange={[0, 10]}
+              animation
               margin={{ top: 100 }}
               getColor={(d) => `url(#${d.gradientLabel})`}
               data={[
@@ -156,15 +165,14 @@ const DogCard = (props) => {
           {/*-- INBREEDING DISPLAY -- */}
           <XYPlot
             className="coiGraph"
-            stackBy="x"
             width={350}
             height={75}
-            xDomain={[0, 100]}
+            xDomain={[0, 1]}
           >
             <GradientDefs>
               <linearGradient id="grad4" x1="0%" x2="100%" y1="0%" y2="0%">
-                <stop offset="0%" stopColor="purple" stopOpacity={0.4} />
-                <stop offset="100%" stopColor="blue" stopOpacity={0.3} />
+                <stop offset="0%" stopColor="green" stopOpacity={0.4} />
+                <stop offset="100%" stopColor="red" stopOpacity={0.3} />
               </linearGradient>
             </GradientDefs>
 
@@ -180,11 +188,17 @@ const DogCard = (props) => {
             <XAxis tickTotal={10} style={{ fontSize: "12px", fill: "grey" }} />
 
             <HorizontalBarSeries
+              animation
               color={"url(#grad4)"}
               style={{ rx: "5", ry: "5" }}
-              data={[{ x: 30, y: 1, gradientLabel: "grad1", label: "curr" }]}
+              data={[{ x: props.coi, y: 1, gradientLabel: "grad1", label: "curr" }]}
             />
           </XYPlot>
+
+          <Typography variant="caption" className={classes.info}>
+          <strong>COI: </strong> {`${props.coi}`} <br />
+        </Typography>
+
         </CardContent>
 
         {/*-- BOTTOM BUTTONS -- */}
