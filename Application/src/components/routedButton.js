@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
-const RoutedButton = ({ to, ...props }) => {
+const RoutedButton = ({ to, asModal, ...props }) => {
   const location = useLocation();
 
   let toObj = to;
@@ -15,7 +15,7 @@ const RoutedButton = ({ to, ...props }) => {
     <Button
       component={Link}
       {...props}
-      to={{ ...toObj, state: { background: props.asModal ? location : null } }}
+      to={{ ...toObj, state: { background: asModal ? location : null } }}
     >
       {props.children}
     </Button>

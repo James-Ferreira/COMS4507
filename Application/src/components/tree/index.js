@@ -15,7 +15,7 @@ const renderNode = (n) => {
   return (
     <li key={n.key}>
       <a href="#">{n.content}</a>
-      {n.children && n.children.length != 0 ? (
+      {n.children && n.children.length !== 0 ? (
         <ul>
           {n.children.map((c) => {
             return renderNode(c);
