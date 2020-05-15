@@ -199,6 +199,10 @@ const DogCard = (props) => {
           <strong>COI: </strong> {`${props.coi}`} <br />
         </Typography>
 
+        <Typography variant="subtitle" >
+          Researchers recommend dogs with a COI > 0.08 DO NOT BREED
+        </Typography>
+
         </CardContent>
 
         {/*-- BOTTOM BUTTONS -- */}

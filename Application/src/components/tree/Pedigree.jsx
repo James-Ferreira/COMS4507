@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./styles.css";
 import DogCard from "../../components/dog";
-import Tree from "react-tree-graph"; //SVG Tree Structure
-
+//import Tree from "react-tree-graph"; //SVG Tree Structure
+import Tree from 'react-hierarchy-tree-graph'
 //import 'react-tree-graph/dist/style.css' //Default Tree Styling
 
 //TODO investigate alternative
@@ -150,8 +150,9 @@ export default class Pedigree extends Component {
 
     return (
       <div id="wrapper_pedigree">
-        <div id="tree-container">
-          <Tree
+        <div id="tree-container" style={{width: 900, height: 700, 
+        border: '1px solid grey'}}>
+          {/*<Tree
             data={treeData}
             height={700}
             width={900}
@@ -161,8 +162,19 @@ export default class Pedigree extends Component {
             svgProps={{
               className: "custom",
               //transform: 'rotate(90)'
-            }}
-          />
+            }}*/}
+
+            <Tree
+            data={treeData}
+            translate={{x: 450, y: 30}}
+            zoom={0.75}
+            zoomable
+            separation={{siblings: 1, nonSiblings: 1}}
+            collapsible
+            pathFunc={"elbow"}
+            orientation={"vertical"}
+
+            />
         </div>
 
         <div id="info-container">
