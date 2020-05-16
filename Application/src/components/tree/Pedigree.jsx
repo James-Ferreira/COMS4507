@@ -117,12 +117,12 @@ export default class Pedigree extends Component {
 
   calculateCOI(dam, sire, commonAncestors){
 
-    //if sire_tree ∩ dam_tree, ∃ inbreeding. Calculate Coefficient of Inbreeding (COI)
+    //if sire_tree ∩ dam_tree, ∃ inbreeding. 
+    //Calculate Coefficient of Inbreeding (COI)
     
     let coi = 0;
     for (let ancestor of commonAncestors) {
-        let Fa = ancestor.inbredcoef;
-        
+        let Fa = ancestor.inbredcoef; //COI of common ancestor (CA)
         let n1 = dam.generation - ancestor.generation; //distance from dam to CA
         let n2 = sire.generation - ancestor.generation; //distance from sire to CA
       
@@ -130,6 +130,16 @@ export default class Pedigree extends Component {
     }
 
     return coi
+  }
+
+  calculateBreedData(breedMap) {
+    let breedData = [];
+    let prevColour = ""
+    for(let [key, value] of breedMap.entries()) {
+      var randomColour = '#'+Math.floor(Math.random()*16777215).toString(16);
+      breedData.push({angle: value, color: randomColour, label: key})
+    }
+    return breedData;
   }
 
   render() {
@@ -147,9 +157,7 @@ export default class Pedigree extends Component {
             zoomable
             separation={{siblings: 1, nonSiblings: 1}}
             pathFunc={"elbow"}
-            orientation={"vertical"}
-
-            />
+            orientation={"vertical"}/>
         </div>
 
         <div id="info-container">

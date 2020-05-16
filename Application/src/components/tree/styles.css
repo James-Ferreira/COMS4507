@@ -46,8 +46,8 @@ body {
 }
 
 
+/* BREED GRAPH STYLING */
 
-/* CARD STYLING */
 #radial-graph-wrapper{
   display: flex;
   width: 100%;
@@ -60,6 +60,29 @@ body {
 }
 
 #legend-wrapper{
-  padding: 10px;
+  display: flex;
+}
 
+
+
+#test{
+  align-self: center;
+}
+
+.rv-discrete-color-legend-item {
+  display: flex;
+}
+
+#legend-wrapper svg {
+  height: 25px;
+}
+
+#legend-wrapper path {
+  stroke-width: 25px;
+
+}
+
+.rv-discrete-color-legend-item__title{
+  margin-left: 2px;
+  margin-top: -3px; /* cheap but gets positioning correct */
 }
