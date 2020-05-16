@@ -9,13 +9,13 @@ import Tree from 'react-hierarchy-tree-graph'
 // https://www.npmjs.com/package/react-hierarchy-tree-graph?activeTab=readme
 
 import "./styles.css"; //custom styling
-import { easeElastic } from "d3-ease";
+//import { easeElastic } from "d3-ease";
 
 export default class Pedigree extends Component {
   //Props = data
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   /**
    * Convert a Web3 Dog representation into a generic representation
@@ -37,7 +37,7 @@ export default class Pedigree extends Component {
     /* DIVIDE AND CONQUER */
 
     //Dam Subtree
-    if (dog.dam != 0){
+    if (dog.dam !== 0){
       let damNode = this.generateTree(dog.dam);
       children.push(damNode);
       
@@ -46,7 +46,7 @@ export default class Pedigree extends Component {
     }
 
     //Sire Subtree
-    if (dog.sire != 0) {
+    if (dog.sire !== 0) {
       let sireNode = this.generateTree(dog.sire);
       children.push(sireNode);
 
@@ -56,26 +56,26 @@ export default class Pedigree extends Component {
 
     //Extend the longest pedigree generation, if no children, leave generation
     //at 0, as this current dog is a progenitor
-    if(children.length != 0) {
+    if(children.length !== 0) {
       gen = Math.max(children[0].generation, children[1].generation) + 1;
     }
 
     /* COMBINE */
 
     //Get the intersection between dam,sire ancestor sets
-    if(children.length == 2){
+    if(children.length === 2){
       let intersection = new Set();
 
       //there should be a better way than this
       for(let ancestor of children[0].ancestors) {
         for(let ancestor2 of children[1].ancestors){
-            if(ancestor.id == ancestor2.id){
+            if(ancestor.id === ancestor2.id){
               intersection.add(ancestor);
             }
         }
       }
 
-      if(intersection.size != 0){
+      if(intersection.size !== 0){
         coi = this.calculateCOI(children[0], children[1], intersection);
       }
     }
@@ -136,17 +136,17 @@ export default class Pedigree extends Component {
   render() {
     let treeData = this.generateTree(this.props.treeRoot);
 
-    const data2 = {
-      name: "Parent",
-      children: [
-        {
-          name: "Child One",
-        },
-        {
-          name: "Child Two",
-        },
-      ],
-    };
+    // const data2 = {
+    //   name: "Parent",
+    //   children: [
+    //     {
+    //       name: "Child One",
+    //     },
+    //     {
+    //       name: "Child Two",
+    //     },
+    //   ],
+    // };
 
     return (
       <div id="wrapper_pedigree">

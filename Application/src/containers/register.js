@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   makeStyles,
   useTheme,
   Button,
   TextField,
   Typography,
-  Snackbar,
+  //Snackbar,
 } from "@material-ui/core";
 import moment from "moment";
 import Padder from "../components/padder";
@@ -17,7 +17,7 @@ import { useAlert, SEVERITY } from "../hooks/useAlert";
 const Register = (props) => {
   const styles = useStyles();
   const theme = useTheme();
-  const location = useLocation();
+  //const location = useLocation();
   const history = useHistory();
   const { contracts, account } = Ethereum.useContainer();
   const alert = useAlert();

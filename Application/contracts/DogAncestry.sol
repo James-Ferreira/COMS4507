@@ -49,6 +49,12 @@ contract DogAncestry {
 
         registerDog(205, "F", "Labrador", 123456789, 204, 203);
 
+        //[DOG WITH RECORDS]
+        registerDog(300, "Naveah", "Poo", 123456789, 0, 0);
+        createRecord(300, 123456789, "Record 1", "This is the first record ever!");
+        createRecord(300, 123456789, "Vaccination", "Doggy went to vet for some vaccinations bruh.");
+        createRecord(300, 123456789, "Broken Bone", "Poor dag broke a bone :(");
+
     }
 
     // Register a new dog on the Blockchain.
