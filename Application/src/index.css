@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.collapseLabel {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1em;
+  cursor: pointer;
+}

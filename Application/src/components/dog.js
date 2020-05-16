@@ -4,7 +4,7 @@
  * //TODO: add labels of % in pie chart
  */
 
-import React from "react";
+import React, { Fragment } from "react";
 import {
   makeStyles,
   Card,
@@ -31,6 +31,8 @@ import {
   DiscreteColorLegend,
 } from "react-vis";
 
+const moment = require('moment');
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 450,
@@ -56,10 +58,15 @@ const DogCard = (props) => {
   const classes = useStyles();
 
   const [expanded, setExpanded] = React.useState(false);
+  const [recordsExpanded, setRecordsExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const handleExpandRecordsClick = () => {
+    setRecordsExpanded(!recordsExpanded);
+  }
 
   let targetDog = props.contents;
 
@@ -84,9 +91,13 @@ const DogCard = (props) => {
           {`${targetDog.dam.name} (${targetDog.dam.microchipNumber})`} <br />
         </Typography>
       </CardContent>
+      
+      <Divider />
 
-      {/*-- COLLAPSIBLE INFORMATION -- */}
-      <CardActions>
+      {/*-- COLLAPSIBLE INFORMATION-- */}
+      <div title={expanded ? "Hide Statistics" : "Show Statistics"} className="collapseLabel" onClick={handleExpandClick}>
+        <h3>Statistics</h3>
+
         <IconButton
           className={clsx(classes.expand, {[classes.expandOpen]: expanded,})}
           onClick={handleExpandClick}
@@ -95,12 +106,11 @@ const DogCard = (props) => {
         >
         <FaChevronDown size={15} />
         </IconButton>
-      </CardActions>
+      </div>
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         {/*-- BREED INFORMATION -- */}
         <CardContent>
-          <Divider />
           <div id="radial-graph-wrapper">
             <div id="chart-wrapper">
               <RadialChart
@@ -153,14 +163,49 @@ const DogCard = (props) => {
             ancestors
           </Typography>
         </CardContent>
-
-        {/*-- BOTTOM BUTTONS -- */}
-        <CardActions>
-          <Button size="small" color="primary">
-            RECORDS
-          </Button>
-        </CardActions>
       </Collapse>
+    
+      
+      <Divider />
+      
+      {/*-- COLLAPSIBLE BREED DISPLAY -- */}
+      <div title={recordsExpanded ? "Hide Medical Records" : "Show Medical Records"} className="collapseLabel" onClick={handleExpandRecordsClick} >
+        <h3>Medical Records</h3>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: recordsExpanded,
+          })}
+          onClick={handleExpandRecordsClick}
+          aria-expanded={recordsExpanded}
+          aria-label="show records"
+        >
+          <FaChevronDown size={15} />
+        </IconButton>
+      </div>
+
+      <Collapse in={recordsExpanded} timeout="auto" unmountOnExit >
+        <CardContent>
+          {targetDog.medicals && targetDog.medicals.map(record => (
+            <Fragment>
+              <article>
+                <h4 style={{textAlign: "center"}}>{record.title}</h4>
+                <p style={{textAlign: "right"}}>{moment.unix(record.date).format("DD/MM/YYYY")}</p>
+                <p style={{marginBottom: "2em"}}>{record.details}</p>
+              </article>
+              <Divider />
+            </Fragment>
+            ))
+          }
+
+          {/*-- BOTTOM BUTTONS -- */}
+          <CardActions>
+            <Button size="small" color="primary">
+              NEW RECORD
+            </Button>
+          </CardActions>
+          </CardContent>
+      </Collapse>
+    
     </Card>
   );
 };
