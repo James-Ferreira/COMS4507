@@ -12383,12 +12383,13 @@
         }
       },
       "links": {},
-      "address": "0x587505220e5ca4c680591D0ce220f46abB3778Ba",
-      "transactionHash": "0x345d764630a860160d46ec934787135422c309b3d45daa078f603d8b60c48aac"
+      "address": "0x10D4B2C0BA058C6ED88DCd2Be808df3bC39D3251",
+      "transactionHash": "0x6071613972a5850ec95302b8a60ee7e2df105ae1079b3d1a0fb5657b43c9a40b"
     }
   },
   "schemaVersion": "3.1.0",
-  "updatedAt": "2020-05-16T06:16:24.647Z",
+  "updatedAt": "2020-05-16T06:31:26.417Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },

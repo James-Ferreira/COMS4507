@@ -40,7 +40,7 @@ function Home() {
     let dog = await contracts.dogAncestry.methods.getDog(search).call();
 
     /* Basic error handling */
-    if (dog.microchipNumber === 0) {
+    if (dog.microchipNumber == 0) {
       return alert.show("Dog not registered.", SEVERITY.ERROR);
     }
 
@@ -52,13 +52,13 @@ function Home() {
   /* Recursively get ancestry of a dog. We will want to implement pagination on this later. */
   const getAncestry = async (dog) => {
     let dam = 0;
-    if (dog.dam !==0) {
+    if (Number(dog.dam) !== 0) {
       dam = await contracts.dogAncestry.methods.getDog(dog.dam).call();
       dam = await getAncestry(dam);
     }
 
     let sire = 0;
-    if (dog.sire !==0) {
+    if (Number(dog.sire) !== 0) {
       sire = await contracts.dogAncestry.methods.getDog(dog.sire).call();
       sire = await getAncestry(sire);
     }
@@ -108,7 +108,7 @@ function Home() {
           />
         </div>
         {/* --- PEDIGREE TREE --- */}
-          <div>{selectedDog && <Pedigree treeRoot={selectedDog} />}</div>
+        <div>{selectedDog && <Pedigree treeRoot={selectedDog} /> }</div>
       </div>
 
       {alert.component}
