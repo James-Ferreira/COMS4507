@@ -1,5 +1,7 @@
 /**
  * A card with dog information.
+ * 
+ * //TODO: add labels of % in pie chart
  */
 
 import React from "react";
@@ -26,7 +28,7 @@ import {
   XYPlot,
   HorizontalBarSeries,
   XAxis,
-  Borders,
+  DiscreteColorLegend,
 } from "react-vis";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,17 +50,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
   },
-  info: {
-    marginBottom: 0,
-  },
-  breedGraph: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  coiGraph: {
-    overflow: "visible",
-  },
 }));
 
 const DogCard = (props) => {
@@ -70,105 +61,74 @@ const DogCard = (props) => {
     setExpanded(!expanded);
   };
 
+  let targetDog = props.contents;
 
   return (
     <Card className={classes.root} variant={"outlined"}>
+
       <CardHeader
-        avatar={
-          <Avatar>
-            {" "}
-            <FaDog />{" "}
-          </Avatar>
-        }
-        title={`${props.name}`}
+        avatar={ <Avatar>{" "} <FaDog />{" "} </Avatar> }
+        title={`${targetDog.name}`}
         titleTypographyProps={{ variant: "h6" }}
-        subheader={`ID: (${props.microchipNumber})`}
+        subheader={`ID: (${targetDog.microchipNumber})`}
       />
 
+      {/*-- BASIC INFO -- */}  
       <CardContent>
         <Typography variant="caption" className={classes.info}>
-          <strong>GENERATION: </strong> {`${props.generation}`} <br />
-        </Typography>
-
-        <Typography variant="caption" className={classes.info}>
-          <strong>#ANCESTORS: </strong> {`${props.ancestors.size}`} <br />
-        </Typography>
-
-        <Typography variant="caption" className={classes.info}>
-          <strong>DOB: </strong> {`${props.dob}`} <br />
-        </Typography>
-
-        <Typography variant="caption" className={classes.info}>
+          <strong>PRIMARY BREED: </strong> {`${targetDog.breed}`} <br />
+          <strong>DOB: </strong> {`${targetDog.dob}`} <br />
           <strong>SIRE: </strong>
-          {`${props.sire.name} (${props.sire.microchipNumber})`} <br />
-        </Typography>
-
-        <Typography variant="caption" className={classes.info}>
+          {`${targetDog.sire.name} (${targetDog.sire.microchipNumber})`} <br />
           <strong>DAM: </strong>
-          {`${props.dam.name} (${props.dam.microchipNumber})`} <br />
+          {`${targetDog.dam.name} (${targetDog.dam.microchipNumber})`} <br />
         </Typography>
       </CardContent>
 
-      {/*-- COLLAPSIBLE BREED DISPLAY -- */}
+      {/*-- COLLAPSIBLE INFORMATION -- */}
       <CardActions>
         <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
+          className={clsx(classes.expand, {[classes.expandOpen]: expanded,})}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <FaChevronDown size={15} />
+        <FaChevronDown size={15} />
         </IconButton>
       </CardActions>
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {/*-- BREED INFORMATION -- */}
         <CardContent>
           <Divider />
-          <div id="breed_graph_wrapper">
-            <RadialChart
-              colorType={"literal"}
-              colorDomain={[0, 100]}
-              colorRange={[0, 10]}
-              animation
-              margin={{ top: 100 }}
-              getColor={(d) => `url(#${d.gradientLabel})`}
-              data={[
-                { angle: 1, gradientLabel: "grad1", label: "1" },
-                { angle: 1, gradientLabel: "grad2", label: "2" },
-                { angle: 1, gradientLabel: "grad3", label: "3" },
-              ]}
-              labelsRadiusMultiplier={1.1}
-              labelsStyle={{ fontSize: 16, fill: "#222" }}
-              style={{ stroke: "#fff", strokeWidth: 2 }}
-              width={175}
-              height={175}
-            >
-              <GradientDefs>
-                <linearGradient id="grad1" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="red" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="blue" stopOpacity={0.3} />
-                </linearGradient>
-                <linearGradient id="grad2" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="blue" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="green" stopOpacity={0.3} />
-                </linearGradient>
-                <linearGradient id="grad3" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="yellow" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="green" stopOpacity={0.3} />
-                </linearGradient>
-              </GradientDefs>
-            </RadialChart>
-          </div>
+          <div id="radial-graph-wrapper">
+            <div id="chart-wrapper">
+              <RadialChart
+                colorType={'literal'}
+                style={{ stroke: "#fff", strokeWidth: 3 }}
+                width={200}
+                height={200}
+                animation
+                margin={{ top: 100 }}
+                data={props.breedData}/>
+            </div>
 
-          {/*-- INBREEDING DISPLAY -- */}
+            <div id="legend-wrapper">
+              <div id ="test">
+                <DiscreteColorLegend 
+                  items={props.breedData.map(x => x.label)}
+                  colors={props.breedData.map(x =>x.color)}/>
+              </div>
+            </div>
+          </div>
+          <Divider />
+
+          {/*-- INBREEDING COEFFICIENT DISPLAY -- */}
           <XYPlot
-            className="coiGraph"
             width={350}
             height={75}
-            xDomain={[0, 1]}
-          >
+            xDomain={[0, 1]}>
+            
             <GradientDefs>
               <linearGradient id="grad4" x1="0%" x2="100%" y1="0%" y2="0%">
                 <stop offset="0%" stopColor="green" stopOpacity={0.4} />
@@ -176,33 +136,22 @@ const DogCard = (props) => {
               </linearGradient>
             </GradientDefs>
 
-            <Borders
-              style={{
-                bottom: { fill: "#fff" },
-                left: { fill: "#fff" },
-                right: { fill: "#fff" },
-                top: { fill: "#fff" },
-              }}
-            />
-
-            <XAxis tickTotal={10} style={{ fontSize: "12px", fill: "grey" }} />
+            <XAxis tickTotal={4} style={{ fontSize: "12px", fill: "grey" }} />
 
             <HorizontalBarSeries
               animation
               color={"url(#grad4)"}
               style={{ rx: "5", ry: "5" }}
-              data={[{ x: props.coi, y: 1, gradientLabel: "grad1", label: "curr" }]}
-            />
+              data={[{ x: props.coi, y: 1, 
+                gradientLabel: "grad1", label: "curr" }]}/>
           </XYPlot>
 
           <Typography variant="caption" className={classes.info}>
-          <strong>COI: </strong> {`${props.coi}`} <br />
-        </Typography>
-
-        <Typography variant="subtitle" >
-          Researchers recommend dogs with a COI > 0.08 DO NOT BREED
-        </Typography>
-
+            <strong>COI: </strong> {`${props.coi}`} <br /> <br />
+            Calculated using  <strong> {`${props.generation}`} </strong>
+            generations and <strong> {`${props.ancestors.size}`} </strong>
+            ancestors
+          </Typography>
         </CardContent>
 
         {/*-- BOTTOM BUTTONS -- */}

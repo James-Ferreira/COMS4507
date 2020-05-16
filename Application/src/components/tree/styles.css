@@ -46,38 +46,41 @@ body {
 }
 
 
-/* TREE STYLING */
+/* BREED GRAPH STYLING */
 
-svg.custom {
-  padding-left: 5px;
-  overflow: visible;
+#radial-graph-wrapper{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
 }
 
-svg.custom .node circle {
-  fill: #F3F3FF;
-	stroke: var(--lavender-colour);
-	stroke-width: 1px;
+#chart-wrapper{
+
 }
 
-svg.custom .node text {
-  font-size: 18px;
-  font-weight: bold;
-  text-anchor: middle;
-  fill: black;
+#legend-wrapper{
+  display: flex;
 }
 
-svg.custom .node {
-	cursor: pointer;
+#test{
+  align-self: center;
 }
 
-svg.custom path.link {
-	fill: none;
-	stroke: #2593B8;
-	stroke-width: 5px;
+.rv-discrete-color-legend-item {
+  display: flex;
 }
 
+#legend-wrapper svg {
+  height: 25px;
+}
 
-/* CARD STYLING */
-#breed_graph_wrapper{
-  padding-left: 25%;
+#legend-wrapper path {
+  stroke-width: 25px;
+
+}
+
+.rv-discrete-color-legend-item__title{
+  margin-left: 2px;
+  margin-top: -3px; /* cheap but gets positioning correct */
 }

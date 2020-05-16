@@ -21,6 +21,7 @@ Once installed, we need to configure it to use the Ganache network. Click the ex
 Next, we need to connect an account to the extension. On the accounts page in Ganache, click the key icon on the right hand side of the first account entry and copy the private key. Back in MetaMask, click the account circle in the top right of the popout and import the account using the copied private key.
 ### Node Modules
 Install node modules from the root directory.
+
 ```
 yarn install
 npm install react-tree-graph --save

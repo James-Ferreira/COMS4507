@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import "./styles.css";
 import DogCard from "../../components/dog";
-//import Tree from "react-tree-graph"; //SVG Tree Structure
+
 import Tree from 'react-hierarchy-tree-graph'
-//import 'react-tree-graph/dist/style.css' //Default Tree Styling
-
-//TODO investigate alternative
-// https://www.npmjs.com/package/react-hierarchy-tree-graph?activeTab=readme
-
 import "./styles.css"; //custom styling
 //import { easeElastic } from "d3-ease";
 
@@ -28,30 +23,42 @@ export default class Pedigree extends Component {
 
     let children = [];
     let ancestorSet = new Set();
+    let breeds = new Map();
     let gen = 1; //generation
-    let coi = 0;
+    let coi = 0; //coefficient-of-inbreeding
 
-    /* BASE CASES*/
+    /* --- BASE CASE [PEDIGREE PROGENITOR] --- */
+    if(dog.dam == 0 && dog.sire == 0) {
+      breeds.set(dog.breed, 1);
+    }
 
-
-    /* DIVIDE AND CONQUER */
+    /* --- DIVIDE AND CONQUER --- */
 
     //Dam Subtree
     if (dog.dam !== 0){
       let damNode = this.generateTree(dog.dam);
       children.push(damNode);
-      
+
       ancestorSet.add(damNode);
       for(let ancestor of damNode.ancestors) ancestorSet.add(ancestor);
+
+      for(let [key, value] of damNode.breedMap.entries()) {
+        console.log(key + ' = ' + value)
+        breeds.set(key, value/2);
+      }
     }
 
     //Sire Subtree
     if (dog.sire !== 0) {
       let sireNode = this.generateTree(dog.sire);
       children.push(sireNode);
-
       ancestorSet.add(sireNode);
       for(let ancestor of sireNode.ancestors) ancestorSet.add(ancestor);
+      for(let [key, value] of sireNode.breedMap.entries()) {
+        let prevVal = 0; //dam breed map already had this breed
+        if(breeds.has(key)) prevVal = breeds.get(key);
+        breeds.set(key, prevVal + value/2);
+      }
     }
 
     //Extend the longest pedigree generation, if no children, leave generation
@@ -60,13 +67,13 @@ export default class Pedigree extends Component {
       gen = Math.max(children[0].generation, children[1].generation) + 1;
     }
 
-    /* COMBINE */
+    /* --- COMBINE --- */
 
     //Get the intersection between dam,sire ancestor sets
     if(children.length === 2){
       let intersection = new Set();
 
-      //there should be a better way than this
+      //TODO there should be a better way than this
       for(let ancestor of children[0].ancestors) {
         for(let ancestor2 of children[1].ancestors){
             if(ancestor.id === ancestor2.id){
@@ -80,109 +87,95 @@ export default class Pedigree extends Component {
       }
     }
 
-    //Calculate COI
-
     return {
       //Key, Children for Tree Representation
       id: dog.microchipNumber,
+      name: dog.name,
       children,
 
       //Additional Information
-      content: dog,
-      inbredcoef: coi,
+      contents: dog,
+      coi: coi,
       generation: gen,
       ancestors: ancestorSet,
+      breedMap: breeds,
     };
   }
 
 
-  calculateCOI(dam, sire, commonAncestors){
-
-    //if sire_tree ∩ dam_tree, ∃ inbreeding. Calculate Coefficient of Inbreeding (COI)
-    
+  /**
+   *  Called if sire_tree ∩ dam_tree, ∃ inbreeding. 
+   *  Calculates Coefficient of  Inbreeding (COI) according to Wrights Equation
+   * @param {*} dam : mother of COI target
+   * @param {*} sire : father of COI target
+   * @param {*} commonAncestors : set of shared ancestors between dam x sire
+   */
+  calculateCOI(dam, sire, commonAncestors){  
     let coi = 0;
     for (let ancestor of commonAncestors) {
-        let Fa = ancestor.inbredcoef;
-        
+        let Fa = ancestor.coi; //COI of common ancestor (CA)
         let n1 = dam.generation - ancestor.generation; //distance from dam to CA
         let n2 = sire.generation - ancestor.generation; //distance from sire to CA
-      
         coi += Math.pow(0.5, n1 + n2 + 1.0) * (1.0 + Fa);
     }
-
     return coi
   }
 
+  /**
+   * Migrating calculation of breed information away from the DogCard itself.
+   * 
+   * Parses the 'BreedMap' which contains the consitutent breeds for a target
+   * and returns data in the required format for React-Vis graphs
+   * 
+   * @param {*} breedMap : Map with (K,V) => (Breed_Name, Occurence_Fraction)
+   */
+  calculateBreedData(breedMap) {
+    //TODO some sort of dynamic colour assignment to prevent multiple breeds
+    //being given same colour if >5 breeds in ancestry
+    let palette =[
+      "#AF9164", /* GOLD */
+      "#6F1A07",  /* RED */
+      "#473198", /* PURPLE */
+      "#F46036", /* ORANGE */
+      "#ADFC92" /* GREEN */
+    ];
 
-  calculateBreed(ancestors){
-    let breedMap = new Map();
-    //alert(ancestors.size)
 
-    for(let ancestor in ancestors){
-      //alert(ancestor.content.breed);
-      if(breedMap.has(ancestor.content.breed)){
-        breedMap.set(ancestor.content.breed, 
-          breedMap.get(ancestor.content.breed) + 1);
-      } else {
-        breedMap.set(ancestor.content.breed, 1);
-      }
+    let breedData = [];
+    var count = 0;
+    for(let [key, value] of breedMap.entries()) {
+      breedData.push({angle: value, color: palette[count], label: key})
+
+      if(++count >= breedMap.size) count = 0; //prevent OOB
     }
 
-    breedMap.set("hello", 2);
-    //alert(breedMap.toJSON);
-    return breedMap;
+    return breedData;
   }
 
   render() {
     let treeData = this.generateTree(this.props.treeRoot);
-
-    // const data2 = {
-    //   name: "Parent",
-    //   children: [
-    //     {
-    //       name: "Child One",
-    //     },
-    //     {
-    //       name: "Child Two",
-    //     },
-    //   ],
-    // };
+    let parsedBreedData = this.calculateBreedData(treeData.breedMap)
 
     return (
       <div id="wrapper_pedigree">
         <div id="tree-container" style={{width: 900, height: 700, 
         border: '1px solid grey'}}>
-          {/*<Tree
-            data={treeData}
-            height={700}
-            width={900}
-            nodeRadius={0}
-            keyProp={"id"}
-            labelProp={"id"}
-            svgProps={{
-              className: "custom",
-              //transform: 'rotate(90)'
-            }}*/}
-
             <Tree
             data={treeData}
+            collapsible={false}
             translate={{x: 450, y: 30}}
             zoom={0.75}
             zoomable
             separation={{siblings: 1, nonSiblings: 1}}
-            collapsible
             pathFunc={"elbow"}
-            orientation={"vertical"}
-
-            />
+            orientation={"vertical"}/>
         </div>
 
         <div id="info-container">
-          <DogCard {...treeData.content} 
-          generation={treeData.generation}
-          ancestors = {treeData.ancestors}
-          coi = {treeData.inbredcoef}
-          breed = {this.calculateBreed(treeData.ancestors)} />
+          <DogCard 
+            {...treeData}
+            breedData = {parsedBreedData} 
+          />
         </div>
       </div>
     );
