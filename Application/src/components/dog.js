@@ -1,5 +1,7 @@
 /**
  * A card with dog information.
+ * 
+ * //TODO: add labels of % in pie chart
  */
 
 import React from "react";
@@ -58,7 +60,7 @@ const DogCard = (props) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  
+
   let targetDog = props.contents;
 
   return (
