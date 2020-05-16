@@ -25,65 +25,56 @@ export default class Pedigree extends Component {
     let ancestorSet = new Set();
     let breeds = new Map();
     let gen = 1; //generation
-    let coi = 0;
+    let coi = 0; //coefficient-of-inbreeding
 
-    /* BASE CASE [PEDIGREE PROGENITOR]*/
+    /* --- BASE CASE [PEDIGREE PROGENITOR] --- */
     if(dog.dam == 0 && dog.sire == 0) {
       breeds.set(dog.breed, 1);
     }
 
-    /* DIVIDE AND CONQUER */
+    /* --- DIVIDE AND CONQUER --- */
 
-    //Dam Subtree
+    /* DAM SUBTREE */
+    // Add to children, update ancestor set, incorporate breed freq. map
     if (dog.dam != 0){
       let damNode = this.generateTree(dog.dam);
       children.push(damNode);
 
-      // Update Ancestor Set (used for COI calculation)
       ancestorSet.add(damNode);
       for(let ancestor of damNode.ancestors) ancestorSet.add(ancestor);
 
-      //Update Breed Freq
       for(let [key, value] of damNode.breedMap.entries()) {
         console.log(key + ' = ' + value)
         breeds.set(key, value/2);
       }
     }
 
-    //Sire Subtree
+    /* SIRE SUBTREE */
+    // Add to children, update ancestor set, incorporate breed freq. map
     if (dog.sire != 0) {
       let sireNode = this.generateTree(dog.sire);
       children.push(sireNode);
-
-      // Update Ancestor Set (used for COI calculation)
       ancestorSet.add(sireNode);
       for(let ancestor of sireNode.ancestors) ancestorSet.add(ancestor);
-
-      //Update Breed Freq
       for(let [key, value] of sireNode.breedMap.entries()) {
-        //dam breed map already had this breed
-        let prevVal = 0;
-
+        let prevVal = 0; //dam breed map already had this breed
         if(breeds.has(key)) prevVal = breeds.get(key);
-      
         breeds.set(key, prevVal + value/2);
-        
       }
     }
 
-    //Extend the longest pedigree generation, if no children, leave generation
-    //at 0, as this current dog is a progenitor
+    //If not a progenitor, extend the longest pedigree generation
     if(children.length != 0) {
       gen = Math.max(children[0].generation, children[1].generation) + 1;
     }
 
-    /* COMBINE */
+    /* --- COMBINE --- */
 
-    //Get the intersection between dam,sire ancestor sets
+    //Get the intersection between dam, sire ancestor sets
     if(children.length == 2){
       let intersection = new Set();
 
-      //there should be a better way than this
+      //TODO there should be a better way than this
       for(let ancestor of children[0].ancestors) {
         for(let ancestor2 of children[1].ancestors){
             if(ancestor.id == ancestor2.id){
@@ -92,12 +83,11 @@ export default class Pedigree extends Component {
         }
       }
 
+      // Inbreeding detected, calculate COI
       if(intersection.size != 0){
         coi = this.calculateCOI(children[0], children[1], intersection);
       }
     }
-
-    //Calculate COI
 
     return {
       //Key, Children for Tree Representation
@@ -106,8 +96,8 @@ export default class Pedigree extends Component {
       children,
 
       //Additional Information
-      content: dog,
-      inbredcoef: coi,
+      contents: dog,
+      coi: coi,
       generation: gen,
       ancestors: ancestorSet,
       breedMap: breeds,
@@ -115,35 +105,58 @@ export default class Pedigree extends Component {
   }
 
 
-  calculateCOI(dam, sire, commonAncestors){
-
-    //if sire_tree ∩ dam_tree, ∃ inbreeding. 
-    //Calculate Coefficient of Inbreeding (COI)
-    
+  /**
+   *  Called if sire_tree ∩ dam_tree, ∃ inbreeding. 
+   *  Calculates Coefficient of  Inbreeding (COI) according to Wrights Equation
+   * @param {*} dam : mother of COI target
+   * @param {*} sire : father of COI target
+   * @param {*} commonAncestors : set of shared ancestors between dam x sire
+   */
+  calculateCOI(dam, sire, commonAncestors){  
     let coi = 0;
     for (let ancestor of commonAncestors) {
-        let Fa = ancestor.inbredcoef; //COI of common ancestor (CA)
+        let Fa = ancestor.coi; //COI of common ancestor (CA)
         let n1 = dam.generation - ancestor.generation; //distance from dam to CA
         let n2 = sire.generation - ancestor.generation; //distance from sire to CA
-      
         coi += Math.pow(0.5, n1 + n2 + 1.0) * (1.0 + Fa);
     }
-
     return coi
   }
 
+  /**
+   * Migrating calculation of breed information away from the DogCard itself.
+   * 
+   * Parses the 'BreedMap' which contains the consitutent breeds for a target
+   * and returns data in the required format for React-Vis graphs
+   * 
+   * @param {*} breedMap : Map with (K,V) => (Breed_Name, Occurence_Fraction)
+   */
   calculateBreedData(breedMap) {
+    //TODO some sort of dynamic colour assignment to prevent multiple breeds
+    //being given same colour if >5 breeds in ancestry
+    let palette =[
+      "#AF9164", /* GOLD */
+      "#6F1A07",  /* RED */
+      "#473198", /* PURPLE */
+      "#F46036", /* ORANGE */
+      "#ADFC92" /* GREEN */
+    ];
+
+
     let breedData = [];
-    let prevColour = ""
+    var count = 0;
     for(let [key, value] of breedMap.entries()) {
-      var randomColour = '#'+Math.floor(Math.random()*16777215).toString(16);
-      breedData.push({angle: value, color: randomColour, label: key})
+      breedData.push({angle: value, color: palette[count], label: key})
+
+      if(++count >= breedMap.size) count = 0; //prevent OOB
     }
+
     return breedData;
   }
 
   render() {
     let treeData = this.generateTree(this.props.treeRoot);
+    let parsedBreedData = this.calculateBreedData(treeData.breedMap)
 
     return (
       <div id="wrapper_pedigree">
@@ -161,11 +174,10 @@ export default class Pedigree extends Component {
         </div>
 
         <div id="info-container">
-          <DogCard {...treeData.content} 
-          generation={treeData.generation}
-          ancestors = {treeData.ancestors}
-          coi = {treeData.inbredcoef}
-          breedMap = {treeData.breedMap} />
+          <DogCard 
+            {...treeData}
+            breedData = {parsedBreedData} 
+          />
         </div>
       </div>
     );

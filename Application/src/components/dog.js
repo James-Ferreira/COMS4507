@@ -58,34 +58,28 @@ const DogCard = (props) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-
-  let breedData = [];
-  let prevColour = ""
-  for(let [key, value] of props.breedMap.entries()) {
-    var randomColour = '#'+Math.floor(Math.random()*16777215).toString(16);
-    breedData.push({angle: value, color: randomColour, label: key})
-  }
+  
+  let targetDog = props.contents;
 
   return (
     <Card className={classes.root} variant={"outlined"}>
 
       <CardHeader
         avatar={ <Avatar>{" "} <FaDog />{" "} </Avatar> }
-        title={`${props.name}`}
+        title={`${targetDog.name}`}
         titleTypographyProps={{ variant: "h6" }}
-        subheader={`ID: (${props.microchipNumber})`}
+        subheader={`ID: (${targetDog.microchipNumber})`}
       />
 
       {/*-- BASIC INFO -- */}  
       <CardContent>
         <Typography variant="caption" className={classes.info}>
-          <strong>PRIMARY BREED: </strong> {`${props.breed}`} <br />
-          <strong>DOB: </strong> {`${props.dob}`} <br />
+          <strong>PRIMARY BREED: </strong> {`${targetDog.breed}`} <br />
+          <strong>DOB: </strong> {`${targetDog.dob}`} <br />
           <strong>SIRE: </strong>
-          {`${props.sire.name} (${props.sire.microchipNumber})`} <br />
+          {`${targetDog.sire.name} (${targetDog.sire.microchipNumber})`} <br />
           <strong>DAM: </strong>
-          {`${props.dam.name} (${props.dam.microchipNumber})`} <br />
+          {`${targetDog.dam.name} (${targetDog.dam.microchipNumber})`} <br />
         </Typography>
       </CardContent>
 
@@ -114,14 +108,14 @@ const DogCard = (props) => {
                 height={200}
                 animation
                 margin={{ top: 100 }}
-                data={breedData}/>
+                data={props.breedData}/>
             </div>
 
             <div id="legend-wrapper">
               <div id ="test">
                 <DiscreteColorLegend 
-                  items={breedData.map(x => x.label)}
-                  colors={breedData.map(x =>x.color)}/>
+                  items={props.breedData.map(x => x.label)}
+                  colors={props.breedData.map(x =>x.color)}/>
               </div>
             </div>
           </div>
