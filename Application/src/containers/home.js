@@ -107,6 +107,7 @@ function Home() {
             }}
           />
         </div>
+
         {/* --- PEDIGREE TREE --- */}
         <div>{selectedDog ? <Pedigree treeRoot={selectedDog} /> : null}</div>
       </div>

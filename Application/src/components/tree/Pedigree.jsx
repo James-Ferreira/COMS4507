@@ -28,11 +28,14 @@ export default class Pedigree extends Component {
 
     let children = [];
     let ancestorSet = new Set();
+    let breeds = new Map();
     let gen = 1; //generation
     let coi = 0;
 
-    /* BASE CASES*/
-
+    /* BASE CASE [PEDIGREE PROGENITOR]*/
+    if(dog.dam == 0 && dog.sire == 0) {
+      breeds.set(dog.breed, 1);
+    }
 
     /* DIVIDE AND CONQUER */
 
@@ -40,9 +43,16 @@ export default class Pedigree extends Component {
     if (dog.dam != 0){
       let damNode = this.generateTree(dog.dam);
       children.push(damNode);
-      
+
+      // Update Ancestor Set (used for COI calculation)
       ancestorSet.add(damNode);
       for(let ancestor of damNode.ancestors) ancestorSet.add(ancestor);
+
+      //Update Breed Freq
+      for(let [key, value] of damNode.breedMap.entries()) {
+        console.log(key + ' = ' + value)
+        breeds.set(key, value/2);
+      }
     }
 
     //Sire Subtree
@@ -50,8 +60,20 @@ export default class Pedigree extends Component {
       let sireNode = this.generateTree(dog.sire);
       children.push(sireNode);
 
+      // Update Ancestor Set (used for COI calculation)
       ancestorSet.add(sireNode);
       for(let ancestor of sireNode.ancestors) ancestorSet.add(ancestor);
+
+      //Update Breed Freq
+      for(let [key, value] of sireNode.breedMap.entries()) {
+        //dam breed map already had this breed
+        let prevVal = 0;
+
+        if(breeds.has(key)) prevVal = breeds.get(key);
+      
+        breeds.set(key, prevVal + value/2);
+        
+      }
     }
 
     //Extend the longest pedigree generation, if no children, leave generation
@@ -85,6 +107,7 @@ export default class Pedigree extends Component {
     return {
       //Key, Children for Tree Representation
       id: dog.microchipNumber,
+      name: dog.name,
       children,
 
       //Additional Information
@@ -92,6 +115,7 @@ export default class Pedigree extends Component {
       inbredcoef: coi,
       generation: gen,
       ancestors: ancestorSet,
+      breedMap: breeds,
     };
   }
 
@@ -136,41 +160,17 @@ export default class Pedigree extends Component {
   render() {
     let treeData = this.generateTree(this.props.treeRoot);
 
-    const data2 = {
-      name: "Parent",
-      children: [
-        {
-          name: "Child One",
-        },
-        {
-          name: "Child Two",
-        },
-      ],
-    };
-
     return (
       <div id="wrapper_pedigree">
         <div id="tree-container" style={{width: 900, height: 700, 
         border: '1px solid grey'}}>
-          {/*<Tree
-            data={treeData}
-            height={700}
-            width={900}
-            nodeRadius={0}
-            keyProp={"id"}
-            labelProp={"id"}
-            svgProps={{
-              className: "custom",
-              //transform: 'rotate(90)'
-            }}*/}
-
             <Tree
             data={treeData}
+            collapsible={false}
             translate={{x: 450, y: 30}}
             zoom={0.75}
             zoomable
             separation={{siblings: 1, nonSiblings: 1}}
-            collapsible
             pathFunc={"elbow"}
             orientation={"vertical"}
 
@@ -182,7 +182,7 @@ export default class Pedigree extends Component {
           generation={treeData.generation}
           ancestors = {treeData.ancestors}
           coi = {treeData.inbredcoef}
-          breed = {this.calculateBreed(treeData.ancestors)} />
+          breedMap = {treeData.breedMap} />
         </div>
       </div>
     );

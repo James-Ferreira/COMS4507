@@ -31,20 +31,22 @@ contract DogAncestry {
     // A special function only run during the creation of the contract
     constructor() public {
         //[OUTBRED]
-        registerDog(100, "Jannet", "Poo", 123456789, 0, 0);
-        registerDog(101, "Steve", "Dle", 123456789, 0, 0);
-        registerDog(102, "Lindsay", "Labra", 123456789, 0, 0);
-        registerDog(103, "Jim", "Dor", 123456789, 0, 0);
+        registerDog(100, "Jannet", "Poodle", 123456789, 0, 0);
+        registerDog(101, "Steve", "Poodle", 123456789, 0, 0);
+        registerDog(102, "Lindsay", "Labrador", 123456789, 0, 0);
+        registerDog(103, "Jim", "Labrador", 123456789, 0, 0);
+
         registerDog(104, "Stevette", "Poodle", 123456789, 100, 101);
         registerDog(105, "Jindsay", "Labrador", 123456789, 102, 103);
+
         registerDog(106, "Jindette", "Labradoodle", 123456789, 104, 105);
 
         //[FULL SIBLING INBRED]
-        registerDog(200, "A", "Poo", 123456789, 0, 0);
-        registerDog(201, "B", "Dle", 123456789, 104, 105);
-        registerDog(202, "C", "Labra", 123456789, 0, 0);
+        registerDog(200, "A", "Poodle", 123456789, 0, 0);
+        registerDog(201, "B", "Husky", 123456789, 104, 105);
+        registerDog(202, "C", "Labrador", 123456789, 0, 0);
 
-        registerDog(203, "D", "Dor", 123456789, 200, 201);
+        registerDog(203, "D", "Labrador", 123456789, 200, 201);
         registerDog(204, "E", "Poodle", 123456789, 202, 201);
 
         registerDog(205, "F", "Labrador", 123456789, 204, 203);

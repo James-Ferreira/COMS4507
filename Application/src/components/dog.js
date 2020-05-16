@@ -70,6 +70,12 @@ const DogCard = (props) => {
     setExpanded(!expanded);
   };
 
+  let breedData = [];
+  for(let [key, value] of props.breedMap.entries()) {
+    breedData.push({angle: value, gradientLabel: "grad1", label: key})
+  }
+
+
 
   return (
     <Card className={classes.root} variant={"outlined"}>
@@ -134,11 +140,7 @@ const DogCard = (props) => {
               animation
               margin={{ top: 100 }}
               getColor={(d) => `url(#${d.gradientLabel})`}
-              data={[
-                { angle: 1, gradientLabel: "grad1", label: "1" },
-                { angle: 1, gradientLabel: "grad2", label: "2" },
-                { angle: 1, gradientLabel: "grad3", label: "3" },
-              ]}
+              data={breedData}
               labelsRadiusMultiplier={1.1}
               labelsStyle={{ fontSize: 16, fill: "#222" }}
               style={{ stroke: "#fff", strokeWidth: 2 }}
@@ -161,6 +163,11 @@ const DogCard = (props) => {
               </GradientDefs>
             </RadialChart>
           </div>
+
+          
+          <Typography variant="caption" className={classes.info}>
+          <strong>breeds: </strong> {`${props.breedMap.get("Labrador")}`} <br />
+          </Typography>
 
           {/*-- INBREEDING DISPLAY -- */}
           <XYPlot
@@ -217,3 +224,8 @@ const DogCard = (props) => {
 };
 
 export default DogCard;
+              {/*data={[
+                { angle: 0.25, gradientLabel: "grad1", label: "1" },
+                { angle: 0.5, gradientLabel: "grad2", label: "2" },
+                { angle: 0.25, gradientLabel: "grad3", label: "3" },
+              ]} */}
