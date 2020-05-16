@@ -32,7 +32,7 @@ contract DogAncestry {
     constructor() public {
         //[OUTBRED]
         registerDog(100, "Jannet", "Poodle", 123456789, 0, 0);
-        registerDog(101, "Steve", "Poodle", 123456789, 0, 0);
+        registerDog(101, "Steve", "Husky", 123456789, 0, 0);
         registerDog(102, "Lindsay", "Labrador", 123456789, 0, 0);
         registerDog(103, "Jim", "Labrador", 123456789, 0, 0);
 
@@ -42,7 +42,7 @@ contract DogAncestry {
         registerDog(106, "Jindette", "Labradoodle", 123456789, 104, 105);
 
         //[FULL SIBLING INBRED]
-        registerDog(200, "A", "Poodle", 123456789, 0, 0);
+        registerDog(200, "A", "Beagle", 123456789, 0, 0);
         registerDog(201, "B", "Husky", 123456789, 104, 105);
         registerDog(202, "C", "Labrador", 123456789, 0, 0);
 

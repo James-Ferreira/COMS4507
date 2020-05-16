@@ -46,38 +46,20 @@ body {
 }
 
 
-/* TREE STYLING */
-
-svg.custom {
-  padding-left: 5px;
-  overflow: visible;
-}
-
-svg.custom .node circle {
-  fill: #F3F3FF;
-	stroke: var(--lavender-colour);
-	stroke-width: 1px;
-}
-
-svg.custom .node text {
-  font-size: 18px;
-  font-weight: bold;
-  text-anchor: middle;
-  fill: black;
-}
-
-svg.custom .node {
-	cursor: pointer;
-}
-
-svg.custom path.link {
-	fill: none;
-	stroke: #2593B8;
-	stroke-width: 5px;
-}
-
 
 /* CARD STYLING */
-#breed_graph_wrapper{
-  padding-left: 25%;
+#radial-graph-wrapper{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+
+}
+
+#chart-wrapper{
+
+}
+
+#legend-wrapper{
+  padding: 10px;
+
 }

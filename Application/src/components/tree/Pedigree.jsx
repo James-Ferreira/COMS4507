@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import "./styles.css";
 import DogCard from "../../components/dog";
-//import Tree from "react-tree-graph"; //SVG Tree Structure
+
 import Tree from 'react-hierarchy-tree-graph'
-//import 'react-tree-graph/dist/style.css' //Default Tree Styling
-
-//TODO investigate alternative
-// https://www.npmjs.com/package/react-hierarchy-tree-graph?activeTab=readme
-
 import "./styles.css"; //custom styling
-import { easeElastic } from "d3-ease";
+
 
 export default class Pedigree extends Component {
   //Props = data
@@ -135,26 +130,6 @@ export default class Pedigree extends Component {
     }
 
     return coi
-  }
-
-
-  calculateBreed(ancestors){
-    let breedMap = new Map();
-    //alert(ancestors.size)
-
-    for(let ancestor in ancestors){
-      //alert(ancestor.content.breed);
-      if(breedMap.has(ancestor.content.breed)){
-        breedMap.set(ancestor.content.breed, 
-          breedMap.get(ancestor.content.breed) + 1);
-      } else {
-        breedMap.set(ancestor.content.breed, 1);
-      }
-    }
-
-    breedMap.set("hello", 2);
-    //alert(breedMap.toJSON);
-    return breedMap;
   }
 
   render() {

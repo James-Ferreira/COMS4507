@@ -27,6 +27,7 @@ import {
   HorizontalBarSeries,
   XAxis,
   Borders,
+  DiscreteColorLegend,
 } from "react-vis";
 
 const useStyles = makeStyles((theme) => ({
@@ -74,7 +75,11 @@ const DogCard = (props) => {
   for(let [key, value] of props.breedMap.entries()) {
     breedData.push({angle: value, gradientLabel: "grad1", label: key})
   }
-
+  const ITEMS = [
+    'HUSKY',
+    '2',
+    '3',
+  ];
 
 
   return (
@@ -99,6 +104,10 @@ const DogCard = (props) => {
         <Typography variant="caption" className={classes.info}>
           <strong>#ANCESTORS: </strong> {`${props.ancestors.size}`} <br />
         </Typography>
+
+        <Typography variant="caption" className={classes.info}>
+          <strong>PRIMARY BREED: </strong> {`${props.breed}`} <br />
+          </Typography>
 
         <Typography variant="caption" className={classes.info}>
           <strong>DOB: </strong> {`${props.dob}`} <br />
@@ -132,42 +141,48 @@ const DogCard = (props) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Divider />
-          <div id="breed_graph_wrapper">
-            <RadialChart
-              colorType={"literal"}
-              colorDomain={[0, 100]}
-              colorRange={[0, 10]}
-              animation
-              margin={{ top: 100 }}
-              getColor={(d) => `url(#${d.gradientLabel})`}
-              data={breedData}
-              labelsRadiusMultiplier={1.1}
-              labelsStyle={{ fontSize: 16, fill: "#222" }}
-              style={{ stroke: "#fff", strokeWidth: 2 }}
-              width={175}
-              height={175}
-            >
-              <GradientDefs>
-                <linearGradient id="grad1" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="red" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="blue" stopOpacity={0.3} />
-                </linearGradient>
-                <linearGradient id="grad2" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="blue" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="green" stopOpacity={0.3} />
-                </linearGradient>
-                <linearGradient id="grad3" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="yellow" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="green" stopOpacity={0.3} />
-                </linearGradient>
-              </GradientDefs>
-            </RadialChart>
-          </div>
 
-          
-          <Typography variant="caption" className={classes.info}>
-          <strong>breeds: </strong> {`${props.breedMap.get("Labrador")}`} <br />
-          </Typography>
+          <div id="radial-graph-wrapper">
+            <div id="chart-wrapper">
+              <RadialChart
+                colorType={"literal"}
+                colorDomain={[0, 100]}
+                colorRange={[0, 10]}
+                animation
+                margin={{ top: 100 }}
+                getColor={(d) => `url(#${d.gradientLabel})`}
+                data={breedData}
+
+                labelsRadiusMultiplier={0.75}
+                labelsStyle={{fontSize: 12, fill: 'white'}}
+                showLabels
+
+                style={{ stroke: "#fff", strokeWidth: 2 }}
+                width={175}
+                height={175}
+              >
+                <GradientDefs>
+                  <linearGradient id="grad1" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stopColor="red" stopOpacity={0.4} />
+                    <stop offset="100%" stopColor="blue" stopOpacity={0.3} />
+                  </linearGradient>
+                  <linearGradient id="grad2" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stopColor="blue" stopOpacity={0.4} />
+                    <stop offset="100%" stopColor="green" stopOpacity={0.3} />
+                  </linearGradient>
+                  <linearGradient id="grad3" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stopColor="yellow" stopOpacity={0.4} />
+                    <stop offset="100%" stopColor="green" stopOpacity={0.3} />
+                  </linearGradient>
+                </GradientDefs>
+
+              </RadialChart>
+            </div>
+
+            <div id="legend-wrapper">
+              <DiscreteColorLegend height={175} width={175} items={ITEMS} />
+            </div>
+          </div>
 
           {/*-- INBREEDING DISPLAY -- */}
           <XYPlot
@@ -176,6 +191,7 @@ const DogCard = (props) => {
             height={75}
             xDomain={[0, 1]}
           >
+            
             <GradientDefs>
               <linearGradient id="grad4" x1="0%" x2="100%" y1="0%" y2="0%">
                 <stop offset="0%" stopColor="green" stopOpacity={0.4} />
@@ -183,16 +199,7 @@ const DogCard = (props) => {
               </linearGradient>
             </GradientDefs>
 
-            <Borders
-              style={{
-                bottom: { fill: "#fff" },
-                left: { fill: "#fff" },
-                right: { fill: "#fff" },
-                top: { fill: "#fff" },
-              }}
-            />
-
-            <XAxis tickTotal={10} style={{ fontSize: "12px", fill: "grey" }} />
+            <XAxis tickTotal={4} style={{ fontSize: "12px", fill: "grey" }} />
 
             <HorizontalBarSeries
               animation
