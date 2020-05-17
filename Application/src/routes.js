@@ -5,14 +5,16 @@ import { useHistory, useLocation, Switch, Route } from "react-router-dom";
 import Home from "./containers/home";
 import Register from "./containers/register";
 import CreateRecord from "./containers/createrecord";
+import Search from "./containers/search";
+import SearchResult from "./containers/searchresult";
 
 const Routes = (props) => {
   const location = useLocation();
   const history = useHistory();
 
   const closeDialog = (e) => {
-    e.stopPropagation();
-    history.goBack();
+    // e.stopPropagation();
+    // history.goBack();
   };
 
   const background = location.state && location.state.background;
@@ -21,8 +23,10 @@ const Routes = (props) => {
     return (
       <Switch location={loc}>
         <Route exact path="/" component={Home} />
-        <Route path="/register" component={Register} />
-        <Route path="/createrecord/:microchipnumber" component={CreateRecord} />
+        <Route exact path="/search" component={Search} />
+        <Route exact path="/search/:microchipnumber" component={SearchResult} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/createrecord/:microchipnumber" component={CreateRecord} />
       </Switch>
     );
   }
