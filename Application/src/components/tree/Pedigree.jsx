@@ -63,8 +63,10 @@ export default class Pedigree extends Component {
 
     //Extend the longest pedigree generation, if no children, leave generation
     //at 0, as this current dog is a progenitor
-    if(children.length !== 0) {
+    if(children.length == 2) {
       gen = Math.max(children[0].generation, children[1].generation) + 1;
+    } else if (children.length == 1) {
+      gen = children[0].generation + 1;
     }
 
     /* --- COMBINE --- */
