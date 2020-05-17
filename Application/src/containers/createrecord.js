@@ -22,7 +22,7 @@ const CreateRecord = (props) => {
 
   const form = useForm(
     {
-      microchipNumber: "",
+      microchipNumber: props.match.params.microchipnumber,
       date: "",
       title: "",
       details: "",
@@ -55,16 +55,7 @@ const CreateRecord = (props) => {
 
   return (
     <div className={styles.root}>
-      <Typography variant="h4">Create Record</Typography>
-      <TextField
-        autoFocus
-        margin="dense"
-        label="Microchip Number"
-        type="number"
-        fullWidth
-        value={form.microchipNumber}
-        onChange={(e) => form.set("microchipNumber", e.target.value)}
-      />
+      <Typography variant="h4">Create Record {form.microchipNumber}</Typography>
       <TextField
         margin="dense"
         label="Date Applicable"

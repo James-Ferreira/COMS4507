@@ -17,34 +17,31 @@ const Routes = (props) => {
 
   const background = location.state && location.state.background;
 
-  return (
-    <>
-      <Switch location={background || location}>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Route path="/createrecord">
-          <CreateRecord />
-        </Route>
+  const getResult = (loc) => {
+    return (
+      <Switch location={loc}>
+        <Route exact path="/" component={Home} />
+        <Route path="/register" component={Register} />
+        <Route path="/createrecord/:microchipnumber" component={CreateRecord} />
       </Switch>
+    );
+  }
+  
+  if (background) {
+    return (
+      <>
+      {getResult(background)}
+      <Dialog open onClose={closeDialog}>
+          <DialogContent>
+            {getResult(location)}
+          </DialogContent>
+        </Dialog>
+      </>
+    )
+  } else {
+    return getResult(location);
+  }
 
-      {background && (
-        <Route path={location.pathname}>
-          <Dialog open onClose={closeDialog}>
-            <DialogContent>
-              {location.pathname === "/register" && <Register />}
-              {location.pathname === "/createrecord" && <CreateRecord />}
-            </DialogContent>
-          </Dialog>
-        </Route>
-      )}
-
-      
-    </>
-  );
 };
 
 export default Routes;

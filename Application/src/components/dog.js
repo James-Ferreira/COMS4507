@@ -208,7 +208,7 @@ const DogCard = (props) => {
           <CardActions>
             <RoutedButton
               asModal={isNotMobile}
-              to="/createrecord"
+              to={`/createrecord/${targetDog.microchipNumber}`}
               variant="contained"
               color="secondary"
             >
