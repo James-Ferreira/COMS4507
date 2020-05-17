@@ -17,6 +17,8 @@ import {
   Button,
   Typography,
   Divider,
+  useMediaQuery,
+  useTheme
 } from "@material-ui/core";
 
 import clsx from "clsx";
@@ -30,6 +32,8 @@ import {
   XAxis,
   DiscreteColorLegend,
 } from "react-vis";
+
+import RoutedButton from "../components/routedButton";
 
 const moment = require('moment');
 
@@ -56,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
 
 const DogCard = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  
+  const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [expanded, setExpanded] = React.useState(false);
   const [recordsExpanded, setRecordsExpanded] = React.useState(false);
@@ -197,13 +204,18 @@ const DogCard = (props) => {
             ))
           }
 
-          {/*-- BOTTOM BUTTONS -- */}
+            {/*-- BOTTOM BUTTONS -- */}
           <CardActions>
-            <Button size="small" color="primary">
-              NEW RECORD
-            </Button>
+            <RoutedButton
+              asModal={isNotMobile}
+              to="/createrecord"
+              variant="contained"
+              color="secondary"
+            >
+              Add Record
+            </RoutedButton>
           </CardActions>
-          </CardContent>
+        </CardContent>
       </Collapse>
     
     </Card>
