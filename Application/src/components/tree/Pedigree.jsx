@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import "./styles.css";
 import DogCard from "../../components/dog";
+import { Redirect } from "react-router-dom";
 
 import Tree from 'react-hierarchy-tree-graph'
 import "./styles.css"; //custom styling
 //import { easeElastic } from "d3-ease";
 
 export default class Pedigree extends Component {
-  //Props = data
-  // constructor(props) {
-  //   super(props);
-  // }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      redirectToDog: null
+    }
+  }
 
   /**
    * Convert a Web3 Dog representation into a generic representation
@@ -154,9 +159,16 @@ export default class Pedigree extends Component {
     return breedData;
   }
 
+  componentDidUpdate() {
+    // pretty this is very bad practice
+    this.state.redirectToDog = null;
+    // if someone know a better way to redirect within this class component, please fix this.
+  }
+
   render() {
     let treeData = this.generateTree(this.props.treeRoot);
     let parsedBreedData = this.calculateBreedData(treeData.breedMap)
+    if (this.state.redirectToDog) return <Redirect to={`/search/${this.state.redirectToDog}`} />;
 
     return (
       <div id="wrapper_pedigree">
@@ -170,7 +182,9 @@ export default class Pedigree extends Component {
             zoomable
             separation={{siblings: 1, nonSiblings: 1}}
             pathFunc={"elbow"}
-            orientation={"vertical"}/>
+            orientation={"vertical"}
+            onClick={(dogNode) => this.setState({redirectToDog: dogNode.id})}
+            />
         </div>
 
         <div id="info-container">
