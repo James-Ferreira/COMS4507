@@ -47,6 +47,7 @@ function Search() {
                     variant="text"
                     color="primary"
                     to={`/search/${search}`}
+                    disabled={search == ""}
                     >
                         Go
                     </RoutedButton>
