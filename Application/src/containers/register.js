@@ -17,7 +17,6 @@ import { useAlert, SEVERITY } from "../hooks/useAlert";
 const Register = (props) => {
   const styles = useStyles();
   const theme = useTheme();
-  //const location = useLocation();
   const history = useHistory();
   const { contracts, account } = Ethereum.useContainer();
   const alert = useAlert();
@@ -44,7 +43,7 @@ const Register = (props) => {
           `${data.name || "Your  dog"} was registered successfully!`,
           SEVERITY.SUCCESS
         );
-        history.goBack();
+        history.push(`/search/${form.microchipNumber}`);
       } catch (err) {
         console.error(err);
         alert.show("Registration failed, please try again.", SEVERITY.ERROR);

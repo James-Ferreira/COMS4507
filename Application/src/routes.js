@@ -13,8 +13,8 @@ const Routes = (props) => {
   const history = useHistory();
 
   const closeDialog = (e) => {
-    // e.stopPropagation();
-    // history.goBack();
+    e.stopPropagation();
+    history.goBack();
   };
 
   const background = location.state && location.state.background;
