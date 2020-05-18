@@ -14,7 +14,6 @@ import {
   Collapse,
   Avatar,
   IconButton,
-  Button,
   Typography,
   Divider,
   useMediaQuery,

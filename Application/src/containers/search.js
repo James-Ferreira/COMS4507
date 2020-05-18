@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import {
   makeStyles,
   useTheme,
-  Button,
   TextField,
   InputAdornment,
 } from "@material-ui/core";
@@ -48,7 +47,7 @@ function Search() {
                     variant="text"
                     color="primary"
                     to={`/search/${search}`}
-                    disabled={search == ""}
+                    disabled={search === ""}
                     >
                         Go
                     </RoutedButton>

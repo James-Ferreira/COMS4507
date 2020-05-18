@@ -33,14 +33,14 @@ export default class Pedigree extends Component {
     let coi = 0; //coefficient-of-inbreeding
 
     /* --- BASE CASE [PEDIGREE PROGENITOR] --- */
-    if(dog.dam == 0 && dog.sire == 0) {
+    if(Number(dog.dam) === 0 && Number(dog.sire) === 0) {
       breeds.set(dog.breed, 1);
     }
 
     /* --- DIVIDE AND CONQUER --- */
 
     //Dam Subtree
-    if (dog.dam !== 0){
+    if (Number(dog.dam) !== 0){
       let damNode = this.generateTree(dog.dam);
       children.push(damNode);
 
@@ -67,9 +67,9 @@ export default class Pedigree extends Component {
 
     //Extend the longest pedigree generation, if no children, leave generation
     //at 0, as this current dog is a progenitor
-    if(children.length == 2) {
+    if(children.length === 2) {
       gen = Math.max(children[0].generation, children[1].generation) + 1;
-    } else if (children.length == 1) {
+    } else if (children.length === 1) {
       gen = children[0].generation + 1;
     }
 
@@ -159,9 +159,9 @@ export default class Pedigree extends Component {
   }
 
   componentDidUpdate() {
-    // pretty this is very bad practice
+    // pretty sure this is very bad practice
     this.state.redirectToDog = null;
-    // if someone know a better way to redirect within this class component, please fix this.
+    // if someone knows a better way to redirect within this class component, please fix this.
   }
 
   render() {

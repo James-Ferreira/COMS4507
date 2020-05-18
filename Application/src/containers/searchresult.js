@@ -9,7 +9,7 @@ import {
 
 } from "@material-ui/core";
 
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import Padder from "../components/padder";
 
@@ -28,7 +28,6 @@ function SearchResult(props) {
   const { contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [selectedDog, setSelectedDog] = useState(null); // The selected dog for generating the ancestry tree.
   const alert = useAlert(); // Snackbar alert
-  const history = useHistory();
   const location = useLocation();
 
   const [prevSearch, setPrevSearch] = useState(null);
@@ -40,7 +39,7 @@ function SearchResult(props) {
     let dog = await contracts.dogAncestry.methods.getDog(search).call();
 
     /* Basic error handling */
-    if (dog.microchipNumber == 0) {
+    if (dog.microchipNumber === 0) {
       return alert.show("Dog not registered.", SEVERITY.ERROR);
     }
 
@@ -82,8 +81,7 @@ function SearchResult(props) {
     setSelectedDog(dog);
   }
 
-
-  if (prevSearch != search) {
+  if (prevSearch !== search) {
     setPrevSearch(search);
     fetchDog();
   }
