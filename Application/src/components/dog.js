@@ -4,13 +4,12 @@
  * //TODO: add labels of % in pie chart
  */
 
-import React, { Fragment } from "react";
+import React from "react";
 import {
   makeStyles,
   Card,
   CardHeader,
   CardContent,
-  CardActions,
   Collapse,
   Avatar,
   IconButton,
@@ -22,6 +21,8 @@ import {
 
 import clsx from "clsx";
 import { FaDog, FaChevronDown } from "react-icons/fa";
+
+import Padder from "../components/padder";
 
 import {
   RadialChart,
@@ -174,7 +175,7 @@ const DogCard = (props) => {
       
       <Divider />
       
-      {/*-- COLLAPSIBLE BREED DISPLAY -- */}
+      {/*-- COLLAPSIBLE RECORDS DISPLAY -- */}
       <div title={recordsExpanded ? "Hide Medical Records" : "Show Medical Records"} className="collapseLabel" onClick={handleExpandRecordsClick} >
         <h3>Medical Records</h3>
         <IconButton
@@ -191,20 +192,27 @@ const DogCard = (props) => {
 
       <Collapse in={recordsExpanded} timeout="auto" unmountOnExit >
         <CardContent>
-          {targetDog.medicals && targetDog.medicals.map(record => (
-            <Fragment>
-              <article>
-                <h4 style={{textAlign: "center"}}>{record.title}</h4>
-                <p style={{textAlign: "right"}}>{moment.unix(record.date).format("DD/MM/YYYY")}</p>
-                <p style={{marginBottom: "2em"}}>{record.details}</p>
-              </article>
+          {targetDog.medicals && targetDog.medicals.map((record, index) => (
+            <>
+              <div style={{display: "flex", justifyContent: "space-between"}}>
+                  <RoutedButton
+                  asModal={isNotMobile}
+                  to={`/viewrecord/${targetDog.microchipNumber}/${index}`}
+                  variant="link"
+                  color="secondary"
+                >
+                  {record.title}
+                </RoutedButton>
+                <p>{moment.unix(record.date).format("DD/MM/YYYY")}</p>
+              </div>
               <Divider />
-            </Fragment>
+            </>
             ))
           }
 
             {/*-- BOTTOM BUTTONS -- */}
-          <CardActions>
+          <Padder height={theme.spacing(2)} />
+          <div style={{display: "flex", justifyContent: "flex-end"}}>
             <RoutedButton
               asModal={isNotMobile}
               to={`/createrecord/${targetDog.microchipNumber}`}
@@ -213,7 +221,7 @@ const DogCard = (props) => {
             >
               Add Record
             </RoutedButton>
-          </CardActions>
+          </div>
         </CardContent>
       </Collapse>
     

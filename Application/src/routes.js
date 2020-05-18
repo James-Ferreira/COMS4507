@@ -7,6 +7,7 @@ import Register from "./containers/register";
 import CreateRecord from "./containers/createrecord";
 import Search from "./containers/search";
 import SearchResult from "./containers/searchresult";
+import ViewRecord from "./containers/viewrecord";
 
 const Routes = (props) => {
   const location = useLocation();
@@ -27,6 +28,7 @@ const Routes = (props) => {
         <Route exact path="/search/:microchipnumber" component={SearchResult} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/createrecord/:microchipnumber" component={CreateRecord} />
+        <Route exact path="/viewrecord/:microchipnumber/:recordnumber" component={ViewRecord} />
       </Switch>
     );
   }
