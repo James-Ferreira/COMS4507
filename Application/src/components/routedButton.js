@@ -15,7 +15,7 @@ const RoutedButton = ({ to, asModal, ...props }) => {
     <Button
       component={Link}
       {...props}
-      to={{ ...toObj, state: { background: asModal ? location : null } }}
+      to={{ ...toObj, state: { background: asModal ? location : null }}}
     >
       {props.children}
     </Button>

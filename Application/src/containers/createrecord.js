@@ -27,6 +27,21 @@ const CreateRecord = (props) => {
       title: "",
       details: "",
     },
+    function verifier(data) {
+      if (form.date == "") {
+        alert.show("Please enter a date", SEVERITY.ERROR);
+        return false;
+      }
+      if (form.title == "") {
+        alert.show("Please enter a title", SEVERITY.ERROR);
+        return false;
+      }
+      if (form.details == "") {
+        alert.show("Please enter some details", SEVERITY.ERROR);
+        return false;
+      }
+      return true;
+    },
     async function submitter(data) {
       const transformed = {
         ...data,
@@ -40,22 +55,18 @@ const CreateRecord = (props) => {
           'Record created!',
           SEVERITY.SUCCESS
         );
-        history.goBack();
+        history.push(`/search/${form.microchipNumber}`, {requestDogUpdate: true});
       } catch (err) {
         console.error(err);
         alert.show("Record creation failed failed, please try again.", SEVERITY.ERROR);
       }
       return false;
-    },
-    function verifier(data) {
-      return true;
-      // TODO: implement me
     }
   );
 
   return (
     <div className={styles.root}>
-      <Typography variant="h4">Create Record {form.microchipNumber}</Typography>
+      <Typography variant="h4">Create Record</Typography>
       <TextField
         margin="dense"
         label="Date Applicable"
@@ -88,7 +99,7 @@ const CreateRecord = (props) => {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => form.verify() && form.submit()}
+        onClick={async () => await form.verify() && form.submit()}
       >
         Create
       </Button>

@@ -48,7 +48,6 @@ export default class Pedigree extends Component {
       for(let ancestor of damNode.ancestors) ancestorSet.add(ancestor);
 
       for(let [key, value] of damNode.breedMap.entries()) {
-        console.log(key + ' = ' + value)
         breeds.set(key, value/2);
       }
     }

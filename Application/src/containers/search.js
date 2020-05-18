@@ -32,8 +32,9 @@ function Search() {
             fullWidth
             placeholder="Search Microchip Number"
             type="search"
+            number
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value.replace(/\D/g,''))}
             InputProps={{
               styles: { color: "white" },
               startAdornment: (

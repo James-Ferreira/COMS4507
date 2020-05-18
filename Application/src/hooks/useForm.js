@@ -8,7 +8,7 @@ function useForm(initialState, verifier, submitter) {
   };
 
   const submit = async () => {
-    if (!verifier) throw new Error("No submitter function provided.");
+    if (!submitter) throw new Error("No submitter function provided.");
     return await submitter(formData);
   };
 

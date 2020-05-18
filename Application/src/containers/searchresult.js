@@ -9,6 +9,8 @@ import {
 
 } from "@material-ui/core";
 
+import { useHistory, useLocation } from "react-router-dom";
+
 import Padder from "../components/padder";
 
 /* Tree */
@@ -26,6 +28,8 @@ function SearchResult(props) {
   const { contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [selectedDog, setSelectedDog] = useState(null); // The selected dog for generating the ancestry tree.
   const alert = useAlert(); // Snackbar alert
+  const history = useHistory();
+  const location = useLocation();
 
   const [prevSearch, setPrevSearch] = useState(null);
   const search = props.match.params.microchipnumber;
@@ -65,10 +69,28 @@ function SearchResult(props) {
       sire,
     };
   };
+  
+  const updateDog = async () => {
+    /* Get the dog structure from the blockchain using our custom method */
+    let dog = await contracts.dogAncestry.methods.getDog(search).call();
+
+    // we don't want to get the whole ancestry again, so we'll just plug in the old one.
+    let dam = selectedDog ? selectedDog.dam : 0;
+    let sire = selectedDog ? selectedDog.sire: 0;
+    dog = {...dog, dam, sire};
+
+    setSelectedDog(dog);
+  }
+
 
   if (prevSearch != search) {
     setPrevSearch(search);
     fetchDog();
+  }
+
+  if (location.state && location.state.requestDogUpdate) {
+    location.state.requestDogUpdate = false;
+    updateDog();
   }
 
   return (
