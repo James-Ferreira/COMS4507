@@ -22,16 +22,21 @@ function Search() {
   
   const [search, setSearch] = useState(""); // Microchip search string.
 
+  const doSearch = () => {
+    if (search !== "") document.getElementById("searchButton").click();
+  }
+
   return (
     <>
       <div className={styles.pageContent}>
         <Padder height={theme.spacing(2)} />
         <div>
           <TextField
+            onKeyUp={(e) => String(e.key) === "Enter" && doSearch()}
             fullWidth
             placeholder="Search Microchip Number"
             type="search"
-            number
+            autoFocus
             value={search}
             onChange={(e) => setSearch(e.target.value.replace(/\D/g,''))}
             InputProps={{
@@ -44,6 +49,7 @@ function Search() {
               endAdornment: (
                 <InputAdornment position="end">
                   <RoutedButton
+                    id="searchButton"
                     variant="text"
                     color="primary"
                     to={`/search/${search}`}

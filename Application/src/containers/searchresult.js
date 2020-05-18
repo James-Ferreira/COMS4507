@@ -39,7 +39,7 @@ function SearchResult(props) {
     let dog = await contracts.dogAncestry.methods.getDog(search).call();
 
     /* Basic error handling */
-    if (dog.microchipNumber === 0) {
+    if (Number(dog.microchipNumber) === 0) {
       return alert.show("Dog not registered.", SEVERITY.ERROR);
     }
 
