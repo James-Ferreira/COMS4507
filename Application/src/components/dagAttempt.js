@@ -3,6 +3,7 @@ import * as d3_base from "d3";
 import * as d3_dag from "d3-dag";
 import { event as d3Event } from "d3-selection";
 import { makeStyles, Card } from "@material-ui/core";
+import dogToTree from "../util/dogToTree";
 
 const data = {
   id: "Eve",
@@ -105,7 +106,7 @@ const Dag = (props) => {
    * Initialise DAG
    */
   useEffect(() => {
-    const localDag = d3.dagHierarchy()(data);
+    const localDag = d3.dagHierarchy()(props.data);
     const layout = d3.sugiyama().size([width, height]);
     layout(localDag);
     setDag(localDag);

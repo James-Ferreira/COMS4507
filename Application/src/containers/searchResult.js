@@ -14,8 +14,10 @@ import { useLocation } from "react-router-dom";
 
 import Padder from "../components/padder";
 
+import dogToTree from "../util/dogToTree"
+
 /* Tree */
-import Pedigree from "../components/tree/Pedigree";
+import DagAttempt from "../components/dagAttempt";
 
 /* Custom Hooks */
 import { useAlert, SEVERITY } from "../hooks/useAlert";
@@ -99,7 +101,7 @@ function SearchResult(props) {
 
         {/* --- PEDIGREE TREE --- */}
         <div>
-          {selectedDog ? <Pedigree treeRoot= {selectedDog}/> : 
+          {selectedDog ? <DagAttempt data={dogToTree(selectedDog)}/> : 
             <div style={{
             textAlign: "center",
             marginTop: "5em",
