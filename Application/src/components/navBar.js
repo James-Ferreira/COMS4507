@@ -36,7 +36,7 @@ const NavBar = (props) => {
           asModal={isNotMobile}
           variant="text"
           color="link"
-          to="/search"
+          to="/dogs"
           >
             Search
         </RoutedButton>

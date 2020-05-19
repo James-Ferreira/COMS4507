@@ -1,3 +1,7 @@
+/**
+ * Dog registration form.
+ */
+
 import React from "react";
 import { useHistory } from "react-router-dom";
 import {
@@ -43,7 +47,7 @@ const Register = (props) => {
           `${data.name || "Your  dog"} was registered successfully!`,
           SEVERITY.SUCCESS
         );
-        history.push(`/search/${form.microchipNumber}`);
+        history.push(`/dogs/${form.microchipNumber}`);
       } catch (err) {
         console.error(err);
         alert.show("Registration failed, please try again.", SEVERITY.ERROR);

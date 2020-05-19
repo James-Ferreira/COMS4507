@@ -52,7 +52,7 @@ function Search() {
                     id="searchButton"
                     variant="text"
                     color="primary"
-                    to={`/search/${search}`}
+                    to={`/dogs/${search}`}
                     disabled={search === ""}
                     >
                         Go

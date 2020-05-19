@@ -55,7 +55,7 @@ const CreateRecord = (props) => {
           'Record created!',
           SEVERITY.SUCCESS
         );
-        history.push(`/search/${form.microchipNumber}`, {requestDogUpdate: true});
+        history.push(`/dogs/${form.microchipNumber}`, {requestDogUpdate: true});
       } catch (err) {
         console.error(err);
         alert.show("Record creation failed failed, please try again.", SEVERITY.ERROR);

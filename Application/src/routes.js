@@ -4,10 +4,10 @@ import { useHistory, useLocation, Switch, Route } from "react-router-dom";
 
 import Home from "./containers/home";
 import Register from "./containers/register";
-import CreateRecord from "./containers/createrecord";
+import CreateRecord from "./containers/createRecord";
 import Search from "./containers/search";
-import SearchResult from "./containers/searchresult";
-import ViewRecord from "./containers/viewrecord";
+import SearchResult from "./containers/searchResult";
+import ViewRecord from "./containers/viewRecord";
 
 const Routes = (props) => {
   const location = useLocation();
@@ -24,11 +24,11 @@ const Routes = (props) => {
     return (
       <Switch location={loc}>
         <Route exact path="/" component={Home} />
-        <Route exact path="/search" component={Search} />
-        <Route exact path="/search/:microchipnumber" component={SearchResult} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/createrecord/:microchipnumber" component={CreateRecord} />
-        <Route exact path="/viewrecord/:microchipnumber/:recordnumber" component={ViewRecord} />
+        <Route exact path="/dogs" component={Search} />
+        <Route exact path="/dogs/:microchipnumber" component={SearchResult} />
+        <Route exact path="/dogs/:microchipnumber/records/create" component={CreateRecord} />
+        <Route exact path="/dogs/:microchipnumber/records/:recordnumber" component={ViewRecord} />
       </Switch>
     );
   }

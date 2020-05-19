@@ -7,7 +7,6 @@ import Search from "../containers/search";
 import { Dialog, DialogContent, useTheme, useMediaQuery } from "@material-ui/core";
 
 function Home() {
-
   const theme = useTheme();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
 

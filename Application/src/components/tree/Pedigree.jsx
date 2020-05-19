@@ -167,7 +167,7 @@ export default class Pedigree extends Component {
   render() {
     let treeData = this.generateTree(this.props.treeRoot);
     let parsedBreedData = this.calculateBreedData(treeData.breedMap)
-    if (this.state.redirectToDog) return <Redirect to={`/search/${this.state.redirectToDog}`} />;
+    if (this.state.redirectToDog) return <Redirect to={`/dogs/${this.state.redirectToDog}`} />;
 
     return (
       <div id="wrapper_pedigree">

@@ -197,7 +197,7 @@ const DogCard = (props) => {
               <div style={{display: "flex", justifyContent: "space-between"}}>
                   <RoutedButton
                   asModal={isNotMobile}
-                  to={`/viewrecord/${targetDog.microchipNumber}/${index}`}
+                  to={`/dogs/${targetDog.microchipNumber}/records/${index}`}
                   variant="link"
                   color="secondary"
                 >
@@ -215,7 +215,7 @@ const DogCard = (props) => {
           <div style={{display: "flex", justifyContent: "flex-end"}}>
             <RoutedButton
               asModal={isNotMobile}
-              to={`/createrecord/${targetDog.microchipNumber}`}
+              to={`/dogs/${targetDog.microchipNumber}/records/create`}
               variant="contained"
               color="secondary"
             >
