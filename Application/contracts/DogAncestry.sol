@@ -23,7 +23,7 @@ contract DogAncestry {
 
         /* DOG INFORMATION */
         string name;
-        bool isDam; // the dog's sex TRUE = FEMALE, FALSE = MALE
+        bool isBitch; // the dog's sex TRUE = FEMALE, FALSE = MALE
         string breed; // the dog's primary breed
         uint256 dob;
         //bool isDobApproximated;
@@ -76,13 +76,13 @@ contract DogAncestry {
     function registerDog(
         uint256 microchipNumber,
         string memory name,
-        bool isDam, //1 = female, 0 = male
+        bool isBitch, //1 = female, 0 = male
         string memory breed,
         uint256 dob,
         uint256 dam,
         uint256 sire
     ) public {
-        require(microchipNumber != 0, "Microchip Number cannot be zero.");
+        require(microchipNumber != 0, "Microchip number cannot be zero");
         require(
             dogs[microchipNumber].microchipNumber == 0,
             "Dog already registered"
@@ -95,11 +95,29 @@ contract DogAncestry {
         // however, that would imply that they would need to be added to the system first
         // which is probably not desired behaviour.
 
+        // if the parents exist, check they are the correct gender
+        if (dam != 0) {
+          require(dogs[dam].isBitch, "Dam is not a bitch");
+        }
+        if (sire != 0) {
+          require(!dogs[sire].isBitch, "Sire cannot be a bitch");
+        }
+
+        // we also need to check if gender matches what any offspring have implied
+        for (uint i = 0; i < dogs[microchipNumber].offspring.length; i++) {
+            Dog memory offspring = dogs[dogs[microchipNumber].offspring[i]];
+            if (isBitch) { // if we registering this dog as a bitch, then its offspring must say that this dog is their dam
+                require(microchipNumber == offspring.dam, "Dog must be a bitch");
+            } else { // vise-versa
+                require(microchipNumber == offspring.sire, "Dog cannot be a bitch");
+            }
+        }
+
         // create our dog!
         dogs[microchipNumber].registerer = msg.sender;
         dogs[microchipNumber].microchipNumber = microchipNumber;
         dogs[microchipNumber].name = name;
-        dogs[microchipNumber].isDam = isDam;
+        dogs[microchipNumber].isBitch = isBitch;
         dogs[microchipNumber].breed = breed;
         dogs[microchipNumber].dob = dob;
         dogs[microchipNumber].dam = dam;
