@@ -100,10 +100,7 @@ function SearchResult(props) {
         {/* --- PEDIGREE TREE --- */}
         <div>
           {selectedDog ? <Pedigree treeRoot= {selectedDog}/> : 
-            <div style={{
-            textAlign: "center",
-            marginTop: "5em",
-            }}>
+            <div style={{ textAlign: "center", marginTop: "5em", }}>
               <img src={RunningDog} alt="Loading Icon"/>
             </div> 
           }
