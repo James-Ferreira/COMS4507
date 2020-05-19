@@ -8,12 +8,14 @@ contract DogAncestry {
         uint256 date; // the date that this record applies from
         string title; // a short description e.g. "Vaccination"
         string details; // any extra details
+        string recordType; // Vaccination, Genetic-Condition, Award, Custom
     }
 
     struct Dog {
         /* REGISTRY INFORMATION */
         address registerer; //the vet responsible for registering this dog
         uint256 microchipNumber; // this dog's microchip number
+        string breederId; // optional
 
 
         /* ANCESTRY INFORMATION */
@@ -26,12 +28,11 @@ contract DogAncestry {
         bool isBitch; // the dog's sex TRUE = FEMALE, FALSE = MALE
         string breed; // the dog's primary breed
         uint256 dob;
+        string[] colors; // in order of precedence
         //bool isDobApproximated;
 
 
-        /* HEALTH INFORMATION */
-
-
+        /* RECORD INFORMATION */
         Record[] medicals; // list of relevant medical records, e.g. vaccinations
     }
 
@@ -115,7 +116,7 @@ contract DogAncestry {
             Dog memory offspring = dogs[dogs[microchipNumber].offspring[i]];
 
             // check that the offspring's DOB is after this dog's
-            require(dob < offspring.dob, "Date of birth canno predate offspring's date of birth.");
+            require(dob < offspring.dob, "Date of birth cannot postdate offspring's date of birth.");
 
             if (isBitch) { // if we are registering this dog as a bitch, then its offspring must say that this dog is their dam
                 require(microchipNumber == offspring.dam, "Dog must be a bitch");
@@ -167,7 +168,8 @@ contract DogAncestry {
                 recorder: msg.sender,
                 date: date,
                 title: title,
-                details: details
+                details: details,
+                recordType: "custom"
             })
         );
 

@@ -1,20 +1,17 @@
 import React, { Component } from "react";
 import "./styles.css";
 import DogCard from "../../components/dog";
-import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router";
 
 import Tree from 'react-hierarchy-tree-graph'
 import "./styles.css"; //custom styling
 //import { easeElastic } from "d3-ease";
 
-export default class Pedigree extends Component {
+class Pedigree extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      redirectToDog: null
-    }
   }
 
   /**
@@ -165,16 +162,11 @@ export default class Pedigree extends Component {
     return breedData;
   }
 
-  componentDidUpdate() {
-    // pretty sure this is very bad practice
-    this.state.redirectToDog = null;
-    // if someone knows a better way to redirect within this class component, please fix this.
-  }
-
   render() {
     let treeData = this.generateTree(this.props.treeRoot);
     let parsedBreedData = this.calculateBreedData(treeData.breedMap)
-    if (this.state.redirectToDog) return <Redirect to={`/dogs/${this.state.redirectToDog}`} />;
+
+    const { history } = this.props;
 
     return (
       <div id="wrapper_pedigree">
@@ -189,7 +181,7 @@ export default class Pedigree extends Component {
             separation={{siblings: 1, nonSiblings: 1}}
             pathFunc={"elbow"}
             orientation={"vertical"}
-            onClick={(dogNode) => this.setState({redirectToDog: dogNode.id})}
+            onClick={(dogNode) => history.push(`/dogs/${dogNode.id}`)}
             />
         </div>
 
@@ -203,3 +195,6 @@ export default class Pedigree extends Component {
     );
   }
 }
+
+
+export default withRouter(Pedigree);

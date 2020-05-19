@@ -36,6 +36,9 @@ const Register = (props) => {
       dam: "",
       sire: "",
     },
+    function verifier(data) {
+      return true;
+    },
     async function submitter(data) {
       const transformed = {
         ...data,
@@ -55,9 +58,6 @@ const Register = (props) => {
         alert.show("Registration failed, please try again.", SEVERITY.ERROR);
       }
       return false;
-    },
-    function verifier(data) {
-      return true;
     }
   );
 
