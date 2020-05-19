@@ -20,7 +20,7 @@ import {
 } from "@material-ui/core";
 
 import clsx from "clsx";
-import { FaDog, FaChevronDown } from "react-icons/fa";
+import { FaDog, FaChevronDown, FaMars, FaVenus } from "react-icons/fa";
 
 import Padder from "../components/padder";
 
@@ -80,7 +80,15 @@ const DogCard = (props) => {
   return (
     <Card className={classes.root} variant={"outlined"}>
       <CardHeader
-        avatar={<Avatar> <FaDog /></Avatar>}
+        avatar={(targetDog.isDam) ?
+            <Avatar variant="rounded" style={{backgroundColor: "#d8b2db"}}>
+              <FaVenus /> 
+            </Avatar>
+          :
+            <Avatar variant="rounded" style={{backgroundColor: "#99acc9"}}>
+              <FaMars /> 
+            </Avatar>
+          }
         title={`${targetDog.name}`}
         titleTypographyProps={{ variant: "h6" }}
         subheader={`ID: (${targetDog.microchipNumber})`}
