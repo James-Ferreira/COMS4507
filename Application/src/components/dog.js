@@ -80,13 +80,13 @@ const DogCard = (props) => {
   return (
     <Card className={classes.root} variant={"outlined"}>
       <CardHeader
-        avatar={(targetDog.isDam) ?
+        avatar={(targetDog.isBitch) ?
             <Avatar variant="rounded" style={{backgroundColor: "#d8b2db"}}>
-              <FaVenus /> 
+              <FaVenus size="1.25em"/> 
             </Avatar>
           :
             <Avatar variant="rounded" style={{backgroundColor: "#99acc9"}}>
-              <FaMars /> 
+              <FaMars size="1.25em"/> 
             </Avatar>
           }
         title={`${targetDog.name}`}
@@ -97,10 +97,9 @@ const DogCard = (props) => {
       {/*-- BASIC INFO -- */}
       <CardContent>
         <Typography variant="body2" className={classes.info}>
-          <strong>SEX: </strong> {(targetDog.isDam)? "F" : "M"}<br />
           <strong>DOB: </strong> {moment.unix(targetDog.dob).format("DD/MM/YYYY")} <br />
           <strong>SIRE: </strong>
-          {(targetDog.sire !== 0)? `${targetDog.sire.name} (${targetDog.sire.microchipNumber})` : "Unknown"}
+          {(targetDog.sire !== 0) ? `${targetDog.sire.name} (${targetDog.sire.microchipNumber})` : "Unknown"}
           <br/>
           <strong>DAM: </strong>
           {(targetDog.dam !== 0)? `${targetDog.dam.name} (${targetDog.dam.microchipNumber})` : "Unknown"}
