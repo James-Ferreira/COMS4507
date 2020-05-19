@@ -46,29 +46,29 @@ contract DogAncestry {
         //register format = ID, name, isFemale, Breed, DOB, DAM ID, SIRE ID
 
         //[OUTBRED ANCESTOR SUBTREE]
-        registerDog(100, "Jannet", true, "Poodle", 123456789, 0, 0);
-        registerDog(101, "Steve", false, "Husky", 123456789, 0, 0);
-        registerDog(102, "Lindsay", true, "Labrador", 123456789, 0, 0);
-        registerDog(103, "Jim", false,"Labrador", 123456789, 0, 0);
+        registerDog(100, "Jannet", true, "Poodle", 111111111, 0, 0);
+        registerDog(101, "Steve", false, "Husky", 111111111, 0, 0);
+        registerDog(102, "Lindsay", true, "Labrador", 111111111, 0, 0);
+        registerDog(103, "Jim", false,"Labrador", 111111111, 0, 0);
 
-        registerDog(104, "Stevette", true, "Poodle", 123456789, 100, 101);
-        registerDog(105, "Jindsay", false, "Labrador", 123456789, 102, 103);
+        registerDog(104, "Stevette", true, "Poodle", 222222222, 100, 101);
+        registerDog(105, "Jindsay", false, "Labrador", 222222222, 102, 103);
 
-        registerDog(106, "Jindette", false, "Labradoodle", 123456789, 104, 105);
+        registerDog(106, "Jindette", false, "Labradoodle", 333333333, 104, 105);
 
         //[FULL SIBLING INBRED SUBTREE]
-        registerDog(200, "Sarah", true, "Beagle", 123456789, 0, 0);
-        registerDog(201, "Stevay", false, "Husky", 123456789, 104, 105);
-        registerDog(202, "Adele", true, "Labrador", 123456789, 0, 0);
+        registerDog(200, "Sarah", true, "Beagle", 111111111, 0, 0);
+        registerDog(201, "Stevay", false, "Husky", 333333333, 104, 105);
+        registerDog(202, "Adele", true, "Labrador", 111111111, 0, 0);
 
-        registerDog(203, "Sandette", false, "Labrador", 123456789, 200, 201);
-        registerDog(204, "Whitney", true, "Poodle", 123456789, 202, 201);
+        registerDog(203, "Sandette", false, "Labrador", 444444444, 200, 201);
+        registerDog(204, "Whitney", true, "Poodle", 444444444, 202, 201);
         
         //[DOG WITH RECORDS]
-        registerDog(205, "Naveah", true, "Labrador", 123456789, 204, 203);
-        createRecord(205, 123456789, "Record 1", "This is the first record ever!");
-        createRecord(205, 123456789, "Vaccination", "Doggy went to vet for some vaccinations bruh.");
-        createRecord(205, 123456789, "Broken Bone", "Poor dag broke a bone :(");
+        // registerDog(205, "Naveah", true, "Labrador", 555555555, 204, 203);
+        // createRecord(205, 123456789, "Record 1", "This is the first record ever!");
+        // createRecord(205, 123456789, "Vaccination", "Doggy went to vet for some vaccinations bruh.");
+        // createRecord(205, 123456789, "Broken Bone", "Poor dag broke a bone :(");
 
     }
 
@@ -95,18 +95,29 @@ contract DogAncestry {
         // however, that would imply that they would need to be added to the system first
         // which is probably not desired behaviour.
 
-        // if the parents exist, check they are the correct gender
-        if (dam != 0) {
-          require(dogs[dam].isBitch, "Dam is not a bitch");
+        // if the dam exists...
+        if (dam != 0 && dogs[dam].microchipNumber != 0) {
+            // check she is of the correct gender
+            require(dogs[dam].isBitch, "Dam is not a bitch");
+            // check that her DOB predates this dog's (this should prevent cycles from forming)
+            require(dogs[dam].dob < dob, "Date of birth cannot predate dam's date of birth.");
         }
-        if (sire != 0) {
-          require(!dogs[sire].isBitch, "Sire cannot be a bitch");
+        // if the sire exists...
+        if (sire != 0 && dogs[sire].microchipNumber != 0) {
+            // check he is of the correct gender
+            require(!dogs[sire].isBitch, "Sire cannot be a bitch");
+            // check that his DOB predates this dog's (this should prevent cycles from forming)
+            require(dogs[sire].dob < dob, "Date of birth cannot predate sire's date of birth.");
         }
 
-        // we also need to check if gender matches what any offspring have implied
+        // we also need to any claims offspring have implied
         for (uint i = 0; i < dogs[microchipNumber].offspring.length; i++) {
             Dog memory offspring = dogs[dogs[microchipNumber].offspring[i]];
-            if (isBitch) { // if we registering this dog as a bitch, then its offspring must say that this dog is their dam
+
+            // check that the offspring's DOB is after this dog's
+            require(dob < offspring.dob, "Date of birth canno predate offspring's date of birth.");
+
+            if (isBitch) { // if we are registering this dog as a bitch, then its offspring must say that this dog is their dam
                 require(microchipNumber == offspring.dam, "Dog must be a bitch");
             } else { // vise-versa
                 require(microchipNumber == offspring.sire, "Dog cannot be a bitch");
