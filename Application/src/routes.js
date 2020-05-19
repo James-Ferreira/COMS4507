@@ -3,12 +3,14 @@ import { Dialog, DialogContent } from "@material-ui/core";
 import { useHistory, useLocation, Switch, Route } from "react-router-dom";
 
 import Home from "./containers/home";
-import Apply from './containers/vetApplication'
+import Apply from "./containers/vetApplication";
 import Register from "./containers/register";
 import CreateRecord from "./containers/createRecord";
 import Search from "./containers/search";
 import SearchResult from "./containers/searchResult";
 import ViewRecord from "./containers/viewRecord";
+
+import DagAttempt from "./containers/dagAttempt";
 
 const Routes = (props) => {
   const location = useLocation();
@@ -29,27 +31,33 @@ const Routes = (props) => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/dogs" component={Search} />
         <Route exact path="/dogs/:microchipnumber" component={SearchResult} />
-        <Route exact path="/dogs/:microchipnumber/records/create" component={CreateRecord} />
-        <Route exact path="/dogs/:microchipnumber/records/:recordnumber" component={ViewRecord} />
+        <Route
+          exact
+          path="/dogs/:microchipnumber/records/create"
+          component={CreateRecord}
+        />
+        <Route
+          exact
+          path="/dogs/:microchipnumber/records/:recordnumber"
+          component={ViewRecord}
+        />
+        <Route exact path="/dag" component={DagAttempt} />
       </Switch>
     );
-  }
-  
+  };
+
   if (background) {
     return (
       <>
-      {getResult(background)}
-      <Dialog open onClose={closeDialog}>
-          <DialogContent>
-            {getResult(location)}
-          </DialogContent>
+        {getResult(background)}
+        <Dialog open onClose={closeDialog}>
+          <DialogContent>{getResult(location)}</DialogContent>
         </Dialog>
       </>
-    )
+    );
   } else {
     return getResult(location);
   }
-
 };
 
 export default Routes;
