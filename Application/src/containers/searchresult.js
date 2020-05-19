@@ -8,6 +8,7 @@ import {
   useTheme,
 
 } from "@material-ui/core";
+import RunningDog from "../images/runningDog.gif";
 
 import { useLocation } from "react-router-dom";
 
@@ -97,7 +98,16 @@ function SearchResult(props) {
         <Padder height={theme.spacing(2)} />
 
         {/* --- PEDIGREE TREE --- */}
-        <div>{selectedDog ? <Pedigree treeRoot={selectedDog}/> : "Loading..." }</div>
+        <div>
+          {selectedDog ? <Pedigree treeRoot= {selectedDog}/> : 
+            <div style={{
+            textAlign: "center",
+            marginTop: "5em",
+            }}>
+              <img src={RunningDog} alt="Loading Icon"/>
+            </div> 
+          }
+        </div>
       </div>
 
       {alert.component}
