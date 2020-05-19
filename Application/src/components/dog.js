@@ -1,6 +1,6 @@
 /**
  * A card with dog information.
- * 
+ *
  * //TODO: add labels of % in pie chart
  */
 
@@ -16,7 +16,7 @@ import {
   Typography,
   Divider,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from "@material-ui/core";
 
 import clsx from "clsx";
@@ -35,7 +35,7 @@ import {
 
 import RoutedButton from "../components/routedButton";
 
-const moment = require('moment');
+const moment = require("moment");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 const DogCard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  
+
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [expanded, setExpanded] = React.useState(false);
@@ -73,21 +73,25 @@ const DogCard = (props) => {
 
   const handleExpandRecordsClick = () => {
     setRecordsExpanded(!recordsExpanded);
-  }
+  };
 
   let targetDog = props.contents;
 
   return (
     <Card className={classes.root} variant={"outlined"}>
-
       <CardHeader
-        avatar={ <Avatar>{" "} <FaDog />{" "} </Avatar> }
+        avatar={
+          <Avatar>
+            {" "}
+            <FaDog />{" "}
+          </Avatar>
+        }
         title={`${targetDog.name}`}
         titleTypographyProps={{ variant: "h6" }}
         subheader={`ID: (${targetDog.microchipNumber})`}
       />
 
-      {/*-- BASIC INFO -- */}  
+      {/*-- BASIC INFO -- */}
       <CardContent>
         <Typography variant="caption" className={classes.info}>
           <strong>PRIMARY BREED: </strong> {`${targetDog.breed}`} <br />
@@ -98,20 +102,24 @@ const DogCard = (props) => {
           {`${targetDog.dam.name} (${targetDog.dam.microchipNumber})`} <br />
         </Typography>
       </CardContent>
-      
+
       <Divider />
 
       {/*-- COLLAPSIBLE INFORMATION-- */}
-      <div title={expanded ? "Hide Statistics" : "Show Statistics"} className="collapseLabel" onClick={handleExpandClick}>
+      <div
+        title={expanded ? "Hide Statistics" : "Show Statistics"}
+        className="collapseLabel"
+        onClick={handleExpandClick}
+      >
         <h3>Statistics</h3>
 
         <IconButton
-          className={clsx(classes.expand, {[classes.expandOpen]: expanded,})}
+          className={clsx(classes.expand, { [classes.expandOpen]: expanded })}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-        <FaChevronDown size={15} />
+          <FaChevronDown size={15} />
         </IconButton>
       </div>
 
@@ -121,31 +129,29 @@ const DogCard = (props) => {
           <div id="radial-graph-wrapper">
             <div id="chart-wrapper">
               <RadialChart
-                colorType={'literal'}
+                colorType={"literal"}
                 style={{ stroke: "#fff", strokeWidth: 3 }}
                 width={200}
                 height={200}
                 animation
                 margin={{ top: 100 }}
-                data={props.breedData}/>
+                data={props.breedData}
+              />
             </div>
 
             <div id="legend-wrapper">
-              <div id ="test">
-                <DiscreteColorLegend 
-                  items={props.breedData.map(x => x.label)}
-                  colors={props.breedData.map(x =>x.color)}/>
+              <div id="test">
+                <DiscreteColorLegend
+                  items={props.breedData.map((x) => x.label)}
+                  colors={props.breedData.map((x) => x.color)}
+                />
               </div>
             </div>
           </div>
           <Divider />
 
           {/*-- INBREEDING COEFFICIENT DISPLAY -- */}
-          <XYPlot
-            width={350}
-            height={75}
-            xDomain={[0, 1]}>
-            
+          <XYPlot width={350} height={75} xDomain={[0, 1]}>
             <GradientDefs>
               <linearGradient id="grad4" x1="0%" x2="100%" y1="0%" y2="0%">
                 <stop offset="0%" stopColor="green" stopOpacity={0.4} />
@@ -159,24 +165,31 @@ const DogCard = (props) => {
               animation
               color={"url(#grad4)"}
               style={{ rx: "5", ry: "5" }}
-              data={[{ x: props.coi, y: 1, 
-                gradientLabel: "grad1", label: "curr" }]}/>
+              data={[
+                { x: props.coi, y: 1, gradientLabel: "grad1", label: "curr" },
+              ]}
+            />
           </XYPlot>
 
           <Typography variant="caption" className={classes.info}>
             <strong>COI: </strong> {`${props.coi}`} <br /> <br />
-            Calculated using  <strong> {`${props.generation}`} </strong>
+            Calculated using <strong> {`${props.generation}`} </strong>
             generations and <strong> {`${props.ancestors.size}`} </strong>
             ancestors
           </Typography>
         </CardContent>
       </Collapse>
-    
-      
+
       <Divider />
-      
+
       {/*-- COLLAPSIBLE RECORDS DISPLAY -- */}
-      <div title={recordsExpanded ? "Hide Medical Records" : "Show Medical Records"} className="collapseLabel" onClick={handleExpandRecordsClick} >
+      <div
+        title={
+          recordsExpanded ? "Hide Medical Records" : "Show Medical Records"
+        }
+        className="collapseLabel"
+        onClick={handleExpandRecordsClick}
+      >
         <h3>Medical Records</h3>
         <IconButton
           className={clsx(classes.expand, {
@@ -190,29 +203,31 @@ const DogCard = (props) => {
         </IconButton>
       </div>
 
-      <Collapse in={recordsExpanded} timeout="auto" unmountOnExit >
+      <Collapse in={recordsExpanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {targetDog.medicals && targetDog.medicals.map((record, index) => (
-            <>
-              <div style={{display: "flex", justifyContent: "space-between"}}>
-                  <RoutedButton
-                  asModal={isNotMobile}
-                  to={`/dogs/${targetDog.microchipNumber}/records/${index}`}
-                  variant="link"
-                  color="secondary"
+          {targetDog.medicals &&
+            targetDog.medicals.map((record, index) => (
+              <>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  {record.title}
-                </RoutedButton>
-                <p>{moment.unix(record.date).format("DD/MM/YYYY")}</p>
-              </div>
-              <Divider />
-            </>
-            ))
-          }
+                  <RoutedButton
+                    asModal={isNotMobile}
+                    to={`/dogs/${targetDog.microchipNumber}/records/${index}`}
+                    variant="link"
+                    color="secondary"
+                  >
+                    {record.title}
+                  </RoutedButton>
+                  <p>{moment.unix(record.date).format("DD/MM/YYYY")}</p>
+                </div>
+                <Divider />
+              </>
+            ))}
 
-            {/*-- BOTTOM BUTTONS -- */}
+          {/*-- BOTTOM BUTTONS -- */}
           <Padder height={theme.spacing(2)} />
-          <div style={{display: "flex", justifyContent: "flex-end"}}>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <RoutedButton
               asModal={isNotMobile}
               to={`/dogs/${targetDog.microchipNumber}/records/create`}
@@ -224,7 +239,6 @@ const DogCard = (props) => {
           </div>
         </CardContent>
       </Collapse>
-    
     </Card>
   );
 };

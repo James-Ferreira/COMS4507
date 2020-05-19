@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from "@material-ui/core";
 import { useHistory, useLocation, Switch, Route } from "react-router-dom";
 
 import Home from "./containers/home";
+import Apply from './containers/vetApplication'
 import Register from "./containers/register";
 import CreateRecord from "./containers/createRecord";
 import Search from "./containers/search";
@@ -24,6 +25,7 @@ const Routes = (props) => {
     return (
       <Switch location={loc}>
         <Route exact path="/" component={Home} />
+        <Route exact path="/apply" component={Apply} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/dogs" component={Search} />
         <Route exact path="/dogs/:microchipnumber" component={SearchResult} />
