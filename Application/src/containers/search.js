@@ -1,5 +1,5 @@
 /**
- * Main application page.
+ * Microchip Search Component.
  */
 
 import React, { useState } from "react";
@@ -51,7 +51,6 @@ function Search() {
                   <RoutedButton
                     id="searchButton"
                     variant="text"
-                    color="primary"
                     to={`/dogs/${search}`}
                     disabled={search === ""}
                     >

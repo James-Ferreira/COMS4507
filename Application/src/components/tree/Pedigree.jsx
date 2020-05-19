@@ -139,6 +139,13 @@ export default class Pedigree extends Component {
     //TODO some sort of dynamic colour assignment to prevent multiple breeds
     //being given same colour if >5 breeds in ancestry
     let palette =[
+      /* https://www.color-hex.com/color-palette/61647 */
+      "#867676",
+      "#836946",
+      "#CFBFAF",
+      "#443633",
+      "#6a4a3f",
+        
       "#AF9164", /* GOLD */
       "#6F1A07",  /* RED */
       "#473198", /* PURPLE */
