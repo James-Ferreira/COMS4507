@@ -10,7 +10,8 @@ import {
   Button,
   TextField,
   Typography,
-  //Snackbar,
+  Select,
+  MenuItem
 } from "@material-ui/core";
 import moment from "moment";
 import Padder from "../components/padder";
@@ -29,6 +30,7 @@ const Register = (props) => {
     {
       microchipNumber: "",
       name: "",
+      isBitch: false,
       breed: "",
       dob: "",
       dam: "",
@@ -79,6 +81,16 @@ const Register = (props) => {
         value={form.name}
         onChange={(e) => form.set("name", e.target.value)}
       />
+      <Select
+        margin="dense"
+        label="Gender"
+        type="text"
+        value={form.isBitch}
+        onChange={(e) => form.set("isBitch", e.target.value)}
+      >
+        <MenuItem value={true}>Female</MenuItem>
+        <MenuItem value={false}>Male</MenuItem>
+      </Select>
       <TextField
         margin="dense"
         label="Breed"
