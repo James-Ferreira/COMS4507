@@ -10,12 +10,13 @@ import {
   MenuItem
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { FaPaw } from "react-icons/fa";
-
+import { FaPaw, FaUser } from "react-icons/fa";
+import Search from "../containers/search";
 import RoutedButton from "../components/routedButton";
 import RoutedMenuItem from "../components/routedMenuItem";
-
+import PointerLogo from "../images/pointer.png";
 import Ethereum from "../state/ethereum";
+
 
 const NavBar = (props) => {
   const theme = useTheme();
@@ -36,11 +37,16 @@ const NavBar = (props) => {
     <AppBar position="static">
       <Toolbar className={styles.toolbar}>
         <div className={styles.logo}>
+          {/*<img style={{ paddingRight: theme.spacing(1) }} 
+          src={PointerLogo} width={"96"}/> */}
+
           <FaPaw style={{ paddingRight: theme.spacing(1) }} size="2em" />
-          <Typography variant="h6">Pupper Tracker</Typography>
+          <Typography style={{justifyContent: "center"}}variant="h6">BarkChain: Pupper Tracker</Typography>
         </div>
+
         <Button className={styles.account} color="inherit" onClick={handleClick}>
-          {(isNotMobile ? account : "Account") || ""}
+          <FaUser style={{ paddingRight: theme.spacing(1) }} size="1.5em" />
+          {/* (isNotMobile ? account : "Account") || "" */}
         </Button>
         <Menu
           id="simple-menu"
@@ -49,6 +55,10 @@ const NavBar = (props) => {
           open={Boolean(menuAnchor)}
           onClose={handleClose}
         >
+          <Typography variant="caption" >
+            {account}
+          </Typography>
+          
           <RoutedMenuItem asModal={isNotMobile} to={"/apply"}>Vet Application</RoutedMenuItem>
           <MenuItem onClick={handleClose}>Logout</MenuItem>
         </Menu>
@@ -81,8 +91,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   navbar: {
-    backgroundColor: "gray",
     justifyContent: "space-evenly",
+    backgroundColor: theme.palette.secondary.main,
   },
 
   logo: {

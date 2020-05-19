@@ -133,12 +133,19 @@ export default class Pedigree extends Component {
    * Parses the 'BreedMap' which contains the consitutent breeds for a target
    * and returns data in the required format for React-Vis graphs
    * 
-   * @param {*} breedMap : Map with (K,V) => (Breed_Name, Occurence_Fraction)
+   * @param {*} breedMap : Map with (K,V) => (Breed_Name, Occurence_%)
    */
   calculateBreedData(breedMap) {
     //TODO some sort of dynamic colour assignment to prevent multiple breeds
     //being given same colour if >5 breeds in ancestry
     let palette =[
+      /* https://www.color-hex.com/color-palette/61647 */
+      "#867676",
+      "#836946",
+      "#CFBFAF",
+      "#443633",
+      "#6a4a3f",
+        
       "#AF9164", /* GOLD */
       "#6F1A07",  /* RED */
       "#473198", /* PURPLE */
@@ -150,7 +157,7 @@ export default class Pedigree extends Component {
     let breedData = [];
     var count = 0;
     for(let [key, value] of breedMap.entries()) {
-      breedData.push({angle: value, color: palette[count], label: key})
+      breedData.push({angle: value*100, color: palette[count], label: key})
 
       if(++count >= breedMap.size) count = 0; //prevent OOB
     }

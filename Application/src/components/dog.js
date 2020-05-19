@@ -80,12 +80,7 @@ const DogCard = (props) => {
   return (
     <Card className={classes.root} variant={"outlined"}>
       <CardHeader
-        avatar={
-          <Avatar>
-            {" "}
-            <FaDog />{" "}
-          </Avatar>
-        }
+        avatar={<Avatar> <FaDog /></Avatar>}
         title={`${targetDog.name}`}
         titleTypographyProps={{ variant: "h6" }}
         subheader={`ID: (${targetDog.microchipNumber})`}
@@ -93,13 +88,15 @@ const DogCard = (props) => {
 
       {/*-- BASIC INFO -- */}
       <CardContent>
-        <Typography variant="caption" className={classes.info}>
-          <strong>PRIMARY BREED: </strong> {`${targetDog.breed}`} <br />
-          <strong>DOB: </strong> {`${targetDog.dob}`} <br />
+        <Typography variant="body2" className={classes.info}>
+          <strong>SEX: </strong> {(targetDog.isDam)? "F" : "M"}<br />
+          <strong>DOB: </strong> {moment.unix(targetDog.dob).format("DD/MM/YYYY")} <br />
           <strong>SIRE: </strong>
-          {`${targetDog.sire.name} (${targetDog.sire.microchipNumber})`} <br />
+          {(targetDog.sire !== 0)? `${targetDog.sire.name} (${targetDog.sire.microchipNumber})` : "Unknown"}
+          <br/>
           <strong>DAM: </strong>
-          {`${targetDog.dam.name} (${targetDog.dam.microchipNumber})`} <br />
+          {(targetDog.dam !== 0)? `${targetDog.dam.name} (${targetDog.dam.microchipNumber})` : "Unknown"}
+          <br/>
         </Typography>
       </CardContent>
 
@@ -142,7 +139,7 @@ const DogCard = (props) => {
             <div id="legend-wrapper">
               <div id="test">
                 <DiscreteColorLegend
-                  items={props.breedData.map((x) => x.label)}
+                  items={props.breedData.map((x) => x.label + " [" + x.angle + "%]")}
                   colors={props.breedData.map((x) => x.color)}
                 />
               </div>
@@ -151,6 +148,8 @@ const DogCard = (props) => {
           <Divider />
 
           {/*-- INBREEDING COEFFICIENT DISPLAY -- */}
+          <Typography align="center"><br/>Co-efficient of Inbreeding [{`${props.coi}`}]</Typography>
+          
           <XYPlot width={350} height={75} xDomain={[0, 1]}>
             <GradientDefs>
               <linearGradient id="grad4" x1="0%" x2="100%" y1="0%" y2="0%">
@@ -170,10 +169,10 @@ const DogCard = (props) => {
               ]}
             />
           </XYPlot>
+          <Divider />
 
-          <Typography variant="caption" className={classes.info}>
-            <strong>COI: </strong> {`${props.coi}`} <br /> <br />
-            Calculated using <strong> {`${props.generation}`} </strong>
+          <Typography align="center" variant="caption" className={classes.info}>
+            <br/>Calculated using <strong> {`${props.generation}`} </strong>
             generations and <strong> {`${props.ancestors.size}`} </strong>
             ancestors
           </Typography>

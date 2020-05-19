@@ -11,15 +11,27 @@ contract DogAncestry {
     }
 
     struct Dog {
+        /* REGISTRY INFORMATION */
         address registerer; //the vet responsible for registering this dog
         uint256 microchipNumber; // this dog's microchip number
-        string name;
-        string breed; // the dog's primary breed
-        uint256 dob;
-        //bool isDobApproximated;
+
+
+        /* ANCESTRY INFORMATION */
         uint256 dam; // mother's microchip number
         uint256 sire; // father's microchip number
         uint256[] offspring; // offspring's microchip numbers
+
+        /* DOG INFORMATION */
+        string name;
+        bool isDam; // the dog's sex TRUE = FEMALE, FALSE = MALE
+        string breed; // the dog's primary breed
+        uint256 dob;
+        //bool isDobApproximated;
+
+
+        /* HEALTH INFORMATION */
+
+
         Record[] medicals; // list of relevant medical records, e.g. vaccinations
     }
 
@@ -30,32 +42,33 @@ contract DogAncestry {
 
     // A special function only run during the creation of the contract
     constructor() public {
-        //[OUTBRED]
-        registerDog(100, "Jannet", "Poodle", 123456789, 0, 0);
-        registerDog(101, "Steve", "Husky", 123456789, 0, 0);
-        registerDog(102, "Lindsay", "Labrador", 123456789, 0, 0);
-        registerDog(103, "Jim", "Labrador", 123456789, 0, 0);
 
-        registerDog(104, "Stevette", "Poodle", 123456789, 100, 101);
-        registerDog(105, "Jindsay", "Labrador", 123456789, 102, 103);
+        //register format = ID, name, isFemale, Breed, DOB, DAM ID, SIRE ID
 
-        registerDog(106, "Jindette", "Labradoodle", 123456789, 104, 105);
+        //[OUTBRED ANCESTOR SUBTREE]
+        registerDog(100, "Jannet", true, "Poodle", 123456789, 0, 0);
+        registerDog(101, "Steve", false, "Husky", 123456789, 0, 0);
+        registerDog(102, "Lindsay", true, "Labrador", 123456789, 0, 0);
+        registerDog(103, "Jim", false,"Labrador", 123456789, 0, 0);
 
-        //[FULL SIBLING INBRED]
-        registerDog(200, "A", "Beagle", 123456789, 0, 0);
-        registerDog(201, "B", "Husky", 123456789, 104, 105);
-        registerDog(202, "C", "Labrador", 123456789, 0, 0);
+        registerDog(104, "Stevette", true, "Poodle", 123456789, 100, 101);
+        registerDog(105, "Jindsay", false, "Labrador", 123456789, 102, 103);
 
-        registerDog(203, "D", "Labrador", 123456789, 200, 201);
-        registerDog(204, "E", "Poodle", 123456789, 202, 201);
+        registerDog(106, "Jindette", false, "Labradoodle", 123456789, 104, 105);
 
-        registerDog(205, "F", "Labrador", 123456789, 204, 203);
+        //[FULL SIBLING INBRED SUBTREE]
+        registerDog(200, "Sarah", true, "Beagle", 123456789, 0, 0);
+        registerDog(201, "Stevay", false, "Husky", 123456789, 104, 105);
+        registerDog(202, "Adele", true, "Labrador", 123456789, 0, 0);
 
+        registerDog(203, "Sandette", false, "Labrador", 123456789, 200, 201);
+        registerDog(204, "Whitney", true, "Poodle", 123456789, 202, 201);
+        
         //[DOG WITH RECORDS]
-        registerDog(300, "Naveah", "Poo", 123456789, 0, 0);
-        createRecord(300, 123456789, "Record 1", "This is the first record ever!");
-        createRecord(300, 123456789, "Vaccination", "Doggy went to vet for some vaccinations bruh.");
-        createRecord(300, 123456789, "Broken Bone", "Poor dag broke a bone :(");
+        registerDog(205, "Naveah", true, "Labrador", 123456789, 204, 203);
+        createRecord(205, 123456789, "Record 1", "This is the first record ever!");
+        createRecord(205, 123456789, "Vaccination", "Doggy went to vet for some vaccinations bruh.");
+        createRecord(205, 123456789, "Broken Bone", "Poor dag broke a bone :(");
 
     }
 
@@ -63,6 +76,7 @@ contract DogAncestry {
     function registerDog(
         uint256 microchipNumber,
         string memory name,
+        bool isDam, //1 = female, 0 = male
         string memory breed,
         uint256 dob,
         uint256 dam,
@@ -73,6 +87,7 @@ contract DogAncestry {
             dogs[microchipNumber].microchipNumber == 0,
             "Dog already registered"
         );
+
         require(bytes(name).length != 0, "Name is required");
         require(bytes(breed).length != 0, "Breed is required"); // we could possible make this a bit more rigorous
 
@@ -84,6 +99,7 @@ contract DogAncestry {
         dogs[microchipNumber].registerer = msg.sender;
         dogs[microchipNumber].microchipNumber = microchipNumber;
         dogs[microchipNumber].name = name;
+        dogs[microchipNumber].isDam = isDam;
         dogs[microchipNumber].breed = breed;
         dogs[microchipNumber].dob = dob;
         dogs[microchipNumber].dam = dam;
