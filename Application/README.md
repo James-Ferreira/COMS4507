@@ -19,6 +19,8 @@ First, install the MetaMask chrome extension [here](https://chrome.google.com/we
 Once installed, we need to configure it to use the Ganache network. Click the extension icon and go to the network dropdown at the top right of popout. It will probably say Main Ethereum Network. Select Custom RPC and configure a new network with Network Name 'Localhost 7545' and RPC URL 'http://localhost:7545.
 
 Next, we need to connect an account to the extension. On the accounts page in Ganache, click the key icon on the right hand side of the first account entry and copy the private key. Back in MetaMask, click the account circle in the top right of the popout and import the account using the copied private key.
+
+Finally, in the settings menu, go to Connections, and add `localhost` to the list of allowed sites.
 ### Node Modules
 Install node modules from the root directory.
 

@@ -3,18 +3,14 @@
  */
 
 import React, { useState } from "react";
-import {
-  makeStyles,
-  useTheme,
-
-} from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 import RunningDog from "../images/runningDog.gif";
 
 import { useLocation } from "react-router-dom";
 
 import Padder from "../components/padder";
 
-import dogToTree from "../util/dogToTree"
+import dogToTree from "../util/dogToTree";
 
 /* Tree */
 import DagAttempt from "../components/dagAttempt";
@@ -71,18 +67,18 @@ function SearchResult(props) {
       sire,
     };
   };
-  
+
   const updateDog = async () => {
     /* Get the dog structure from the blockchain using our custom method */
     let dog = await contracts.dogAncestry.methods.getDog(search).call();
 
     // we don't want to get the whole ancestry again, so we'll just plug in the old one.
     let dam = selectedDog ? selectedDog.dam : 0;
-    let sire = selectedDog ? selectedDog.sire: 0;
-    dog = {...dog, dam, sire};
+    let sire = selectedDog ? selectedDog.sire : 0;
+    dog = { ...dog, dam, sire };
 
     setSelectedDog(dog);
-  }
+  };
 
   if (prevSearch !== search) {
     setPrevSearch(search);
@@ -101,14 +97,18 @@ function SearchResult(props) {
 
         {/* --- PEDIGREE TREE --- */}
         <div>
-          {selectedDog ? <DagAttempt data={dogToTree(selectedDog)}/> : 
-            <div style={{
-            textAlign: "center",
-            marginTop: "5em",
-            }}>
-              <img src={RunningDog} alt="Loading Icon"/>
-            </div> 
-          }
+          {selectedDog ? (
+            <DagAttempt data={dogToTree(selectedDog)} />
+          ) : (
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "5em",
+              }}
+            >
+              <img src={RunningDog} alt="Loading Icon" />
+            </div>
+          )}
         </div>
       </div>
 
