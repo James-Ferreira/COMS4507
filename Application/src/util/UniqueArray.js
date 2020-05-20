@@ -1,3 +1,0 @@
-class UniqueArray extends Array {
-    
-}
