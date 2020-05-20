@@ -8,11 +8,13 @@ import * as d3_dag from "d3-dag";
 import { event as d3Event } from "d3-selection";
 import { makeStyles, Card } from "@material-ui/core";
 import useDimensions from "../hooks/useDimensions";
+import { useHistory } from "react-router-dom";
 
 const d3 = Object.assign({}, d3_base, d3_dag);
 
 const AncestryGraph = (props) => {
   const styles = useStyles();
+  const history = useHistory();
   const [ref, { x, y, width, height }] = useDimensions();
   const [dag, setDag] = useState(null);
   const [margins, setMargins] = useState({});
@@ -42,17 +44,17 @@ const AncestryGraph = (props) => {
     layout(localDag);
     setDag(localDag);
     setMargins(localMargins);
-  }, [width, height]);
+  }, [props.data, width, height]);
 
-  if (dag && margins) {
-    draw(dag);
-  }
+  const nodeClicked = (d) => {
+    history.push(`/dogs/${d.id}`);
+  };
 
   /**
    * Draw the DAG to the svg element.
    * @param {*} dag
    */
-  function draw(dag) {
+  const draw = (dag) => {
     const svgSelection = d3.select("#graph"); // Select the SVG element.
     svgSelection.selectAll("*").remove(); // Clear SVG before re-rendering.
 
@@ -109,7 +111,8 @@ const AncestryGraph = (props) => {
       .append("circle")
       .attr("r", 20)
       .attr("fill", "white")
-      .attr("stroke", "black");
+      .attr("stroke", "black")
+      .on("click", nodeClicked);
 
     // Add text to nodes
     nodes
@@ -119,7 +122,12 @@ const AncestryGraph = (props) => {
       .attr("font-family", "sans-serif")
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle")
-      .attr("fill", "black");
+      .attr("fill", "black")
+      .on("click", nodeClicked);
+  };
+
+  if (dag && margins) {
+    draw(dag);
   }
 
   return (
