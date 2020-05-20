@@ -10,6 +10,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { FaUser, FaUserAltSlash } from "react-icons/fa";
 
 import RoutedButton from "../components/routedButton";
@@ -21,8 +22,10 @@ import DogSearchBar from "./dogSearchBar";
 const NavBar = (props) => {
   const theme = useTheme();
   const styles = useStyles();
+  const history = useHistory();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const { account } = Ethereum.useContainer(); // The Ethereum interface from context.
+
   const [menuAnchor, setMenuAnchor] = useState(null);
 
   const handleClick = (event) => {
@@ -36,7 +39,7 @@ const NavBar = (props) => {
   return (
     <AppBar position="static">
       <Toolbar className={styles.toolbar}>
-        <div className={styles.logo}>
+        <div className={styles.logo} onClick={() => history.push("/") }>
           {/*<img style={{ paddingRight: theme.spacing(1) }}
           src={PointerLogo} width={"96"}/> */}
           <img src= {PointerLogo} alt="BarkChain Logo" style={{ paddingRight: theme.spacing(1) }} width="60em"/>
@@ -88,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     display: "flex",
     justifyContent: "flex-start",
+    cursor: "pointer"
   },
 
   account: {
