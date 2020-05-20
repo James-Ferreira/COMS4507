@@ -20,7 +20,7 @@ import {
 } from "@material-ui/core";
 
 import clsx from "clsx";
-import { FaDog, FaChevronDown, FaMars, FaVenus } from "react-icons/fa";
+import { FaChevronDown, FaMars, FaVenus } from "react-icons/fa";
 
 import Padder from "../components/padder";
 

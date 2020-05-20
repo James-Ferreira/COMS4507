@@ -3,7 +3,11 @@ COLOUR PALETTE VARIABLES
 https://www.color-hex.com/color-palette/61647
 */
 :root{
-
+  --grey-purple: #867676;
+  --dark-gold: #836946;
+  --beige:  	#CFBFaF;
+  --dark-brown: #443633;
+  --medium-brown:  	#6a4a3f;
 }
 
 

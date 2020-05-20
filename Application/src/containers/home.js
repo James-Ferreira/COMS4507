@@ -9,13 +9,8 @@ import Search from "../containers/search";
 import {
   makeStyles,
   Card,
-  CardHeader,
   CardContent,
-  Collapse,
-  Avatar,
-  IconButton,
   Typography,
-  Divider,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
@@ -28,8 +23,7 @@ import {
   FaUserMd,
 } from "react-icons/fa";
 
-import PointerLogo from "../images/pointer.svg";
-import { FlexibleHeightXYPlot } from "react-vis/dist/make-vis-flexible";
+
 
 function Home() {
   const theme = useTheme();

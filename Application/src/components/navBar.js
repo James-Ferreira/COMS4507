@@ -10,8 +10,8 @@ import {
   MenuItem
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { FaPaw, FaUser } from "react-icons/fa";
-import Search from "../containers/search";
+import { FaUser } from "react-icons/fa";
+
 import RoutedButton from "../components/routedButton";
 import RoutedMenuItem from "../components/routedMenuItem";
 import Ethereum from "../state/ethereum";
@@ -38,7 +38,7 @@ const NavBar = (props) => {
         <div className={styles.logo}>
           {/*<img style={{ paddingRight: theme.spacing(1) }} 
           src={PointerLogo} width={"96"}/> */}
-          <img src= {PointerLogo} style={{ paddingRight: theme.spacing(1) }} width="60em"/>
+          <img src= {PointerLogo} alt="BarkChain Logo" style={{ paddingRight: theme.spacing(1) }} width="60em"/>
         </div>
 
         <RoutedButton
