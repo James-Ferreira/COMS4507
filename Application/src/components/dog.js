@@ -147,15 +147,14 @@ const DogCard = (props) => {
               <div id="test">
                 <DiscreteColorLegend
                   items={props.breedData.map((x) => x.label + " [" + x.angle + "%]")}
-                  colors={props.breedData.map((x) => x.color)}
-                />
+                  colors={props.breedData.map((x) => x.color)}/>
               </div>
             </div>
           </div>
           <Divider />
 
           {/*-- INBREEDING COEFFICIENT DISPLAY -- */}
-          <Typography align="center"><br/>Co-efficient of Inbreeding [{`${props.coi}`}]</Typography>
+          <Typography align="center"><br/>Coefficient of Inbreeding [{`${props.coi}`}]</Typography>
           
           <XYPlot width={350} height={75} xDomain={[0, 1]}>
             <GradientDefs>
