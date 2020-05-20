@@ -14,17 +14,15 @@ import { FaSearch } from "react-icons/fa";
 import RoutedButton from "../components/routedButton";
 import Padder from "../components/padder";
 
-
 function Search() {
   const theme = useTheme();
   const styles = useStyles();
 
-  
   const [search, setSearch] = useState(""); // Microchip search string.
 
   const doSearch = () => {
     if (search !== "") document.getElementById("searchButton").click();
-  }
+  };
 
   return (
     <>
@@ -38,7 +36,7 @@ function Search() {
             type="search"
             autoFocus
             value={search}
-            onChange={(e) => setSearch(e.target.value.replace(/\D/g,''))}
+            onChange={(e) => setSearch(e.target.value.replace(/\D/g, ""))}
             InputProps={{
               styles: { color: "white" },
               startAdornment: (
@@ -53,16 +51,16 @@ function Search() {
                     variant="text"
                     to={`/dogs/${search}`}
                     disabled={search === ""}
-                    >
-                        Go
-                    </RoutedButton>
+                  >
+                    Go
+                  </RoutedButton>
                 </InputAdornment>
               ),
             }}
           />
         </div>
       </div>
-      
+
       <Padder height={theme.spacing(2)} />
     </>
   );

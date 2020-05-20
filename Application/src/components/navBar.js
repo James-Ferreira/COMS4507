@@ -10,13 +10,12 @@ import {
   MenuItem
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { FaPaw, FaUser } from "react-icons/fa";
-import Search from "../containers/search";
+import { FaUser, FaUserAltSlash } from "react-icons/fa";
+
 import RoutedButton from "../components/routedButton";
 import RoutedMenuItem from "../components/routedMenuItem";
-import PointerLogo from "../images/pointer.png";
 import Ethereum from "../state/ethereum";
-
+import PointerLogo from "../images/pointer.svg";
 
 const NavBar = (props) => {
   const theme = useTheme();
@@ -39,15 +38,32 @@ const NavBar = (props) => {
         <div className={styles.logo}>
           {/*<img style={{ paddingRight: theme.spacing(1) }} 
           src={PointerLogo} width={"96"}/> */}
-
-          <FaPaw style={{ paddingRight: theme.spacing(1) }} size="2em" />
-          <Typography style={{justifyContent: "center"}}variant="h6">BarkChain: Pupper Tracker</Typography>
+          <img src= {PointerLogo} alt="BarkChain Logo" style={{ paddingRight: theme.spacing(1) }} width="60em"/>
         </div>
 
+        <RoutedButton
+          asModal={isNotMobile}
+          variant="text"
+          color="secondary"
+          to="/dogs"
+        >
+          Search
+        </RoutedButton>
+        <RoutedButton
+          asModal={isNotMobile}
+          variant="text"
+          color="secondary"
+          to="/register"
+        >
+          Register Dog
+        </RoutedButton>
+
         <Button className={styles.account} color="inherit" onClick={handleClick}>
-          <FaUser style={{ paddingRight: theme.spacing(1) }} size="1.5em" />
+          {(account ? <FaUser style={{ paddingRight: theme.spacing(1) }} size="1.5em" /> :
+           <FaUserAltSlash style={{ paddingRight: theme.spacing(1) }} size="1.5em" />) }
           {/* (isNotMobile ? account : "Account") || "" */}
         </Button>
+
         <Menu
           id="simple-menu"
           anchorEl={menuAnchor}
@@ -63,36 +79,14 @@ const NavBar = (props) => {
           <MenuItem onClick={handleClose}>Logout</MenuItem>
         </Menu>
       </Toolbar>
-      <Toolbar className={styles.navbar} variant="dense">
-        <RoutedButton
-          asModal={isNotMobile}
-          variant="text"
-          color="link"
-          to="/dogs"
-        >
-          Search
-        </RoutedButton>
-        <RoutedButton
-          asModal={isNotMobile}
-          variant="text"
-          color="link"
-          to="/register"
-        >
-          Register Dog
-        </RoutedButton>
-      </Toolbar>
     </AppBar>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
+    backgroundColor: theme.palette.primary.main,
     justifyContent: "space-between",
-  },
-
-  navbar: {
-    justifyContent: "space-evenly",
-    backgroundColor: theme.palette.secondary.main,
   },
 
   logo: {

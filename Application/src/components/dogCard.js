@@ -17,12 +17,14 @@ import {
   Divider,
   useMediaQuery,
   useTheme,
+  List,
+  ListItemText,
 } from "@material-ui/core";
 
 import clsx from "clsx";
-import { FaDog, FaChevronDown, FaMars, FaVenus } from "react-icons/fa";
+import { FaChevronDown, FaMars, FaVenus } from "react-icons/fa";
 
-import Padder from "../components/padder";
+import Padder from "./padder";
 
 import {
   RadialChart,
@@ -33,14 +35,15 @@ import {
   DiscreteColorLegend,
 } from "react-vis";
 
-import RoutedButton from "../components/routedButton";
+import RoutedButton from "./routedButton";
+import { calculateBreedData } from "../util/genealogy";
 
 const moment = require("moment");
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 450,
-    padding: 0,
+    // width: 450,
+    flex: 1,
   },
   expand: {
     transform: "rotate(0deg)",
@@ -75,37 +78,47 @@ const DogCard = (props) => {
     setRecordsExpanded(!recordsExpanded);
   };
 
-  let targetDog = props.contents;
+  let dog = props.data;
+  let breedData = calculateBreedData(dog.breedMap);
 
   return (
-    <Card className={classes.root} variant={"outlined"}>
+    <Card className={classes.root}>
       <CardHeader
-        avatar={(targetDog.isDam) ?
-            <Avatar variant="rounded" style={{backgroundColor: "#d8b2db"}}>
-              <FaVenus /> 
+        avatar={
+          dog.isBitch ? (
+            <Avatar variant="rounded" style={{ backgroundColor: "#d8b2db" }}>
+              <FaVenus size="1.25em" />
             </Avatar>
-          :
-            <Avatar variant="rounded" style={{backgroundColor: "#99acc9"}}>
-              <FaMars /> 
+          ) : (
+            <Avatar variant="rounded" style={{ backgroundColor: "#99acc9" }}>
+              <FaMars size="1.25em" />
             </Avatar>
-          }
-        title={`${targetDog.name}`}
+          )
+        }
+        title={`${dog.name}`}
         titleTypographyProps={{ variant: "h6" }}
-        subheader={`ID: (${targetDog.microchipNumber})`}
+        subheader={`ID: (${dog.microchipNumber})`}
       />
 
       {/*-- BASIC INFO -- */}
       <CardContent>
-        <Typography variant="body2" className={classes.info}>
-          <strong>SEX: </strong> {(targetDog.isDam)? "F" : "M"}<br />
-          <strong>DOB: </strong> {moment.unix(targetDog.dob).format("DD/MM/YYYY")} <br />
-          <strong>SIRE: </strong>
-          {(targetDog.sire !== 0)? `${targetDog.sire.name} (${targetDog.sire.microchipNumber})` : "Unknown"}
-          <br/>
-          <strong>DAM: </strong>
-          {(targetDog.dam !== 0)? `${targetDog.dam.name} (${targetDog.dam.microchipNumber})` : "Unknown"}
-          <br/>
-        </Typography>
+        <List>
+          <ListItemText>
+            <strong>DOB: </strong> {moment.unix(dog.dob).format("DD/MM/YYYY")}
+          </ListItemText>
+          <ListItemText>
+            <strong>DAM: </strong>{" "}
+            {dog.dam !== 0
+              ? `${dog.dam.name} (${dog.dam.microchipNumber})`
+              : "Unknown"}
+          </ListItemText>
+          <ListItemText>
+            <strong>SIRE: </strong>{" "}
+            {dog.sire !== 0
+              ? `${dog.sire.name} (${dog.sire.microchipNumber})`
+              : "Unknown"}
+          </ListItemText>
+        </List>
       </CardContent>
 
       <Divider />
@@ -140,15 +153,15 @@ const DogCard = (props) => {
                 height={200}
                 animation
                 margin={{ top: 100 }}
-                data={props.breedData}
+                data={breedData}
               />
             </div>
 
             <div id="legend-wrapper">
               <div id="test">
                 <DiscreteColorLegend
-                  items={props.breedData.map((x) => x.label + " [" + x.angle + "%]")}
-                  colors={props.breedData.map((x) => x.color)}
+                  items={breedData.map((x) => x.label + " [" + x.angle + "%]")}
+                  colors={breedData.map((x) => x.color)}
                 />
               </div>
             </div>
@@ -156,8 +169,11 @@ const DogCard = (props) => {
           <Divider />
 
           {/*-- INBREEDING COEFFICIENT DISPLAY -- */}
-          <Typography align="center"><br/>Co-efficient of Inbreeding [{`${props.coi}`}]</Typography>
-          
+          <Typography align="center">
+            <br />
+            Co-efficient of Inbreeding [{`${dog.coi}`}]
+          </Typography>
+
           <XYPlot width={350} height={75} xDomain={[0, 1]}>
             <GradientDefs>
               <linearGradient id="grad4" x1="0%" x2="100%" y1="0%" y2="0%">
@@ -173,15 +189,16 @@ const DogCard = (props) => {
               color={"url(#grad4)"}
               style={{ rx: "5", ry: "5" }}
               data={[
-                { x: props.coi, y: 1, gradientLabel: "grad1", label: "curr" },
+                { x: dog.coi, y: 1, gradientLabel: "grad1", label: "curr" },
               ]}
             />
           </XYPlot>
           <Divider />
 
           <Typography align="center" variant="caption" className={classes.info}>
-            <br/>Calculated using <strong> {`${props.generation}`} </strong>
-            generations and <strong> {`${props.ancestors.size}`} </strong>
+            <br />
+            Calculated using <strong> {`${dog.generation}`} </strong>
+            generations and <strong> {`${dog.ancestors.size}`} </strong>
             ancestors
           </Typography>
         </CardContent>
@@ -212,15 +229,15 @@ const DogCard = (props) => {
 
       <Collapse in={recordsExpanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {targetDog.medicals &&
-            targetDog.medicals.map((record, index) => (
+          {dog.medicals &&
+            dog.medicals.map((record, index) => (
               <>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <RoutedButton
                     asModal={isNotMobile}
-                    to={`/dogs/${targetDog.microchipNumber}/records/${index}`}
+                    to={`/dogs/${dog.microchipNumber}/records/${index}`}
                     variant="link"
                     color="secondary"
                   >
@@ -237,7 +254,7 @@ const DogCard = (props) => {
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <RoutedButton
               asModal={isNotMobile}
-              to={`/dogs/${targetDog.microchipNumber}/records/create`}
+              to={`/dogs/${dog.microchipNumber}/records/create`}
               variant="contained"
               color="secondary"
             >
