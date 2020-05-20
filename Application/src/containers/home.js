@@ -15,12 +15,15 @@ import {
   useTheme,
 } from "@material-ui/core";
 
+import Padder from "../components/padder";
+
 /* Images and Icons */
 import { 
   FaSitemap, 
   FaFileMedicalAlt,
   FaDna, 
   FaUserMd,
+  FaTrophy,
 } from "react-icons/fa";
 
 
@@ -41,56 +44,31 @@ function Home() {
             </Typography>
 
             <Typography variant="body1" style={{color: theme.palette.secondary.light}}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Aliquam volutpat metus a est molestie, ac varius mauris accumsan. 
-              Phasellus vel finibus ipsum, et sagittis lectus. Suspendisse non 
-              neque vulputate dolor dignissim egestas. Cras lobortis odio at 
-              dolor rutrum ornare. Nunc dictum ut nisi ut luctus. Fusce aliquet 
-              dignissim eros quis hendrerit.
+              <strong>BarkChain</strong> is an Ethereum-based dog pedigree
+              system designed to  increase the transparency of a dog’s lineage
+              and medical history through Blockchain technology.
+              <br/><br/>
             </Typography>
+
+            <Search />
+
           </div>
 
         </div>
 
         <div className={styles.cardsWrapper}>
-          <Card className={styles.infoCard}>
 
+          <Card className={styles.infoCard}>
             <CardContent>
               <FaSitemap color= {theme.palette.secondary.dark} size="5em"/>
               <Typography 
-              style={{color: theme.palette.secondary.dark}} 
-              variant="h6">
+              style={{color: theme.palette.secondary.dark}} variant="h6">
                 PEDIGREE
               </Typography>
-
+              <Padder height={theme.spacing(2)} />
               <Typography variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Aliquam volutpat metus a est molestie, ac varius mauris accumsan. 
-                Phasellus vel finibus ipsum, et sagittis lectus. Suspendisse non 
-                neque vulputate dolor dignissim egestas. Cras lobortis odio at 
-                dolor rutrum ornare. Nunc dictum ut nisi ut luctus. Fusce aliquet 
-                dignissim eros quis hendrerit.
-              </Typography>
-            </CardContent>
-
-          </Card>
-
-          <Card className={styles.infoCard}>
-            <CardContent>
-              <FaFileMedicalAlt color= {theme.palette.secondary.dark} size="5em"/>
-              <Typography 
-              style={{color: theme.palette.secondary.dark}} 
-              variant="h6">
-                MEDICAL HISTORY
-              </Typography>
-
-              <Typography variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Aliquam volutpat metus a est molestie, ac varius mauris accumsan. 
-                Phasellus vel finibus ipsum, et sagittis lectus. Suspendisse non 
-                neque vulputate dolor dignissim egestas. Cras lobortis odio at 
-                dolor rutrum ornare. Nunc dictum ut nisi ut luctus. Fusce aliquet 
-                dignissim eros quis hendrerit.
+                The system allows a user to visually traverse a dog's pedigree,
+                and view the stored information of ancestors
               </Typography>
             </CardContent>
           </Card>
@@ -99,40 +77,63 @@ function Home() {
             <CardContent>
               <FaDna color= {theme.palette.secondary.dark} size="5em"/>
               <Typography 
-              style={{color: theme.palette.secondary.dark}} 
-              variant="h6">
-                GENETIC DATA
+              style={{color: theme.palette.secondary.dark}} variant="h6">
+                GENETIC TRANSPARENCY
               </Typography>
-
+              <Padder height={theme.spacing(2)} />
               <Typography variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Aliquam volutpat metus a est molestie, ac varius mauris accumsan. 
-                Phasellus vel finibus ipsum, et sagittis lectus. Suspendisse non 
-                neque vulputate dolor dignissim egestas. Cras lobortis odio at 
-                dolor rutrum ornare. Nunc dictum ut nisi ut luctus. Fusce aliquet 
-                dignissim eros quis hendrerit.
+                The application helps mitigate intentional
+                misinformation regarding a dog's breed, the prevalence of
+                inbreeding and the existence of harmful genetic predispositions
+              </Typography>
+            </CardContent>           
+          </Card>
+
+        <Card className={styles.infoCard}>
+            <CardContent>
+              <FaUserMd color= {theme.palette.secondary.dark} size="5em"/>
+              <Typography 
+              style={{color: theme.palette.secondary.dark}} variant="h6">
+                TRUST
+              </Typography>
+              <Padder height={theme.spacing(2)} />
+              <Typography variant="body2">
+                The system utilises veterinarians as the trusted entities
+                responsible for registering a dog's information
+
               </Typography>
             </CardContent>
-
-            
           </Card>
 
           <Card className={styles.infoCard}>
             <CardContent>
-              <FaUserMd color= {theme.palette.secondary.dark} size="5em"/>
+              <FaFileMedicalAlt color= {theme.palette.secondary.dark} size="5em"/>
               <Typography 
-              style={{color: theme.palette.secondary.dark}} 
-              variant="h6">
-                VETERINARIAN CONTROL
+              style={{color: theme.palette.secondary.dark}} variant="h6">
+                MEDICAL HISTORY
               </Typography>
-
+              <Padder height={theme.spacing(2)} />
               <Typography variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Aliquam volutpat metus a est molestie, ac varius mauris accumsan. 
-                Phasellus vel finibus ipsum, et sagittis lectus. Suspendisse non 
-                neque vulputate dolor dignissim egestas. Cras lobortis odio at 
-                dolor rutrum ornare. Nunc dictum ut nisi ut luctus. Fusce aliquet 
-                dignissim eros quis hendrerit.
+                Storing medical information on the public Barkchain prevents
+                breeders witholding pertinent medical information from a 
+                potential buyer and may expediate the process of medical 
+                diagnosis
+              </Typography>
+            </CardContent>
+          </Card>
+
+          <Card className={styles.infoCard}>
+            <CardContent>
+              <FaTrophy color= {theme.palette.secondary.dark} size="5em"/>
+              <Typography 
+              style={{color: theme.palette.secondary.dark}} variant="h6">
+                COMPETITION AWARDS
+              </Typography>
+              <Padder height={theme.spacing(2)} />
+              <Typography variant="body2">
+                To promote adoption of the BarkChain for breeders, the system
+                can store records of competitive victories - permanently 
+                increasing the value of a pedigree line
               </Typography>
             </CardContent>
           </Card>
@@ -160,7 +161,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   titleTextWrapper: {
-    width: "35%",
+
   },
 
   dogLogo:{
