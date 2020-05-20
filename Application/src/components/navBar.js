@@ -8,16 +8,15 @@ import {
   Typography,
   Menu,
   MenuItem,
-  TextField,
-  InputAdornment
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { FaUser, FaUserAltSlash, FaSearch } from "react-icons/fa";
+import { FaUser, FaUserAltSlash } from "react-icons/fa";
 
 import RoutedButton from "../components/routedButton";
 import RoutedMenuItem from "../components/routedMenuItem";
 import Ethereum from "../state/ethereum";
 import PointerLogo from "../images/pointer.svg";
+import DogSearchBar from "./dogSearchBar";
 
 const NavBar = (props) => {
   const theme = useTheme();
@@ -25,8 +24,6 @@ const NavBar = (props) => {
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const { account } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [menuAnchor, setMenuAnchor] = useState(null);
-
-  const [search, setSearch] = useState(""); // Microchip search string.
 
   const handleClick = (event) => {
     setMenuAnchor(event.currentTarget);
@@ -45,47 +42,7 @@ const NavBar = (props) => {
           <img src= {PointerLogo} alt="BarkChain Logo" style={{ paddingRight: theme.spacing(1) }} width="60em"/>
         </div>
 
-        {/* <RoutedButton
-          asModal={isNotMobile}
-          variant="text"
-          color="secondary"
-          to="/dogs"
-        >
-          Search
-        </RoutedButton> */}
-
-        <TextField
-            onKeyUp={(e) => (String(e.key) === "Enter") && (search !== "") && document.getElementById("searchButton").click()}
-            placeholder="Microchip Number"
-            type="search"
-            value={search}
-            variant="outlined"
-            size="small"
-            onChange={(e) => setSearch(e.target.value.replace(/\D/g, ""))}
-            InputProps={{
-              style: { color: "white" },
-              startAdornment: (
-                <InputAdornment position="start">
-                  <FaSearch />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <RoutedButton
-                    id="searchButton"
-                    variant="text"
-                    to={`/dogs/${search}`}
-                    disabled={search === ""}
-                    color="secondary"
-                    variant="contained"
-                    size="small"
-                  >
-                    Go
-                  </RoutedButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+        <DogSearchBar />
 
 
         <RoutedButton

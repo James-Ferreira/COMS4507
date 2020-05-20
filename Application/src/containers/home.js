@@ -3,8 +3,6 @@
  */
 
 import React from "react";
-import Search from "../containers/search";
-
 
 import {
   makeStyles,
@@ -16,6 +14,7 @@ import {
 } from "@material-ui/core";
 
 import Padder from "../components/padder";
+import DogSearchBar from "../components/dogSearchBar";
 
 /* Images and Icons */
 import { 
@@ -50,7 +49,7 @@ function Home() {
               <br/><br/>
             </Typography>
 
-            <Search />
+            <DogSearchBar />
 
           </div>
 
@@ -143,7 +142,7 @@ function Home() {
 
     );
   } else {
-    return <Search />;
+    return <DogSearchBar />;
   }
 };
 

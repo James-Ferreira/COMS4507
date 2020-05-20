@@ -6,7 +6,6 @@ import Home from "./containers/home";
 import Apply from "./containers/vetApplication";
 import Register from "./containers/register";
 import CreateRecord from "./containers/createRecord";
-import Search from "./containers/search";
 import SearchResult from "./containers/searchResult";
 import ViewRecord from "./containers/viewRecord";
 
@@ -27,7 +26,6 @@ const Routes = (props) => {
         <Route exact path="/" component={Home} />
         <Route exact path="/apply" component={Apply} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/dogs" component={Search} />
         <Route exact path="/dogs/:microchipnumber" component={SearchResult} />
         <Route
           exact
