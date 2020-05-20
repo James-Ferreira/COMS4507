@@ -92,8 +92,8 @@ function SearchResult(props) {
       // 2. We filter out the nodes that have already been explored.
       // 3. Then we mark each unexplored node as explored and add it to the queue.
       let neighbours = t.offspring;
-      if (t.dam != 0) neighbours.push(t.dam);
-      if (t.sire != 0) neighbours.push(t.sire);
+      if (Number(t.dam) !== 0) neighbours.push(t.dam);
+      if (Number(t.sire) !== 0) neighbours.push(t.sire);
 
       neighbours = neighbours.filter((n) => !explored.has(n));
       await asyncForEach(neighbours, async (n) => {
@@ -114,16 +114,16 @@ function SearchResult(props) {
   function stripDogs() {
     return dogs.map((d) => {
       let parentIds = [];
-      if (d.dam != 0) {
+      if (Number(d.dam) !== 0) {
         parentIds.push(d.dam);
       }
-      if (d.sire != 0) {
+      if (Number(d.sire) !== 0) {
         parentIds.push(d.sire);
       }
       return {
         id: d.microchipNumber,
         parentIds,
-        isRoot: d.microchipNumber == selectedDog.microchipNumber,
+        isRoot: d.microchipNumber === selectedDog.microchipNumber,
       };
     });
   }
@@ -162,7 +162,7 @@ function SearchResult(props) {
     <>
       <div className={styles.pageContent}>
         {!!selectedDog || <DogLoader />}
-        {selectedDog && dogs.length != 0 && (
+        {selectedDog && dogs.length !== 0 && (
           <AncestryGraph data={stripDogs()} />
         )}
         <Padder width={theme.spacing(4)} />

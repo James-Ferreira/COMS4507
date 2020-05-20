@@ -16,7 +16,7 @@ const AncestryGraph = (props) => {
   const theme = useTheme();
   const styles = useStyles();
   const history = useHistory();
-  const [ref, { x, y, width, height }] = useDimensions();
+  const [ref, { width, height }] = useDimensions();
   const [dag, setDag] = useState(null);
   const [margins, setMargins] = useState({});
 

@@ -2,7 +2,6 @@
  * Vet application page.
  */
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
 import {
   makeStyles,
   useTheme,
@@ -12,16 +11,12 @@ import {
   //Snackbar,
 } from "@material-ui/core";
 import Padder from "../components/padder";
-import Ethereum from "../state/ethereum";
 import useForm from "../hooks/useForm";
 import { useAlert, SEVERITY } from "../hooks/useAlert";
 
 const VetApplication = (props) => {
   const styles = useStyles();
   const theme = useTheme();
-  const history = useHistory();
-  const location = useLocation();
-  const { contracts, account } = Ethereum.useContainer();
   const alert = useAlert();
 
   const form = useForm(

@@ -17,7 +17,7 @@ export default class Queue {
   }
 
   isEmpty() {
-    return this.elements.length == 0;
+    return this.elements.length === 0;
   }
 
   peek() {
