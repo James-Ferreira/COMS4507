@@ -23,6 +23,7 @@ function SearchResult(props) {
   const styles = useStyles();
   const { contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [selectedDog, setSelectedDog] = useState(null); // The selected dog for generating the ancestry tree.
+  // const [dogGraph, setDogGraph] = useState([]); // A DAG of all dogs that can be reached from the selected dog.
   const [genealogy, setGenealogy] = useState(null); // The selected dog for generating the ancestry tree.
   const alert = useAlert(); // Snackbar alert
   const location = useLocation();
@@ -30,10 +31,13 @@ function SearchResult(props) {
   const [prevSearch, setPrevSearch] = useState(null);
   const search = props.match.params.microchipnumber;
 
+  let dogs = []
+
   /* Method for fetching a single dog entry from the smart contract mapping */
   const fetchDog = async () => {
     /* Get the dog structure from the blockchain using our custom method */
     let dog = await contracts.dogAncestry.methods.getDog(search).call();
+    dogs.push(dog);
 
     /* Basic error handling */
     if (Number(dog.microchipNumber) === 0) {
@@ -47,17 +51,25 @@ function SearchResult(props) {
 
   /* Recursively get ancestry of a dog. We will want to implement pagination on this later. */
   const getAncestry = async (dog) => {
+    /* Create a new array to store the ancestors as a list rather than a tree */
+    const ancestors = [];
+
     let dam = 0;
     if (Number(dog.dam) !== 0) {
       dam = await contracts.dogAncestry.methods.getDog(dog.dam).call();
+      ancestors.push(dam);
       dam = await getAncestry(dam);
     }
 
     let sire = 0;
     if (Number(dog.sire) !== 0) {
       sire = await contracts.dogAncestry.methods.getDog(dog.sire).call();
+      ancestors.push(sire);
       sire = await getAncestry(sire);
     }
+
+    // console.log(ancestors)
+    dogs.concat(ancestors);
 
     return {
       ...dog,
@@ -95,6 +107,13 @@ function SearchResult(props) {
       setGenealogy(computedGenealogy);
     }
   }, [selectedDog]);
+
+  /* When the selected dog changes we need to recompute genealogy data */
+  useEffect(() => {
+    console.log(dogs);
+  }, [dogs]);
+
+  console.log(dogs)
 
   return (
     <>

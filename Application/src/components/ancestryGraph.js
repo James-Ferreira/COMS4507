@@ -6,13 +6,14 @@ import React, { useEffect, useState } from "react";
 import * as d3_base from "d3";
 import * as d3_dag from "d3-dag";
 import { event as d3Event } from "d3-selection";
-import { makeStyles, Card } from "@material-ui/core";
+import { makeStyles, useTheme, Card } from "@material-ui/core";
 import useDimensions from "../hooks/useDimensions";
 import { useHistory } from "react-router-dom";
 
 const d3 = Object.assign({}, d3_base, d3_dag);
 
 const AncestryGraph = (props) => {
+  const theme = useTheme();
   const styles = useStyles();
   const history = useHistory();
   const [ref, { x, y, width, height }] = useDimensions();
@@ -85,6 +86,8 @@ const AncestryGraph = (props) => {
       .x((d) => d.x)
       .y((d) => d.y);
 
+    console.log(dag.descendants());
+
     // Add connecting paths
     group
       .append("g")
@@ -110,7 +113,9 @@ const AncestryGraph = (props) => {
     nodes
       .append("circle")
       .attr("r", 20)
-      .attr("fill", "white")
+      .attr("fill", ({ data }) =>
+        data.isRoot ? theme.palette.secondary.light : "white"
+      )
       .attr("stroke", "black")
       .on("click", nodeClicked);
 
@@ -145,6 +150,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
     justifyContent: "stretch",
     alignItems: "center",
+    height: 800,
   },
   container: {
     width: "100%",
