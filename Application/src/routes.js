@@ -10,8 +10,6 @@ import Search from "./containers/search";
 import SearchResult from "./containers/searchResult";
 import ViewRecord from "./containers/viewRecord";
 
-// import DagAttempt from "./containers/dagAttempt";
-
 const Routes = (props) => {
   const location = useLocation();
   const history = useHistory();
@@ -41,7 +39,6 @@ const Routes = (props) => {
           path="/dogs/:microchipnumber/records/:recordnumber"
           component={ViewRecord}
         />
-        {/* <Route exact path="/dag" component={DagAttempt} /> */}
       </Switch>
     );
   };
