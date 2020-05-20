@@ -7,10 +7,12 @@ import {
   Button,
   Typography,
   Menu,
-  MenuItem
+  MenuItem,
+  TextField,
+  InputAdornment
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { FaUser, FaUserAltSlash } from "react-icons/fa";
+import { FaUser, FaUserAltSlash, FaSearch } from "react-icons/fa";
 
 import RoutedButton from "../components/routedButton";
 import RoutedMenuItem from "../components/routedMenuItem";
@@ -24,6 +26,8 @@ const NavBar = (props) => {
   const { account } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [menuAnchor, setMenuAnchor] = useState(null);
 
+  const [search, setSearch] = useState(""); // Microchip search string.
+
   const handleClick = (event) => {
     setMenuAnchor(event.currentTarget);
   };
@@ -36,19 +40,54 @@ const NavBar = (props) => {
     <AppBar position="static">
       <Toolbar className={styles.toolbar}>
         <div className={styles.logo}>
-          {/*<img style={{ paddingRight: theme.spacing(1) }} 
+          {/*<img style={{ paddingRight: theme.spacing(1) }}
           src={PointerLogo} width={"96"}/> */}
           <img src= {PointerLogo} alt="BarkChain Logo" style={{ paddingRight: theme.spacing(1) }} width="60em"/>
         </div>
 
-        <RoutedButton
+        {/* <RoutedButton
           asModal={isNotMobile}
           variant="text"
           color="secondary"
           to="/dogs"
         >
           Search
-        </RoutedButton>
+        </RoutedButton> */}
+
+        <TextField
+            onKeyUp={(e) => (String(e.key) === "Enter") && (search !== "") && document.getElementById("searchButton").click()}
+            placeholder="Microchip Number"
+            type="search"
+            value={search}
+            variant="outlined"
+            size="small"
+            onChange={(e) => setSearch(e.target.value.replace(/\D/g, ""))}
+            InputProps={{
+              style: { color: "white" },
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FaSearch />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <RoutedButton
+                    id="searchButton"
+                    variant="text"
+                    to={`/dogs/${search}`}
+                    disabled={search === ""}
+                    color="secondary"
+                    variant="contained"
+                    size="small"
+                  >
+                    Go
+                  </RoutedButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+
         <RoutedButton
           asModal={isNotMobile}
           variant="text"
@@ -74,7 +113,7 @@ const NavBar = (props) => {
           <Typography variant="caption" >
             {account}
           </Typography>
-          
+
           <RoutedMenuItem asModal={isNotMobile} to={"/apply"}>Vet Application</RoutedMenuItem>
           <MenuItem onClick={handleClose}>Logout</MenuItem>
         </Menu>
