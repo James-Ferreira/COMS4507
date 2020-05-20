@@ -10,7 +10,7 @@ import {
   MenuItem
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaUserAltSlash } from "react-icons/fa";
 
 import RoutedButton from "../components/routedButton";
 import RoutedMenuItem from "../components/routedMenuItem";
@@ -59,7 +59,8 @@ const NavBar = (props) => {
         </RoutedButton>
 
         <Button className={styles.account} color="inherit" onClick={handleClick}>
-          <FaUser style={{ paddingRight: theme.spacing(1) }} size="1.5em" />
+          {(account ? <FaUser style={{ paddingRight: theme.spacing(1) }} size="1.5em" /> :
+           <FaUserAltSlash style={{ paddingRight: theme.spacing(1) }} size="1.5em" />) }
           {/* (isNotMobile ? account : "Account") || "" */}
         </Button>
 

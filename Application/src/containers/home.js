@@ -132,8 +132,8 @@ function Home() {
               <Padder height={theme.spacing(2)} />
               <Typography variant="body2">
                 To promote adoption of the BarkChain for breeders, the system
-                can store records of competitive victories - permanently 
-                increasing the value of a pedigree line
+                can store records of competitive victories - increasing the
+                value of a pedigree line
               </Typography>
             </CardContent>
           </Card>

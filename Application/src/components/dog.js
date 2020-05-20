@@ -17,6 +17,8 @@ import {
   Divider,
   useMediaQuery,
   useTheme,
+  List,
+  ListItemText,
 } from "@material-ui/core";
 
 import clsx from "clsx";
@@ -96,15 +98,22 @@ const DogCard = (props) => {
 
       {/*-- BASIC INFO -- */}
       <CardContent>
-        <Typography variant="body2" className={classes.info}>
-          <strong>DOB: </strong> {moment.unix(targetDog.dob).format("DD/MM/YYYY")} <br />
-          <strong>SIRE: </strong>
-          {(targetDog.sire !== 0) ? `${targetDog.sire.name} (${targetDog.sire.microchipNumber})` : "Unknown"}
-          <br/>
-          <strong>DAM: </strong>
-          {(targetDog.dam !== 0)? `${targetDog.dam.name} (${targetDog.dam.microchipNumber})` : "Unknown"}
-          <br/>
-        </Typography>
+          <List>
+            <ListItemText>
+              <strong>DOB: </strong> {moment.unix(targetDog.dob).format("DD/MM/YYYY")}
+            </ListItemText>
+            <ListItemText>
+              <strong>DAM: </strong> {(targetDog.dam !== 0) ? 
+              `${targetDog.dam.name} (${targetDog.dam.microchipNumber})` 
+              : "Unknown"}
+            </ListItemText>
+            <ListItemText>
+              <strong>SIRE: </strong> {(targetDog.sire !== 0) ? 
+              `${targetDog.sire.name} (${targetDog.sire.microchipNumber})` 
+              : "Unknown"}
+            </ListItemText>
+
+          </List>
       </CardContent>
 
       <Divider />
