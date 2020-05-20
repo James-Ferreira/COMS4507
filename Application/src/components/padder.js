@@ -1,7 +1,16 @@
 import React from "react";
+import { useTheme } from "@material-ui/core";
 
 const Padder = (props) => {
-  return <div style={{ height: props.height || 8 }} />;
+  const theme = useTheme();
+  return (
+    <div
+      style={{
+        height: props.height || theme.spacing(1),
+        width: props.width || theme.spacing(1),
+      }}
+    />
+  );
 };
 
 export default Padder;

@@ -2,30 +2,28 @@
  * Search result - shows pedigree tree and dog information.
  */
 
-import React, { useState } from "react";
-import { makeStyles, useTheme } from "@material-ui/core";
-import RunningDog from "../images/runningDog.gif";
-
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
+import { makeStyles, useTheme } from "@material-ui/core";
+/* Custom Components */
+import DogCard from "../components/dogCard";
+import DogLoader from "../components/dogLoader";
 import Padder from "../components/padder";
-
-import dogToTree from "../util/dogToTree";
-
-/* Tree */
-import DagAttempt from "../components/dagAttempt";
-
+import AncestryGraph from "../components/ancestryGraph";
 /* Custom Hooks */
-import { useAlert, SEVERITY } from "../hooks/useAlert";
-
+import { SEVERITY, useAlert } from "../hooks/useAlert";
 /* Global State */
 import Ethereum from "../state/ethereum";
+/*  Utils */
+import dogToTree from "../util/dogToTree";
+import { computeGenealogy } from "../util/genealogy";
 
 function SearchResult(props) {
   const theme = useTheme();
   const styles = useStyles();
   const { contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [selectedDog, setSelectedDog] = useState(null); // The selected dog for generating the ancestry tree.
+  const [genealogy, setGenealogy] = useState(null); // The selected dog for generating the ancestry tree.
   const alert = useAlert(); // Snackbar alert
   const location = useLocation();
 
@@ -90,28 +88,23 @@ function SearchResult(props) {
     updateDog();
   }
 
+  /* When the selected dog changes we need to recompute genealogy data */
+  useEffect(() => {
+    if (selectedDog) {
+      const computedGenealogy = computeGenealogy(selectedDog);
+      console.log(computedGenealogy);
+      setGenealogy(computedGenealogy);
+    }
+  }, [selectedDog]);
+
   return (
     <>
       <div className={styles.pageContent}>
-        <Padder height={theme.spacing(2)} />
-
-        {/* --- PEDIGREE TREE --- */}
-        <div>
-          {selectedDog ? (
-            <DagAttempt data={dogToTree(selectedDog)} />
-          ) : (
-            <div
-              style={{
-                textAlign: "center",
-                marginTop: "5em",
-              }}
-            >
-              <img src={RunningDog} alt="Loading Icon" />
-            </div>
-          )}
-        </div>
+        {!!selectedDog || <DogLoader />}
+        {selectedDog && <AncestryGraph data={dogToTree(selectedDog)} />}
+        <Padder width={theme.spacing(4)} />
+        {genealogy && <DogCard data={genealogy} />}
       </div>
-
       {alert.component}
     </>
   );
@@ -120,14 +113,13 @@ function SearchResult(props) {
 const useStyles = makeStyles((theme) => ({
   pageContent: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "stretch",
     [theme.breakpoints.down("sm")]: {
-      margin: "0 5%",
+      margin: "5% 5%",
     },
     [theme.breakpoints.up("sm")]: {
-      margin: "0 100px",
+      margin: "20px 100px",
     },
   },
 }));

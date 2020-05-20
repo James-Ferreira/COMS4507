@@ -1,11 +1,7 @@
 /**
  * Convert a Web3 Dog representation into a generic representation used by the Tree component.
- * NO LONGER USED
  * @param {*} dog
  */
-
-import React from "react";
-import Dog from "../components/dog";
 
 export default function dogToTree(dog) {
   if (!dog) return {};
