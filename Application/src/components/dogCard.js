@@ -43,7 +43,7 @@ const moment = require("moment");
 const useStyles = makeStyles((theme) => ({
   root: {
     // width: 450,
-    flex:1
+    flex: 1,
   },
   expand: {
     transform: "rotate(0deg)",
@@ -84,13 +84,14 @@ const DogCard = (props) => {
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={(dog.isBitch) ?
-            <Avatar variant="rounded" style={{backgroundColor: "#d8b2db"}}>
-              <FaVenus size="1.25em"/> 
+        avatar={
+          dog.isBitch ? (
+            <Avatar variant="rounded" style={{ backgroundColor: "#d8b2db" }}>
+              <FaVenus size="1.25em" />
             </Avatar>
-          :
-            <Avatar variant="rounded" style={{backgroundColor: "#99acc9"}}>
-              <FaMars size="1.25em"/> 
+          ) : (
+            <Avatar variant="rounded" style={{ backgroundColor: "#99acc9" }}>
+              <FaMars size="1.25em" />
             </Avatar>
           )
         }
@@ -101,22 +102,23 @@ const DogCard = (props) => {
 
       {/*-- BASIC INFO -- */}
       <CardContent>
-          <List>
-            <ListItemText>
-              <strong>DOB: </strong> {moment.unix(dog.dob).format("DD/MM/YYYY")}
-            </ListItemText>
-            <ListItemText>
-              <strong>DAM: </strong> {(dog.dam !== 0) ? 
-              `${dog.dam.name} (${dog.dam.microchipNumber})` 
+        <List>
+          <ListItemText>
+            <strong>DOB: </strong> {moment.unix(dog.dob).format("DD/MM/YYYY")}
+          </ListItemText>
+          <ListItemText>
+            <strong>DAM: </strong>{" "}
+            {dog.dam !== 0
+              ? `${dog.dam.name} (${dog.dam.microchipNumber})`
               : "Unknown"}
-            </ListItemText>
-            <ListItemText>
-              <strong>SIRE: </strong> {(dog.sire !== 0) ? 
-              `${dog.sire.name} (${dog.sire.microchipNumber})` 
+          </ListItemText>
+          <ListItemText>
+            <strong>SIRE: </strong>{" "}
+            {dog.sire !== 0
+              ? `${dog.sire.name} (${dog.sire.microchipNumber})`
               : "Unknown"}
-            </ListItemText>
-
-          </List>
+          </ListItemText>
+        </List>
       </CardContent>
 
       <Divider />
