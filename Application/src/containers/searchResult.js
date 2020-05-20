@@ -92,7 +92,6 @@ function SearchResult(props) {
   useEffect(() => {
     if (selectedDog) {
       const computedGenealogy = computeGenealogy(selectedDog);
-      console.log(computedGenealogy);
       setGenealogy(computedGenealogy);
     }
   }, [selectedDog]);

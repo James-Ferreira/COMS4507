@@ -26,7 +26,7 @@ const AncestryGraph = (props) => {
     /* Return early if the dimensions haven't been set yet */
     if (!(width && height)) return;
     const localMargins = { horizontal: width / 8, vertical: height / 8 };
-    const localDag = d3.dagHierarchy()(props.data);
+    const localDag = d3.dagStratify()(props.data);
 
     /* Create the layout object to compute render shape */
     const layout = d3
