@@ -8,7 +8,6 @@ import Register from "./containers/register";
 import CreateRecord from "./containers/createRecord";
 import Search from "./containers/search";
 import SearchResult from "./containers/searchResult";
-import SearchResultDag from "./containers/searchResultDag";
 import ViewRecord from "./containers/viewRecord";
 
 const Routes = (props) => {
@@ -30,7 +29,6 @@ const Routes = (props) => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/dogs" component={Search} />
         <Route exact path="/dogs/:microchipnumber" component={SearchResult} />
-        <Route exact path="/newdogs/:microchipnumber" component={SearchResultDag} />
         <Route
           exact
           path="/dogs/:microchipnumber/records/create"
@@ -41,7 +39,6 @@ const Routes = (props) => {
           path="/dogs/:microchipnumber/records/:recordnumber"
           component={ViewRecord}
         />
-        {/* <Route exact path="/dag" component={DagAttempt} /> */}
       </Switch>
     );
   };

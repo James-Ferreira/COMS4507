@@ -86,8 +86,6 @@ const AncestryGraph = (props) => {
       .x((d) => d.x)
       .y((d) => d.y);
 
-    console.log(dag.descendants());
-
     // Add connecting paths
     group
       .append("g")

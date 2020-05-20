@@ -15,15 +15,15 @@ import { SEVERITY, useAlert } from "../hooks/useAlert";
 /* Global State */
 import Ethereum from "../state/ethereum";
 /*  Utils */
-import dogToTree from "../util/dogToTree";
 import { computeGenealogy } from "../util/genealogy";
+import Queue from "../util/Queue";
 
 function SearchResult(props) {
   const theme = useTheme();
   const styles = useStyles();
   const { contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [selectedDog, setSelectedDog] = useState(null); // The selected dog for generating the ancestry tree.
-  // const [dogGraph, setDogGraph] = useState([]); // A DAG of all dogs that can be reached from the selected dog.
+  const [dogs, setDogs] = useState([]); // A DAG of all dogs that can be reached from the selected dog.
   const [genealogy, setGenealogy] = useState(null); // The selected dog for generating the ancestry tree.
   const alert = useAlert(); // Snackbar alert
   const location = useLocation();
@@ -31,45 +31,38 @@ function SearchResult(props) {
   const [prevSearch, setPrevSearch] = useState(null);
   const search = props.match.params.microchipnumber;
 
-  let dogs = []
-
   /* Method for fetching a single dog entry from the smart contract mapping */
   const fetchDog = async () => {
     /* Get the dog structure from the blockchain using our custom method */
     let dog = await contracts.dogAncestry.methods.getDog(search).call();
-    dogs.push(dog);
-
+    
     /* Basic error handling */
     if (Number(dog.microchipNumber) === 0) {
       return alert.show("Dog not registered.", SEVERITY.ERROR);
     }
+    
+    await BFS(dog);
 
     /* Get dog's ancestry */
     dog = await getAncestry(dog);
     setSelectedDog(dog);
+
   };
 
   /* Recursively get ancestry of a dog. We will want to implement pagination on this later. */
   const getAncestry = async (dog) => {
     /* Create a new array to store the ancestors as a list rather than a tree */
-    const ancestors = [];
-
     let dam = 0;
     if (Number(dog.dam) !== 0) {
       dam = await contracts.dogAncestry.methods.getDog(dog.dam).call();
-      ancestors.push(dam);
       dam = await getAncestry(dam);
     }
 
     let sire = 0;
     if (Number(dog.sire) !== 0) {
       sire = await contracts.dogAncestry.methods.getDog(dog.sire).call();
-      ancestors.push(sire);
       sire = await getAncestry(sire);
     }
-
-    // console.log(ancestors)
-    dogs.concat(ancestors);
 
     return {
       ...dog,
@@ -77,6 +70,63 @@ function SearchResult(props) {
       sire,
     };
   };
+
+  async function BFS(root) {
+    // Create a Queue and add our initial node in it
+    let found = [];
+    let q = new Queue();
+    let explored = new Set();
+    q.enqueue(root);
+
+    // Mark the first node as explored explored.
+    explored.add(root.microchipNumber);
+
+    // We'll continue till our queue gets empty
+    while (!q.isEmpty()) {
+      let t = q.dequeue();
+
+      // Push each node to the found list before processing.
+      found.push(t);
+
+      // 1. In the edges object, we search for nodes this node is directly connected to.
+      // 2. We filter out the nodes that have already been explored.
+      // 3. Then we mark each unexplored node as explored and add it to the queue.
+      let neighbours = t.offspring;
+      if (t.dam != 0) neighbours.push(t.dam);
+      if (t.sire != 0) neighbours.push(t.sire);
+
+      neighbours = neighbours.filter((n) => !explored.has(n));
+      await asyncForEach(neighbours, async (n) => {
+        let dog = await contracts.dogAncestry.methods.getDog(n).call();
+        explored.add(dog.microchipNumber);
+        q.enqueue(dog);
+      });
+    }
+    setDogs(found);
+  }
+
+  async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+    }
+  }
+
+  function stripDogs() {
+    return dogs.map((d) => {
+      let parentIds = [];
+      if (d.dam != 0) {
+        parentIds.push(d.dam);
+      }
+      if (d.sire != 0) {
+        parentIds.push(d.sire);
+      }
+      return {
+        id: d.microchipNumber,
+        parentIds,
+        isRoot: d.microchipNumber == selectedDog.microchipNumber,
+      };
+    });
+  }
 
   const updateDog = async () => {
     /* Get the dog structure from the blockchain using our custom method */
@@ -108,18 +158,13 @@ function SearchResult(props) {
     }
   }, [selectedDog]);
 
-  /* When the selected dog changes we need to recompute genealogy data */
-  useEffect(() => {
-    console.log(dogs);
-  }, [dogs]);
-
-  console.log(dogs)
-
   return (
     <>
       <div className={styles.pageContent}>
         {!!selectedDog || <DogLoader />}
-        {selectedDog && <AncestryGraph data={dogToTree(selectedDog)} />}
+        {selectedDog && dogs.length != 0 && (
+          <AncestryGraph data={stripDogs()} />
+        )}
         <Padder width={theme.spacing(4)} />
         {genealogy && <DogCard data={genealogy} />}
       </div>
