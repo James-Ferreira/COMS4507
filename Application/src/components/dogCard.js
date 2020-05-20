@@ -17,6 +17,8 @@ import {
   Divider,
   useMediaQuery,
   useTheme,
+  List,
+  ListItemText,
 } from "@material-ui/core";
 
 import clsx from "clsx";
@@ -82,14 +84,13 @@ const DogCard = (props) => {
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          dog.isBitch ? (
-            <Avatar variant="rounded" style={{ backgroundColor: "#d8b2db" }}>
-              <FaVenus />
+        avatar={(dog.isBitch) ?
+            <Avatar variant="rounded" style={{backgroundColor: "#d8b2db"}}>
+              <FaVenus size="1.25em"/> 
             </Avatar>
-          ) : (
-            <Avatar variant="rounded" style={{ backgroundColor: "#99acc9" }}>
-              <FaMars />
+          :
+            <Avatar variant="rounded" style={{backgroundColor: "#99acc9"}}>
+              <FaMars size="1.25em"/> 
             </Avatar>
           )
         }
@@ -100,22 +101,22 @@ const DogCard = (props) => {
 
       {/*-- BASIC INFO -- */}
       <CardContent>
-        <Typography variant="body2" className={classes.info}>
-          <strong>SEX: </strong> {dog.isBitch ? "F" : "M"}
-          <br />
-          <strong>DOB: </strong> {moment.unix(dog.dob).format("DD/MM/YYYY")}{" "}
-          <br />
-          <strong>SIRE: </strong>
-          {dog.sire !== 0
-            ? `${dog.sire.name} (${dog.sire.microchipNumber})`
-            : "Unknown"}
-          <br />
-          <strong>DAM: </strong>
-          {dog.dam !== 0
-            ? `${dog.dam.name} (${dog.dam.microchipNumber})`
-            : "Unknown"}
-          <br />
-        </Typography>
+          <List>
+            <ListItemText>
+              <strong>DOB: </strong> {moment.unix(dog.dob).format("DD/MM/YYYY")}
+            </ListItemText>
+            <ListItemText>
+              <strong>DAM: </strong> {(dog.dam !== 0) ? 
+              `${dog.dam.name} (${dog.dam.microchipNumber})` 
+              : "Unknown"}
+            </ListItemText>
+            <ListItemText>
+              <strong>SIRE: </strong> {(dog.sire !== 0) ? 
+              `${dog.sire.name} (${dog.sire.microchipNumber})` 
+              : "Unknown"}
+            </ListItemText>
+
+          </List>
       </CardContent>
 
       <Divider />
