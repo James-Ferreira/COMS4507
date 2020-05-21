@@ -110,13 +110,7 @@ function Home() {
                 subheader={`ID: (${dog.microchipNumber})`}
               />
 
-              {/*-- BASIC INFO -- */}
               <CardContent>
-                <List>
-                  <ListItemText>
-                    <strong>DOB: </strong> {moment.unix(dog.dob).format("DD/MM/YYYY")}
-                  </ListItemText>
-                </List>
                 <center>
                   <RoutedButton
                     to={`/dogs/${dog.microchipNumber}`}
@@ -277,6 +271,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   dogCard: {
+    width: "15em",
   },
 
   infoCard : {
