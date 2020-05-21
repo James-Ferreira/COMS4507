@@ -15,7 +15,7 @@ contract DogAncestry {
         /* REGISTRY INFORMATION */
         address registerer; //the vet responsible for registering this dog
         uint256 microchipNumber; // this dog's microchip number
-        string breederId; // optional
+        string breederId; // the id of this dog's breeder
 
 
         /* ANCESTRY INFORMATION */
@@ -27,10 +27,8 @@ contract DogAncestry {
         string name;
         bool isBitch; // the dog's sex TRUE = FEMALE, FALSE = MALE
         string breed; // the dog's primary breed
-        uint256 dob;
+        uint256 dob; // the dog's date of birth
         string[] colors; // in order of precedence
-        //bool isDobApproximated;
-
 
         /* RECORD INFORMATION */
         Record[] medicals; // list of relevant medical records, e.g. vaccinations
@@ -134,6 +132,9 @@ contract DogAncestry {
         dogs[microchipNumber].dob = dob;
         dogs[microchipNumber].dam = dam;
         dogs[microchipNumber].sire = sire;
+
+        // initialise optional fields to zero for now
+        dogs[microchipNumber].breederId = "";
 
         // let's also update the parents
         if (dam != 0) {
