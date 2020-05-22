@@ -18,12 +18,15 @@ import Ethereum from "../state/ethereum";
 import { computeGenealogy } from "../util/genealogy";
 import Queue from "../util/Queue";
 
+import { computeUnions } from "../util/processDogList";
+
 function SearchResult(props) {
   const theme = useTheme();
   const styles = useStyles();
   const { contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
   const [selectedDog, setSelectedDog] = useState(null); // The selected dog for generating the ancestry tree.
   const [dogs, setDogs] = useState([]); // A DAG of all dogs that can be reached from the selected dog.
+  const [familyTreeData, setFamilyTreeData] = useState(null); // A DAG of all dogs that can be reached from the selected dog.
   const [genealogy, setGenealogy] = useState(null); // The selected dog for generating the ancestry tree.
   const alert = useAlert(); // Snackbar alert
   const location = useLocation();
@@ -35,18 +38,17 @@ function SearchResult(props) {
   const fetchDog = async () => {
     /* Get the dog structure from the blockchain using our custom method */
     let dog = await contracts.dogAncestry.methods.getDog(search).call();
-    
+
     /* Basic error handling */
     if (Number(dog.microchipNumber) === 0) {
       return alert.show("Dog not registered.", SEVERITY.ERROR);
     }
-    
+
     await BFS(dog);
 
     /* Get dog's ancestry */
     dog = await getAncestry(dog);
     setSelectedDog(dog);
-
   };
 
   /* Recursively get ancestry of a dog. We will want to implement pagination on this later. */
@@ -158,13 +160,21 @@ function SearchResult(props) {
     }
   }, [selectedDog]);
 
+  useEffect(() => {
+    if (!dogs || !selectedDog) {
+      return;
+    }
+
+    const data = computeUnions(dogs);
+    data.start = selectedDog.microchipNumber;
+    setFamilyTreeData(data);
+  }, [dogs, selectedDog]);
+
   return (
     <>
       <div className={styles.pageContent}>
         {!!selectedDog || <DogLoader />}
-        {selectedDog && dogs.length !== 0 && (
-          <AncestryGraph data={stripDogs()} />
-        )}
+        {familyTreeData && <AncestryGraph data={familyTreeData} />}
         <Padder width={theme.spacing(4)} />
         {genealogy && <DogCard data={genealogy} />}
       </div>
