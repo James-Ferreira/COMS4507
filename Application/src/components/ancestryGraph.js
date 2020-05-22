@@ -67,7 +67,7 @@ const AncestryGraph = (props) => {
     // helper variables
     let i = 0,
       duration = 750,
-      x_sep = 140,
+      x_sep = 70,
       y_sep = 30;
 
     // declare a dag layout
