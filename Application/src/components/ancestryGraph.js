@@ -1,12 +1,12 @@
 /**
  * A card for displaying the ancestry graph.
- * 
+ *
  * A significant portion of this code was sourced from
  * Benjamin Portner's js_family_tree git repository found at
  * https://github.com/BenPortner/js_family_tree/
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as d3_base from "d3";
 import * as d3_dag from "d3-dag";
 import { event as d3Event } from "d3-selection"; // the order of this import matters for some reason
@@ -29,7 +29,7 @@ const AncestryGraph = (props) => {
     // extend javascript array class by a remove function
     // copied from https://stackoverflow.com/a/3955096/12267732
     Array.prototype.remove = function () {
-      var what,
+      let what,
         a = arguments,
         L = a.length,
         ax;
@@ -43,16 +43,16 @@ const AncestryGraph = (props) => {
     };
 
     // mark unions
-    for (var k in data.unions) {
+    for (let k in data.unions) {
       data.unions[k].isUnion = true;
     }
     // mark persons
-    for (var k in data.persons) {
+    for (let k in data.persons) {
       data.persons[k].isUnion = false;
     }
 
     // initialize panning, zooming
-    var zoom = d3
+    let zoom = d3
       .zoom()
       .on("zoom", (_) => g.attr("transform", d3Event.transform));
 
@@ -65,13 +65,13 @@ const AncestryGraph = (props) => {
     const g = svg.append("g");
 
     // helper variables
-    var i = 0,
+    let i = 0,
       duration = 750,
       x_sep = 140,
       y_sep = 30;
 
     // declare a dag layout
-    var tree = d3
+    let tree = d3
       .sugiyama()
       .nodeSize([y_sep, x_sep])
       .layering(d3.layeringSimplex())
@@ -85,7 +85,7 @@ const AncestryGraph = (props) => {
     let dag = d3.dagConnect()(data.links);
 
     // prepare node data
-    var all_nodes = dag.descendants();
+    let all_nodes = dag.descendants();
     all_nodes.forEach((n) => {
       n.data = data.persons[n.id] ? data.persons[n.id] : data.unions[n.id];
       n._children = n.children; // all nodes collapsed by default
@@ -113,7 +113,7 @@ const AncestryGraph = (props) => {
     // collapse a node
     function collapse(d) {
       // remove root nodes and circle-connections
-      var remove_inserted_root_nodes = (n) => {
+      let remove_inserted_root_nodes = (n) => {
         // remove all inserted root nodes
         dag.children = dag.children.filter(
           (c) => !n.inserted_roots.includes(c)
@@ -133,7 +133,7 @@ const AncestryGraph = (props) => {
       remove_inserted_root_nodes(d);
 
       // collapse neighbors which are visible and have been inserted by this node
-      var vis_inserted_neighbors = d.neighbors.filter(
+      let vis_inserted_neighbors = d.neighbors.filter(
         (n) => n.visible & d.inserted_nodes.includes(n)
       );
       vis_inserted_neighbors.forEach((n) => {
@@ -165,7 +165,7 @@ const AncestryGraph = (props) => {
       // neighbor nodes that are already visible (happens when
       // circles occur): make connections, save them to
       // destroy / rebuild on collapse
-      var extended_neighbors = d.neighbors.filter((n) => n.visible);
+      let extended_neighbors = d.neighbors.filter((n) => n.visible);
       extended_neighbors.forEach((n) => {
         // if child, make connection
         if (d._children.includes(n)) {
@@ -179,7 +179,7 @@ const AncestryGraph = (props) => {
 
       // neighbor nodes that are invisible: make visible, make connections,
       // add root nodes, add to inserted_nodes
-      var collapsed_neighbors = d.neighbors.filter((n) => !n.visible);
+      let collapsed_neighbors = d.neighbors.filter((n) => !n.visible);
       collapsed_neighbors.forEach((n) => {
         // collect neighbor data
         n.neighbors = getNeighbors(n);
@@ -209,7 +209,7 @@ const AncestryGraph = (props) => {
 
       // make sure this step is done only once
       if (!make_roots) {
-        var add_root_nodes = (n) => {
+        let add_root_nodes = (n) => {
           // add previously inserted root nodes (partners, parents)
           n.inserted_roots.forEach((p) => dag.children.push(p));
           // add previously inserted connections (circles)
@@ -243,35 +243,22 @@ const AncestryGraph = (props) => {
     function getParentUnions(node) {
       if (node == undefined) return [];
       if (node.data.isUnion) return [];
-      var u_id = node.data.parent_union;
+      let u_id = node.data.parent_union;
       if (u_id) {
-        var union = all_nodes.find((n) => n.id == u_id);
+        let union = all_nodes.find((n) => n.id == u_id);
         return [union].filter((u) => u != undefined);
       } else return [];
     }
 
-    function getParents(node) {
-      var parents = [];
-      if (node.data.isUnion) {
-        node.data.partner.forEach((p_id) =>
-          parents.push(all_nodes.find((n) => n.id == p_id))
-        );
-      } else {
-        var parent_unions = getParentUnions(node);
-        parent_unions.forEach((u) => (parents = parents.concat(getParents(u))));
-      }
-      return parents.filter((p) => p != undefined);
-    }
-
     function getOtherPartner(node, union_data) {
-      var partner_id = union_data.partner.find(
+      let partner_id = union_data.partner.find(
         (p_id) => (p_id != node.id) & (p_id != undefined)
       );
       return all_nodes.find((n) => n.id == partner_id);
     }
 
     function getPartners(node) {
-      var partners = [];
+      let partners = [];
       // return both partners if node argument is a union
       if (node.data.isUnion) {
         node.data.partner.forEach((p_id) =>
@@ -280,7 +267,7 @@ const AncestryGraph = (props) => {
       }
       // return other partner of all unions if node argument is a person
       else {
-        var own_unions = getOwnUnions(node);
+        let own_unions = getOwnUnions(node);
         own_unions.forEach((u) => {
           partners.push(getOtherPartner(node, u.data));
         });
@@ -298,7 +285,7 @@ const AncestryGraph = (props) => {
     }
 
     function getChildren(node) {
-      var children = [];
+      let children = [];
       if (node.data.isUnion) {
         children = node.children.concat(node._children);
       } else {
@@ -318,42 +305,21 @@ const AncestryGraph = (props) => {
       return new Date(node.data.birth_date || NaN).getFullYear();
     }
 
-    function find_path(n) {
-      var parents = getParents(n);
-      var found = false;
-      var result = null;
-      parents.forEach((p) => {
-        if (p && !found) {
-          if (p.id == "profile-89285291") {
-            found = true;
-            result = [p, n];
-          } else {
-            result = find_path(p);
-            if (result) {
-              found = true;
-              result.push(n);
-            }
-          }
-        }
-      });
-      return result;
-    }
-
     function update(source) {
       // Assigns the x and y position for the nodes
-      var dag_tree = tree(dag),
-        nodes = dag.descendants(),
+      tree(dag);
+      let nodes = dag.descendants(),
         links = dag.links();
 
       // ****************** Nodes section ***************************
 
       // Update the nodes...
-      var node = g.selectAll("g.node").data(nodes, function (d) {
+      let node = g.selectAll("g.node").data(nodes, function (d) {
         return d.id || (d.id = ++i);
       });
 
       // Enter any new nodes at the parent's previous position.
-      var nodeEnter = node
+      let nodeEnter = node
         .enter()
         .append("g")
         .attr("class", "node")
@@ -392,7 +358,7 @@ const AncestryGraph = (props) => {
         .text((d) => d.data.microchipNumber);
 
       // UPDATE
-      var nodeUpdate = nodeEnter.merge(node);
+      let nodeUpdate = nodeEnter.merge(node);
 
       // Transition to the proper position for the node
       nodeUpdate
@@ -412,7 +378,7 @@ const AncestryGraph = (props) => {
         .attr("cursor", "pointer");
 
       // Remove any exiting nodes
-      var nodeExit = node
+      let nodeExit = node
         .exit()
         .transition()
         .duration(duration)
@@ -431,12 +397,12 @@ const AncestryGraph = (props) => {
       // ****************** links section ***************************
 
       // Update the links...
-      var link = g.selectAll("path.link").data(links, function (d) {
+      let link = g.selectAll("path.link").data(links, function (d) {
         return d.source.id + d.target.id;
       });
 
       // Enter any new links at the parent's previous position.
-      var linkEnter = link
+      let linkEnter = link
         .enter()
         .insert("path", "g")
         .attr("class", "link")
@@ -444,12 +410,12 @@ const AncestryGraph = (props) => {
         .attr("stroke", "#ccc")
         .attr("stroke-width", 2)
         .attr("d", function (d) {
-          var o = { x: source.x0, y: source.y0 };
+          let o = { x: source.x0, y: source.y0 };
           return diagonal(o, o);
         });
 
       // UPDATE
-      var linkUpdate = linkEnter.merge(link);
+      let linkUpdate = linkEnter.merge(link);
 
       // Transition back to the parent element position
       linkUpdate
@@ -458,12 +424,12 @@ const AncestryGraph = (props) => {
         .attr("d", (d) => diagonal(d.source, d.target));
 
       // Remove any exiting links
-      var linkExit = link
+      link
         .exit()
         .transition()
         .duration(duration)
         .attr("d", function (d) {
-          var o = { x: source.x, y: source.y };
+          let o = { x: source.x, y: source.y };
           return diagonal(o, o);
         })
         .remove();
