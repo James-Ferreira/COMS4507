@@ -157,8 +157,8 @@ const DogCard = (props) => {
               />
             </div>
 
-            <div id="legend-wrapper">
-              <div id="test">
+            <div id="legend-wrapper"  style={{display: "flex"}}>
+              <div style={{alignSelf: "center"}}>
                 <DiscreteColorLegend
                   items={breedData.map((x) => x.label + " [" + x.angle + "%]")}
                   colors={breedData.map((x) => x.color)}
