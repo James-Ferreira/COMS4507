@@ -1,3 +1,11 @@
+/**
+ * A card for displaying the ancestry graph.
+ * 
+ * A significant portion of this code was sourced from
+ * Benjamin Portner's js_family_tree git repository found at
+ * https://github.com/BenPortner/js_family_tree/
+ */
+
 import React, { useEffect, useState } from "react";
 import * as d3_base from "d3";
 import * as d3_dag from "d3-dag";
