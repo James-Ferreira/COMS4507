@@ -2,7 +2,7 @@
  * Main application page.
  */
 
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import {
   makeStyles,
@@ -11,7 +11,18 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  CardHeader,
+  Avatar,
+  List,
+  ListItemText
 } from "@material-ui/core";
+
+
+import moment from 'moment';
+
+import Ethereum from "../state/ethereum";
+
+import RoutedButton from "../components/routedButton";
 
 import Padder from "../components/padder";
 import DogSearchBar from "../components/dogSearchBar";
@@ -23,18 +34,96 @@ import {
   FaDna, 
   FaUserMd,
   FaTrophy,
+  FaVenus,
+  FaMars,
 } from "react-icons/fa";
-
-
+import { useHistory } from "react-router-dom";
 
 function Home() {
   const theme = useTheme();
   const styles = useStyles();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
+  const history = useHistory();
+
+  const { contracts, account } = Ethereum.useContainer();
+
+  const [ latestDogs, setLatestDogs ] = useState([]);
+  let allDogs = [...latestDogs];
+  let initTimeout;
+  
+  const catchDogRegistration = async (event) => {
+    // fetch the dog 
+    let newDog = await contracts.dogAncestry.methods.getDog(event.returnValues.dogId).call();
+    
+    allDogs.push(newDog);
+
+    if (initTimeout) window.clearTimeout(initTimeout);
+    
+    initTimeout = window.setTimeout(() => {
+      console.log("updating");
+      
+      let latest6 = []
+      for (var i = 0; i < 6 && i < allDogs.length; i++) {
+        latest6.push(allDogs[allDogs.length - 1 - i]);
+      }
+      setLatestDogs(latest6);
+    }, 500);
+  }
+
+  useEffect(() => {
+    // listen for the event
+    contracts.dogAncestry.events.DogRegistered({
+      fromBlock: 0
+      }, function(error, event){
+        catchDogRegistration(event)
+      }
+    )
+  }, []);
+
+  useEffect(() => {
+    console.log(latestDogs);
+  }, [latestDogs]);
+
   if (isNotMobile) {
     return (
       <div className={styles.landingWrapper}>
+
+
+        <div className={styles.cardsWrapper}>
+          {latestDogs && latestDogs.map(dog => (
+            <Card className={styles.dogCard}>
+              <CardHeader
+                avatar={
+                  dog.isBitch ? (
+                    <Avatar variant="rounded" style={{ backgroundColor: "#d8b2db" }}>
+                      <FaVenus size="1.25em" />
+                    </Avatar>
+                  ) : (
+                    <Avatar variant="rounded" style={{ backgroundColor: "#99acc9" }}>
+                      <FaMars size="1.25em" />
+                    </Avatar>
+                  )
+                }
+                title={`${dog.name}`}
+                titleTypographyProps={{ variant: "h6" }}
+                subheader={`ID: (${dog.microchipNumber})`}
+              />
+
+              <CardContent>
+                <center>
+                  <RoutedButton
+                    to={`/dogs/${dog.microchipNumber}`}
+                    variant="outlined"
+                    color="secondary"
+                  >
+                    View
+                  </RoutedButton>
+                </center>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
         <div className={styles.titleWrapper}>
           <div className={styles.titleTextWrapper}>
@@ -50,7 +139,7 @@ function Home() {
             </Typography>
 
             <DogSearchBar />
-
+            
           </div>
 
         </div>
@@ -138,6 +227,9 @@ function Home() {
           </Card>
 
         </div>
+
+        
+
       </div>
 
     );
@@ -176,6 +268,10 @@ const useStyles = makeStyles((theme) => ({
   cardImg: {
     color: theme.palette.secondary.dark,
     size: "5em",
+  },
+
+  dogCard: {
+    width: "15em",
   },
 
   infoCard : {
