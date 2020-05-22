@@ -89,49 +89,13 @@ function Home() {
     return (
       <div className={styles.landingWrapper}>
 
-
-        <div className={styles.cardsWrapper}>
-          {latestDogs && latestDogs.map(dog => (
-            <Card className={styles.dogCard}>
-              <CardHeader
-                avatar={
-                  dog.isBitch ? (
-                    <Avatar variant="rounded" style={{ backgroundColor: "#d8b2db" }}>
-                      <FaVenus size="1.25em" />
-                    </Avatar>
-                  ) : (
-                    <Avatar variant="rounded" style={{ backgroundColor: "#99acc9" }}>
-                      <FaMars size="1.25em" />
-                    </Avatar>
-                  )
-                }
-                title={`${dog.name}`}
-                titleTypographyProps={{ variant: "h6" }}
-                subheader={`ID: (${dog.microchipNumber})`}
-              />
-
-              <CardContent>
-                <center>
-                  <RoutedButton
-                    to={`/dogs/${dog.microchipNumber}`}
-                    variant="outlined"
-                    color="secondary"
-                  >
-                    View
-                  </RoutedButton>
-                </center>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
         <div className={styles.titleWrapper}>
           <div className={styles.titleTextWrapper}>
-            <Typography variant="h1" style={{color: theme.palette.secondary.light}}> 
+            <Typography variant="h2" style={{color: theme.palette.primary.light}}> 
               BarkChain 
             </Typography>
 
-            <Typography variant="body1" style={{color: theme.palette.secondary.light}}>
+            <Typography variant="body1" style={{color: theme.palette.primary.light}}>
               <strong>BarkChain</strong> is an Ethereum-based dog pedigree
               system designed to  increase the transparency of a dog’s lineage
               and medical history through Blockchain technology.
@@ -203,9 +167,7 @@ function Home() {
               <Padder height={theme.spacing(2)} />
               <Typography variant="body2">
                 Storing medical information on the public Barkchain prevents
-                breeders witholding pertinent medical information from a 
-                potential buyer and may expediate the process of medical 
-                diagnosis
+                breeders witholding pertinent medical information.
               </Typography>
             </CardContent>
           </Card>
@@ -228,6 +190,40 @@ function Home() {
 
         </div>
 
+        <div className={styles.cardsWrapper}>
+          {latestDogs && latestDogs.map(dog => (
+            <Card className={styles.dogCard}>
+              <CardHeader
+                avatar={
+                  dog.isBitch ? (
+                    <Avatar variant="rounded" style={{ backgroundColor: "#d8b2db" }}>
+                      <FaVenus size="1.25em" />
+                    </Avatar>
+                  ) : (
+                    <Avatar variant="rounded" style={{ backgroundColor: "#99acc9" }}>
+                      <FaMars size="1.25em" />
+                    </Avatar>
+                  )
+                }
+                title={`${dog.name}`}
+                titleTypographyProps={{ variant: "h6" }}
+                subheader={`ID: (${dog.microchipNumber})`}
+              />
+
+              <CardContent>
+                <center>
+                  <RoutedButton
+                    to={`/dogs/${dog.microchipNumber}`}
+                    variant="outlined"
+                    color="secondary"
+                  >
+                    View
+                  </RoutedButton>
+                </center>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
         
 
       </div>
