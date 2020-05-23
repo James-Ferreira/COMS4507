@@ -6,6 +6,8 @@ import {
   Button,
   TextField,
   Typography,
+  MenuItem,
+  Select
 } from "@material-ui/core";
 import moment from "moment";
 import Padder from "../components/padder";
@@ -20,9 +22,12 @@ const CreateRecord = (props) => {
   const { contracts, account } = Ethereum.useContainer();
   const alert = useAlert();
 
+  const allowedRecordTypes = ["vaccination", "award", "genetic-condition", "other"];
+
   const form = useForm(
     {
       microchipNumber: props.match.params.microchipnumber,
+      recordType: "unset",
       date: "",
       title: "",
       details: "",
@@ -38,6 +43,11 @@ const CreateRecord = (props) => {
       }
       if (data.details === "") {
         alert.show("Please enter some details", SEVERITY.ERROR);
+        return false;
+      }
+      console.log(data.recordType);
+      if (!allowedRecordTypes.includes(data.recordType)) {
+        alert.show("Please select a record type", SEVERITY.ERROR);
         return false;
       }
       return true;
@@ -67,6 +77,20 @@ const CreateRecord = (props) => {
   return (
     <div className={styles.root}>
       <Typography variant="h4">Create Record</Typography>
+      <Padder height={theme.spacing(3)} />
+      <Select
+        margin="dense"
+        align="left"
+        type="text"
+        value={form.recordType}
+        onChange={(e) => form.set("recordType", e.target.value)}
+      >
+        <MenuItem value="unset">Select Record Type</MenuItem>
+        <MenuItem value="vaccination">Vaccination</MenuItem>
+        <MenuItem value="genetic-condition">Genetic Condition</MenuItem>
+        <MenuItem value="award">Award</MenuItem>
+        <MenuItem value="other">Other</MenuItem>
+      </Select>
       <TextField
         margin="dense"
         label="Date Applicable"
