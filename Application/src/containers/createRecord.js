@@ -28,15 +28,15 @@ const CreateRecord = (props) => {
       details: "",
     },
     function verifier(data) {
-      if (form.date === "") {
+      if (data.date === "") {
         alert.show("Please enter a date", SEVERITY.ERROR);
         return false;
       }
-      if (form.title === "") {
+      if (data.title === "") {
         alert.show("Please enter a title", SEVERITY.ERROR);
         return false;
       }
-      if (form.details === "") {
+      if (data.details === "") {
         alert.show("Please enter some details", SEVERITY.ERROR);
         return false;
       }

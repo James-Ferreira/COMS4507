@@ -13,12 +13,7 @@ import {
   useTheme,
   CardHeader,
   Avatar,
-  List,
-  ListItemText
 } from "@material-ui/core";
-
-
-import moment from 'moment';
 
 import Ethereum from "../state/ethereum";
 
@@ -37,16 +32,13 @@ import {
   FaVenus,
   FaMars,
 } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
 
 function Home() {
   const theme = useTheme();
   const styles = useStyles();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
-  const history = useHistory();
-
-  const { contracts, account } = Ethereum.useContainer();
+  const { contracts } = Ethereum.useContainer();
 
   const [ latestDogs, setLatestDogs ] = useState([]);
   let allDogs = [...latestDogs];
@@ -80,10 +72,6 @@ function Home() {
       }
     )
   }, []);
-
-  useEffect(() => {
-    console.log(latestDogs);
-  }, [latestDogs]);
 
   if (isNotMobile) {
     return (
@@ -190,9 +178,9 @@ function Home() {
 
         </div>
 
-        <div className={styles.cardsWrapper}>
+        <div className={styles.dogCardsContainer}><div className={styles.dogCardsWrapper}>
           {latestDogs && latestDogs.map(dog => (
-            <Card className={styles.dogCard}>
+            <Card className={styles.dogCard} key={dog.microchipNumber}>
               <CardHeader
                 avatar={
                   dog.isBitch ? (
@@ -214,8 +202,8 @@ function Home() {
                 <center>
                   <RoutedButton
                     to={`/dogs/${dog.microchipNumber}`}
-                    variant="outlined"
-                    color="secondary"
+                    variant="contained"
+                    color="primary"
                   >
                     View
                   </RoutedButton>
@@ -223,7 +211,7 @@ function Home() {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </div></div>
         
 
       </div>
@@ -237,6 +225,9 @@ function Home() {
 const useStyles = makeStyles((theme) => ({
 
   landingWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "calc(100vh - 64px)"
   },
 
   titleWrapper: {
@@ -259,6 +250,27 @@ const useStyles = makeStyles((theme) => ({
     padding: "2em",
     display: "flex",
     justifyContent: "space-evenly",
+    alignItems: "center",
+    flexWrap: "wrap",
+    flexGrow: "1",
+  },
+
+  dogCardsContainer: {
+    overflowX: "auto",
+    backgroundColor: theme.palette.primary.main,
+    //boxShadow: "inset 0px 0px 8px #00000055",
+    padding: "2em 0",
+    width: "100vw"
+  },
+
+  dogCardsWrapper: {
+    display: "flex",
+    justifyContent: "space-evenly",
+    boxShadow: "inset 0px 0px 8px #00000055",
+    backgroundColor: "#00000022",
+    width: "max-content",
+    padding: "0 1em",
+    minWidth: "calc(100vw - 2em)"
   },
 
   cardImg: {
@@ -268,6 +280,15 @@ const useStyles = makeStyles((theme) => ({
 
   dogCard: {
     width: "15em",
+    minWidth: "15em",
+    maxWidth: "15em",
+    margin: "0 1em",    
+    backgroundColor: theme.palette.secondary.main,
+    transform: "scale(0.9)",
+    transition: "transform 0.1s ease",
+    '&:hover': {
+      transform: "scale(1.1)"
+    }
   },
 
   infoCard : {
