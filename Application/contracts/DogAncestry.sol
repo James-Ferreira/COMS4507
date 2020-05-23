@@ -27,7 +27,7 @@ contract DogAncestry {
         bool isBitch; // the dog's sex: TRUE = FEMALE, FALSE = MALE
         string breed; // the dog's primary breed
         uint256 dob; // the dog's date of birth
-        bytes32[] colours; // the dogs primary physical colours, in order of precedence
+        string[] colours; // the dogs primary physical colours, in order of precedence
 
         /* RECORD INFORMATION */
         Record[] medicals; // list of relevant medical records, e.g. vaccinations
@@ -38,7 +38,7 @@ contract DogAncestry {
     event DogRegistered(uint256 dogId);
     event NewRecord(uint256 dogId, uint256 recordNum);
 
-    bytes32[] setUpColours; // TODO: delete me
+    string[] setUpColours; // TODO: delete me
 
     // A special function only run during the creation of the contract
     constructor() public {
@@ -81,7 +81,7 @@ contract DogAncestry {
         bool isBitch, //1 = female, 0 = male
         string memory breed,
         uint256 dob,
-        bytes32[] memory colours,
+        string[] memory colours,
 
         /* Ancestry Information */
         uint256 dam,

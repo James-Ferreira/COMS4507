@@ -19,8 +19,6 @@ import Ethereum from "../state/ethereum";
 import useForm from "../hooks/useForm";
 import { useAlert, SEVERITY } from "../hooks/useAlert";
 
-import Web3 from "web3"; // Web3 for interaction with Ethereum
-
 import { GrClose } from "react-icons/gr";
 
 const Register = (props) => {
@@ -79,25 +77,16 @@ const Register = (props) => {
         return false;
       }
 
-      // we also need to make sure that none of the colours are longer than 32 characters
-      // since we are going to store each one in a byte32
-      for (let colour of data.colours) if (colour.length >= 32) {
-        alert.show(`Please keep colours no more than 32 characters. ${colour} is too long`, SEVERITY.ERROR);
-        return false;
-      }
-
       return true;
 
     },
     async function submitter(data) {
-      let hexColours = data.colours.map(colour => Web3.utils.asciiToHex(colour));
       const transformed = {
         ...data,
         dob: moment(data.dob).startOf("day").unix(),
         isBitch: Number(data.isBitch) === 1 ? true : false,
         sire: data.sire ? data.sire : 0,
         dam: data.dam ? data.dam : 0,
-        colours: hexColours
       };
       console.log(Object.values(transformed));
       try {
