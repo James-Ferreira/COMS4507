@@ -13,12 +13,7 @@ import {
   useTheme,
   CardHeader,
   Avatar,
-  List,
-  ListItemText
 } from "@material-ui/core";
-
-
-import moment from 'moment';
 
 import Ethereum from "../state/ethereum";
 
@@ -37,16 +32,13 @@ import {
   FaVenus,
   FaMars,
 } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
 
 function Home() {
   const theme = useTheme();
   const styles = useStyles();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
-  const history = useHistory();
-
-  const { contracts, account } = Ethereum.useContainer();
+  const { contracts } = Ethereum.useContainer();
 
   const [ latestDogs, setLatestDogs ] = useState([]);
   let allDogs = [...latestDogs];
@@ -80,10 +72,6 @@ function Home() {
       }
     )
   }, []);
-
-  useEffect(() => {
-    console.log(latestDogs);
-  }, [latestDogs]);
 
   if (isNotMobile) {
     return (

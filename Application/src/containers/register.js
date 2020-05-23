@@ -29,20 +29,57 @@ const Register = (props) => {
   const form = useForm(
     {
       microchipNumber: "",
+      breederId: "",
       name: "",
-      isBitch: false,
+      isBitch: -1,
       breed: "",
       dob: "",
       dam: "",
       sire: "",
     },
     function verifier(data) {
+      if (!data.microchipNumber || data.microchipNumber <= 0) {
+        alert.show("Microchip Number must be greater than 0", SEVERITY.ERROR);
+        return false;
+      }
+      if (data.breederId === "") {
+        // do nothing for now, as this is an optional field.
+      }
+      if (data.name === "") {
+        alert.show("Please enter a name.", SEVERITY.ERROR);
+        return false;
+      }
+      if (Number(data.isBitch) !== 1 && Number(data.isBitch) !== 0) {
+        alert.show("Please choose a sex.", SEVERITY.ERROR);
+        return false;
+      }
+      if (data.breed === "") {
+        alert.show("Please enter a primary breed.", SEVERITY.ERROR);
+        return false;
+      }
+      if (data.dob === "") {
+        alert.show("Please enter a date of birth", SEVERITY.ERROR);
+        return false;
+      }
+      if (data.dam && data.dam <= 0) {
+        alert.show("Dam's microchip Number must be greater than 0", SEVERITY.ERROR);
+        return false;
+      }
+      if (data.sire && data.sire <= 0) {
+        alert.show("Dam's microchip Number must be greater than 0", SEVERITY.ERROR);
+        return false;
+      }
+
       return true;
+
     },
     async function submitter(data) {
       const transformed = {
         ...data,
         dob: moment(data.dob).startOf("day").unix(),
+        isBitch: Number(data.isBitch) === 1 ? true : false,
+        sire: data.sire ? data.sire : 0,
+        dam: data.dam ? data.dam : 0,
       };
       try {
         await contracts.dogAncestry.methods
@@ -63,7 +100,12 @@ const Register = (props) => {
 
   return (
     <div className={styles.root}>
+
       <Typography variant="h4">Register Dog</Typography>
+
+      <Padder height={theme.spacing(4)} />
+      <Typography variant="h5">Registry Information</Typography>
+
       <TextField
         autoFocus
         margin="dense"
@@ -75,21 +117,35 @@ const Register = (props) => {
       />
       <TextField
         margin="dense"
+        label="Breeder ID"
+        type="text"
+        fullWidth
+        value={form.breederId}
+        onChange={(e) => form.set("breederId", e.target.value)}
+      />
+
+      <Padder height={theme.spacing(4)} />
+      <Typography variant="h5">Dog Information</Typography>
+
+      <TextField
+        margin="dense"
         label="Name"
         type="text"
         fullWidth
         value={form.name}
         onChange={(e) => form.set("name", e.target.value)}
       />
+      <Padder height={theme.spacing(3)} />
       <Select
         margin="dense"
-        label="Gender"
+        align="left"
         type="text"
         value={form.isBitch}
         onChange={(e) => form.set("isBitch", e.target.value)}
       >
-        <MenuItem value={true}>Female</MenuItem>
-        <MenuItem value={false}>Male</MenuItem>
+        <MenuItem value={-1}>Select Gender</MenuItem>
+        <MenuItem value={0}>Female</MenuItem>
+        <MenuItem value={1}>Male</MenuItem>
       </Select>
       <TextField
         margin="dense"
@@ -107,10 +163,13 @@ const Register = (props) => {
           shrink: true,
         }}
         value={form.dob}
-        onChange={(e) =>
-          console.log(e.target.value) || form.set("dob", e.target.value)
+        onChange={(e) => form.set("dob", e.target.value)
         }
       />
+
+      <Padder height={theme.spacing(4)} />
+      <Typography variant="h5">Ancestry Information</Typography>
+
       <TextField
         margin="dense"
         label="Dam's Microchip Number"
@@ -127,11 +186,13 @@ const Register = (props) => {
         value={form.sire}
         onChange={(e) => form.set("sire", e.target.value)}
       />
-      <Padder height={theme.spacing(2)} />
+
+
+      <Padder height={theme.spacing(5)} />
       <Button
         variant="contained"
         color="primary"
-        onClick={() => form.verify() && form.submit()}
+        onClick={async () => await form.verify() && form.submit()}
       >
         Register
       </Button>

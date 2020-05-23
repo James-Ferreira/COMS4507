@@ -13,22 +13,21 @@ contract DogAncestry {
 
     struct Dog {
         /* REGISTRY INFORMATION */
-        address registerer; //the vet responsible for registering this dog
+        address registerer; // the vet responsible for registering this dog
         uint256 microchipNumber; // this dog's microchip number
         string breederId; // the id of this dog's breeder
-
 
         /* ANCESTRY INFORMATION */
         uint256 dam; // mother's microchip number
         uint256 sire; // father's microchip number
-        uint256[] offspring; // offspring's microchip numbers
+        uint256[] offspring; // offsprings' microchip numbers
 
         /* DOG INFORMATION */
-        string name;
-        bool isBitch; // the dog's sex TRUE = FEMALE, FALSE = MALE
+        string name; // the name given to this dog
+        bool isBitch; // the dog's sex: TRUE = FEMALE, FALSE = MALE
         string breed; // the dog's primary breed
         uint256 dob; // the dog's date of birth
-        string[] colors; // in order of precedence
+        string[] colors; // the dogs primary physical colours, in order of precedence
 
         /* RECORD INFORMATION */
         Record[] medicals; // list of relevant medical records, e.g. vaccinations
@@ -44,40 +43,43 @@ contract DogAncestry {
 
         //register format = ID, name, isFemale, Breed, DOB, DAM ID, SIRE ID
 
+        // TODO: remove these at some point before submission.
+
         //[OUTBRED ANCESTOR SUBTREE]
-        registerDog(100, "Jannet", true, "Poodle", 111111111, 0, 0);
-        registerDog(101, "Steve", false, "Husky", 111111111, 0, 0);
-        registerDog(102, "Lindsay", true, "Labrador", 111111111, 0, 0);
-        registerDog(103, "Jim", false,"Labrador", 111111111, 0, 0);
+        registerDog(100, "breeder1", "Jannet", true, "Poodle", 111111111, 0, 0);
+        registerDog(101, "breeder1", "Steve", false, "Husky", 111111111, 0, 0);
+        registerDog(102, "breeder1", "Lindsay", true, "Labrador", 111111111, 0, 0);
+        registerDog(103, "breeder1", "Jim", false,"Labrador", 111111111, 0, 0);
 
-        registerDog(104, "Stevette", true, "Poodle", 222222222, 100, 101);
-        registerDog(105, "Jindsay", false, "Labrador", 222222222, 102, 103);
+        registerDog(104, "breeder2", "Stevette", true, "Poodle", 222222222, 100, 101);
+        registerDog(105, "breeder2", "Jindsay", false, "Labrador", 222222222, 102, 103);
 
-        registerDog(106, "Jindette", false, "Labradoodle", 333333333, 104, 105);
+        registerDog(106, "breeder2", "Jindette", false, "Labradoodle", 333333333, 104, 105);
 
         //[FULL SIBLING INBRED SUBTREE]
-        registerDog(200, "Sarah", true, "Beagle", 111111111, 0, 0);
-        registerDog(201, "Stevay", false, "Husky", 333333333, 104, 105);
-        registerDog(202, "Adele", true, "Labrador", 111111111, 0, 0);
+        registerDog(200, "breeder3", "Sarah", true, "Beagle", 111111111, 0, 0);
+        registerDog(201, "breeder3", "Stevay", false, "Husky", 333333333, 104, 105);
+        registerDog(202, "breeder3", "Adele", true, "Labrador", 111111111, 0, 0);
 
-        registerDog(203, "Sandette", false, "Labrador", 444444444, 200, 201);
-        registerDog(204, "Whitney", true, "Poodle", 444444444, 202, 201);
-        
-        //[DOG WITH RECORDS]
-        // registerDog(205, "Naveah", true, "Labrador", 555555555, 204, 203);
-        // createRecord(205, 123456789, "Record 1", "This is the first record ever!");
-        // createRecord(205, 123456789, "Vaccination", "Doggy went to vet for some vaccinations bruh.");
-        // createRecord(205, 123456789, "Broken Bone", "Poor dag broke a bone :(");
+        registerDog(203, "breeder3", "Sandette", false, "Labrador", 444444444, 200, 201);
+        registerDog(204, "breeder3", "Whitney", true, "Poodle", 444444444, 202, 201);
 
     }
 
     // Register a new dog on the Blockchain.
     function registerDog(
+        /* Registry Information */
         uint256 microchipNumber,
+        string memory breederId,
+
+        /* Dog Information */
         string memory name,
         bool isBitch, //1 = female, 0 = male
         string memory breed,
         uint256 dob,
+        //string[] memory colors,
+
+        /* Ancestry Information */
         uint256 dam,
         uint256 sire
     ) public {
@@ -88,9 +90,9 @@ contract DogAncestry {
         );
 
         require(bytes(name).length != 0, "Name is required");
-        require(bytes(breed).length != 0, "Breed is required"); // we could possible make this a bit more rigorous
+        require(bytes(breed).length != 0, "Breed is required");
 
-        // could check if dam and sire are in the system
+        // We could check if the dam and sire are in the system
         // however, that would imply that they would need to be added to the system first
         // which is probably not desired behaviour.
 
@@ -109,16 +111,16 @@ contract DogAncestry {
             require(dogs[sire].dob < dob, "Date of birth cannot predate sire's date of birth.");
         }
 
-        // we also need to any claims offspring have implied
+        // we also need to check any claims offspring have implied
         for (uint i = 0; i < dogs[microchipNumber].offspring.length; i++) {
             Dog memory offspring = dogs[dogs[microchipNumber].offspring[i]];
 
-            // check that the offspring's DOB is after this dog's
+            // check that the offspring's DOB is after this dog's DOB
             require(dob < offspring.dob, "Date of birth cannot postdate offspring's date of birth.");
 
             if (isBitch) { // if we are registering this dog as a bitch, then its offspring must say that this dog is their dam
                 require(microchipNumber == offspring.dam, "Dog must be a bitch");
-            } else { // vise-versa
+            } else { // vice versa
                 require(microchipNumber == offspring.sire, "Dog cannot be a bitch");
             }
         }
@@ -126,15 +128,13 @@ contract DogAncestry {
         // create our dog!
         dogs[microchipNumber].registerer = msg.sender;
         dogs[microchipNumber].microchipNumber = microchipNumber;
+        dogs[microchipNumber].breederId = breederId;
         dogs[microchipNumber].name = name;
         dogs[microchipNumber].isBitch = isBitch;
         dogs[microchipNumber].breed = breed;
         dogs[microchipNumber].dob = dob;
         dogs[microchipNumber].dam = dam;
         dogs[microchipNumber].sire = sire;
-
-        // initialise optional fields to zero for now
-        dogs[microchipNumber].breederId = "";
 
         // let's also update the parents
         if (dam != 0) {
