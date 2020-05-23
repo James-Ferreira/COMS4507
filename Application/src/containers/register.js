@@ -19,6 +19,10 @@ import Ethereum from "../state/ethereum";
 import useForm from "../hooks/useForm";
 import { useAlert, SEVERITY } from "../hooks/useAlert";
 
+import Web3 from "web3"; // Web3 for interaction with Ethereum
+
+import { GrClose } from "react-icons/gr";
+
 const Register = (props) => {
   const styles = useStyles();
   const theme = useTheme();
@@ -34,6 +38,7 @@ const Register = (props) => {
       isBitch: -1,
       breed: "",
       dob: "",
+      colours: [""],
       dam: "",
       sire: "",
     },
@@ -69,18 +74,32 @@ const Register = (props) => {
         alert.show("Dam's microchip Number must be greater than 0", SEVERITY.ERROR);
         return false;
       }
+      if (data.colours.length === 0 || data.colours.includes("")) {
+        alert.show("Please enter valid colours.", SEVERITY.ERROR);
+        return false;
+      }
+
+      // we also need to make sure that none of the colours are longer than 32 characters
+      // since we are going to store each one in a byte32
+      for (let colour of data.colours) if (colour.length >= 32) {
+        alert.show(`Please keep colours no more than 32 characters. ${colour} is too long`, SEVERITY.ERROR);
+        return false;
+      }
 
       return true;
 
     },
     async function submitter(data) {
+      let hexColours = data.colours.map(colour => Web3.utils.asciiToHex(colour));
       const transformed = {
         ...data,
         dob: moment(data.dob).startOf("day").unix(),
         isBitch: Number(data.isBitch) === 1 ? true : false,
         sire: data.sire ? data.sire : 0,
         dam: data.dam ? data.dam : 0,
+        colours: hexColours
       };
+      console.log(Object.values(transformed));
       try {
         await contracts.dogAncestry.methods
           .registerDog(...Object.values(transformed))
@@ -166,6 +185,50 @@ const Register = (props) => {
         onChange={(e) => form.set("dob", e.target.value)
         }
       />
+      {form.colours.map((colour, index) => (
+        <div key={index} style={{display: "flex"}}>
+          <TextField
+          margin="dense"
+          label={`Colour${form.colours.length === 1 ? "" : (" " + (index + 1))}`}
+          type="text"
+          fullWidth
+          value={colour}
+          onChange={(e) => {
+            form.colours[index] = e.target.value;
+            form.set("colours", [...form.colours])
+          }}
+          
+        />
+        {form.colours.length > 1 &&
+          (<Button
+            variant="text"
+            color="secondary"
+            style={{width: "0.5em", marginLeft: "auto"}}
+            onClick={() => {
+              form.colours.splice(index, 1);
+              form.set("colours", [...form.colours])
+            }}
+          >
+            <GrClose />
+          </Button>)
+        }
+      </div>
+      ))}
+      {!form.colours.includes("") &&
+        (<>
+          <Padder height={theme.spacing(1)} />
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            style={{width: "8em", marginLeft: "auto"}}
+            onClick={() => form.set("colours", form.colours.concat(""))}
+          >
+            Add Colour
+          </Button>
+        </>)
+      }
+
 
       <Padder height={theme.spacing(4)} />
       <Typography variant="h5">Ancestry Information</Typography>

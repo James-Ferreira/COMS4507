@@ -180,7 +180,7 @@ function Home() {
 
         <div className={styles.dogCardsContainer}><div className={styles.dogCardsWrapper}>
           {latestDogs && latestDogs.map(dog => (
-            <Card className={styles.dogCard}>
+            <Card className={styles.dogCard} key={dog.microchipNumber}>
               <CardHeader
                 avatar={
                   dog.isBitch ? (

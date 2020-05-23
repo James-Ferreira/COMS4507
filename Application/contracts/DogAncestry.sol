@@ -27,7 +27,7 @@ contract DogAncestry {
         bool isBitch; // the dog's sex: TRUE = FEMALE, FALSE = MALE
         string breed; // the dog's primary breed
         uint256 dob; // the dog's date of birth
-        string[] colors; // the dogs primary physical colours, in order of precedence
+        bytes32[] colours; // the dogs primary physical colours, in order of precedence
 
         /* RECORD INFORMATION */
         Record[] medicals; // list of relevant medical records, e.g. vaccinations
@@ -38,31 +38,35 @@ contract DogAncestry {
     event DogRegistered(uint256 dogId);
     event NewRecord(uint256 dogId, uint256 recordNum);
 
+    bytes32[] setUpColours; // TODO: delete me
+
     // A special function only run during the creation of the contract
     constructor() public {
 
         //register format = ID, name, isFemale, Breed, DOB, DAM ID, SIRE ID
 
         // TODO: remove these at some point before submission.
+        setUpColours.push("red");
+        setUpColours.push("blue");
 
         //[OUTBRED ANCESTOR SUBTREE]
-        registerDog(100, "breeder1", "Jannet", true, "Poodle", 111111111, 0, 0);
-        registerDog(101, "breeder1", "Steve", false, "Husky", 111111111, 0, 0);
-        registerDog(102, "breeder1", "Lindsay", true, "Labrador", 111111111, 0, 0);
-        registerDog(103, "breeder1", "Jim", false,"Labrador", 111111111, 0, 0);
+        registerDog(100, "breeder1", "Jannet", true, "Poodle", 111111111, setUpColours, 0, 0);
+        registerDog(101, "breeder1", "Steve", false, "Husky", 111111111, setUpColours, 0, 0);
+        registerDog(102, "breeder1", "Lindsay", true, "Labrador", 111111111, setUpColours, 0, 0);
+        registerDog(103, "breeder1", "Jim", false,"Labrador", 111111111, setUpColours, 0, 0);
 
-        registerDog(104, "breeder2", "Stevette", true, "Poodle", 222222222, 100, 101);
-        registerDog(105, "breeder2", "Jindsay", false, "Labrador", 222222222, 102, 103);
+        registerDog(104, "breeder2", "Stevette", true, "Poodle", 222222222, setUpColours, 100, 101);
+        registerDog(105, "breeder2", "Jindsay", false, "Labrador", 222222222, setUpColours, 102, 103);
 
-        registerDog(106, "breeder2", "Jindette", false, "Labradoodle", 333333333, 104, 105);
+        registerDog(106, "breeder2", "Jindette", false, "Labradoodle", 333333333, setUpColours, 104, 105);
 
         //[FULL SIBLING INBRED SUBTREE]
-        registerDog(200, "breeder3", "Sarah", true, "Beagle", 111111111, 0, 0);
-        registerDog(201, "breeder3", "Stevay", false, "Husky", 333333333, 104, 105);
-        registerDog(202, "breeder3", "Adele", true, "Labrador", 111111111, 0, 0);
+        registerDog(200, "breeder3", "Sarah", true, "Beagle", 111111111, setUpColours, 0, 0);
+        registerDog(201, "breeder3", "Stevay", false, "Husky", 333333333, setUpColours, 104, 105);
+        registerDog(202, "breeder3", "Adele", true, "Labrador", 111111111, setUpColours, 0, 0);
 
-        registerDog(203, "breeder3", "Sandette", false, "Labrador", 444444444, 200, 201);
-        registerDog(204, "breeder3", "Whitney", true, "Poodle", 444444444, 202, 201);
+        registerDog(203, "breeder3", "Sandette", false, "Labrador", 444444444, setUpColours, 200, 201);
+        registerDog(204, "breeder3", "Whitney", true, "Poodle", 444444444, setUpColours, 202, 201);
 
     }
 
@@ -77,7 +81,7 @@ contract DogAncestry {
         bool isBitch, //1 = female, 0 = male
         string memory breed,
         uint256 dob,
-        //string[] memory colors,
+        bytes32[] memory colours,
 
         /* Ancestry Information */
         uint256 dam,
@@ -133,6 +137,7 @@ contract DogAncestry {
         dogs[microchipNumber].isBitch = isBitch;
         dogs[microchipNumber].breed = breed;
         dogs[microchipNumber].dob = dob;
+        dogs[microchipNumber].colours = colours;
         dogs[microchipNumber].dam = dam;
         dogs[microchipNumber].sire = sire;
 
