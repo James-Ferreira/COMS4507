@@ -4,6 +4,7 @@ import Web3 from "web3"; // Web3 for interaction with Ethereum
 
 /* Truffle */
 import DogAncestry from "../contracts/DogAncestry.json";
+import VetRegistry from "../contracts/VetRegistry.json";
 import { TRUFFLE_NETWORK_ID } from "../truffle";
 
 const useEthereum = () => {
@@ -15,11 +16,16 @@ const useEthereum = () => {
     DogAncestry.abi,
     DogAncestry.networks[TRUFFLE_NETWORK_ID].address
   );
+  
+  const vetRegistry = new web3.eth.Contract(
+    VetRegistry.abi,
+    VetRegistry.networks[TRUFFLE_NETWORK_ID].address
+  );
 
   /* Store the current account information */
   const [account, setAccount] = useState(null);
 
-  return { web3, account, setAccount, contracts: { dogAncestry } };
+  return { web3, account, setAccount, contracts: { dogAncestry, vetRegistry } };
 };
 
 const Ethereum = createContainer(useEthereum);
