@@ -3,12 +3,13 @@ pragma experimental ABIEncoderV2;
 
 
 contract DogAncestry {
+
     struct Record {
         address recorder; // the vet responsible for creating the record
         uint256 date; // the date that this record applies from
         string title; // a short description e.g. "Vaccination"
         string details; // any extra details
-        string recordType; // Vaccination, Genetic-Condition, Award, Custom
+        string recordType; // Vaccination, Genetic-Condition, Award, Other
     }
 
     struct Dog {
@@ -36,7 +37,6 @@ contract DogAncestry {
     mapping(uint256 => Dog) public dogs;
 
     event DogRegistered(uint256 dogId);
-    event NewRecord(uint256 dogId, uint256 recordNum);
 
     string[] setUpColours; // TODO: delete me
 
@@ -155,6 +155,7 @@ contract DogAncestry {
     // Create a medical record for a dog.
     function createRecord(
         uint256 microchipNumber,
+        string memory recordType,
         uint256 date,
         string memory title,
         string memory details
@@ -175,7 +176,7 @@ contract DogAncestry {
                 date: date,
                 title: title,
                 details: details,
-                recordType: "custom"
+                recordType: recordType
             })
         );
 
@@ -188,8 +189,5 @@ contract DogAncestry {
     function getDog(uint microchipNumber) public view returns(Dog memory) {
         return dogs[microchipNumber];
     }
-
-    // function getRecord(uint microchipNumber, uint recordNumber) public view returns(string memory) {
-    //     return dogs[microchipNumber].medicals[recordNumber].title;
-    // }
+    
 }

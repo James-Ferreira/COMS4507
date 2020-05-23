@@ -47,6 +47,8 @@ function Home() {
   const catchDogRegistration = async (event) => {
     // fetch the dog 
     let newDog = await contracts.dogAncestry.methods.getDog(event.returnValues.dogId).call();
+
+    console.log(newDog);
     
     allDogs.push(newDog);
 
