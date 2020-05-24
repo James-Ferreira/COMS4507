@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
 
         Graph g = new Graph();
-        g.generatePedigree(4, 1990, 4);
+        g.generatePedigree(20, 1990, 5);
 
         for(Integer year : g.yearMap.keySet()) {
             System.out.printf("-- %d --\n", year);

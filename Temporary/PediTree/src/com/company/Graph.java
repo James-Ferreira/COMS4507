@@ -9,9 +9,11 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Graph {
+
     /* INSTANCE VARIABLES */
     public Map<Integer, List<Dog>> yearMap; //Maps year to a set of all dogs in this birth year
     public List<String> names = readNames();
+    public int nextId = 0;
 
     /* CONSTRUCTOR */
     public Graph(){
@@ -23,7 +25,7 @@ public class Graph {
         if(yearMap.containsKey(d.year)) {
             this.yearMap.get(d.year).add(d);
         } else{
-            List<Dog> list = new ArrayList<Dog>();
+            List<Dog> list = new ArrayList<>();
             list.add(d);
             this.yearMap.put(d.year, list);
         }
@@ -42,49 +44,66 @@ public class Graph {
         /* CREATE PROGENITORS */
         for(int i = 0; i < progenitors; i++) {
             String name = names.get(getRandomInRange(names.size()));
-            Dog prog = new Dog(name, startYear, null, null);
+            boolean isBitch = false;
+            if(getRandomInRange(2) == 1) isBitch = true; //50% chance to be male
+
+            Dog prog = new Dog(nextId++, name, isBitch, "labrador", startYear, null,
+                    null);
             addDog(prog);
         }
 
+        /* LITTER GENERATION */
         for(int i = 0; i < depth; i++) {
             for(Dog dog : yearMap.get(startYear + i)) {
-                generateLitter(dog, startYear);
+                //50% chance to have a litter
+                if(getRandomInRange(2) == 1) generateLitter(dog, startYear + i);
             }
         }
-
-
     }
 
 
     public Dog getMate(Dog target, int mateYear) {
-        List<Dog> mates = this.getYearSet(mateYear);
-        if(mates.size() == 1 ) {
-            System.out.printf("No viable mates in year");
-            return null;
+        List<Dog> mates = new ArrayList<>();
+        mates.addAll(this.getYearSet(mateYear));
+        mates.remove(target);
+
+        Dog mate;
+        while(mates.size() != 0) {
+            mate = mates.get(getRandomInRange(mates.size()));
+            if(mate.isBitch != target.isBitch) { return mate; } //correct gender mate found
+            mates.remove(mate);
         }
 
-        /* Prevent asexual reproduction */
-        Dog mate;
-        do {
-            mate = mates.get(getRandomInRange(mates.size()));
-        } while(mate.equals(target));
 
-        return mate;
+        return null;
     }
 
     public void generateLitter(Dog target, int mateYear) {
-        Dog mate = getMate(target, mateYear);
+        Dog sire = target;
+        Dog dam = getMate(target, mateYear);
+        if(dam == null) {
+            System.out.printf("No viable mates in year\n");
+            return;
+        }
+        if(target.isBitch) { //reverse if target is female
+            sire = dam;
+            dam = target;
+        }
         int numChildren = getRandomInRange(5);
 
         /* CREATE CHILDREN */
         for(int i = 0; i < numChildren; i++) {
             String name = names.get(getRandomInRange(names.size()));
-            Dog child = new Dog(name, target.year + 1, target, mate);
+            boolean isBitch = false;
+            if(getRandomInRange(2) == 1) isBitch = true; //50% chance to be male
+            Dog child = new Dog(nextId++, name, isBitch, "labrador",
+                    target.year + 1, sire, dam);
+
             addDog(child);
         }
 
-        System.out.printf("%s (%d) x %s (%d) = %d children\n", target.name, target.year,
-                mate.name, mate.year, numChildren);
+        //System.out.printf("%s (%d) x %s (%d) = %d children\n", target.name, target.year, mate
+        // .name, mate.year, numChildren);
     }
 
 
@@ -98,7 +117,6 @@ public class Graph {
         int val = random.nextInt(max);
         return val;
     }
-
 
     public List<String> readNames(){
         try {
