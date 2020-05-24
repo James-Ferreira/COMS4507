@@ -8,6 +8,7 @@ import Register from "./containers/register";
 import CreateRecord from "./containers/createRecord";
 import SearchResult from "./containers/searchResult";
 import ViewRecord from "./containers/viewRecord";
+import Approve from "./containers/approve";
 
 const Routes = (props) => {
   const location = useLocation();
@@ -37,6 +38,7 @@ const Routes = (props) => {
           path="/dogs/:microchipnumber/records/:recordnumber"
           component={ViewRecord}
         />
+        <Route exact path="/approve" component={Approve}/>
       </Switch>
     );
   };
