@@ -41,25 +41,35 @@ function Home() {
   const { contracts } = Ethereum.useContainer();
 
   const [ latestDogs, setLatestDogs ] = useState([]);
-  let allDogs = [...latestDogs];
+  let collectedDogs = [];
   let initTimeout;
   
   const catchDogRegistration = async (event) => {
+
     // fetch the dog 
     let newDog = await contracts.dogAncestry.methods.getDog(event.returnValues.dogId).call();
-    
-    allDogs.push(newDog);
+
+    //console.log(newDog);
+    collectedDogs.push(newDog);
 
     if (initTimeout) window.clearTimeout(initTimeout);
-    
     initTimeout = window.setTimeout(() => {
-      console.log("updating");
-      
-      let latest6 = []
-      for (var i = 0; i < 6 && i < allDogs.length; i++) {
-        latest6.push(allDogs[allDogs.length - 1 - i]);
+      console.log("updating recent dogs");
+
+      //first thing we want to do is truncate the collectedDogs list so it doesn't get too big
+      if (collectedDogs.length > 6) {
+        collectedDogs.splice(0, collectedDogs.length - 6); // this will keep the latest 6 dogs
       }
-      setLatestDogs(latest6);
+
+      //we now take a snapshot
+      let snapshot = [...collectedDogs];
+
+      //just in case any dogs were added in this time, we want to bring the snapshot array back down to 6
+      if (snapshot.length > 6) {
+        snapshot.splice(0, snapshot.length - 6);
+      }
+      
+      setLatestDogs(snapshot);
     }, 500);
   }
 
@@ -265,6 +275,7 @@ const useStyles = makeStyles((theme) => ({
 
   dogCardsWrapper: {
     display: "flex",
+    flexDirection: "row-reverse",
     justifyContent: "space-evenly",
     boxShadow: "inset 0px 0px 8px #00000055",
     backgroundColor: "#00000022",
