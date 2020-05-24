@@ -2,25 +2,35 @@ package com.company;
 
 
 
-public class Dog implements Comparable<Dog>{
+public class Dog {
     /* INSTANCE VARIABLES */
-    public int id;
-    public float COI;
-    public int generation;
+    public String name;
+    public int year;
     public Dog sire;
     public Dog dam;
 
     /* CONSTRUCTOR */
-    public Dog(int id, Dog sire, Dog dam){
-        this.id = id;
+    public Dog(String name, int year, Dog sire, Dog dam){
+        this.name = name;
+        this.year = year;
         this.sire = sire;
         this.dam = dam;
     }
 
     /* METHODS */
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append(this.name + ": " + this.year );
 
-    public int compareTo(Dog d) {
-        return this.generation - d.generation;
+        if(sire != null) {
+            result.append(" ( " + this.sire.name + " )");
+        }
+
+        if(dam != null) {
+            result.append(" ( " + this.dam.name + " )");
+        }
+
+        return result.toString();
     }
 
 }
