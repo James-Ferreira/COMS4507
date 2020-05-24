@@ -152,8 +152,8 @@ const Register = (props) => {
         onChange={(e) => form.set("isBitch", e.target.value)}
       >
         <MenuItem value={-1}>Select Gender</MenuItem>
-        <MenuItem value={0}>Female</MenuItem>
-        <MenuItem value={1}>Male</MenuItem>
+        <MenuItem value={0}>Male</MenuItem>
+        <MenuItem value={1}>Female</MenuItem>
       </Select>
       <TextField
         margin="dense"

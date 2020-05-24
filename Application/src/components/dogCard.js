@@ -19,6 +19,8 @@ import {
   useTheme,
   List,
   ListItemText,
+  Select,
+  MenuItem
 } from "@material-ui/core";
 
 import clsx from "clsx";
@@ -69,6 +71,7 @@ const DogCard = (props) => {
 
   const [expanded, setExpanded] = React.useState(false);
   const [recordsExpanded, setRecordsExpanded] = React.useState(false);
+  const [recordFilter, setRecordFilter] = React.useState("all");
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -229,8 +232,34 @@ const DogCard = (props) => {
 
       <Collapse in={recordsExpanded} timeout="auto" unmountOnExit>
         <CardContent>
+           {/* <Padder height={theme.spacing(2)} /> */}
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Select
+            margin="dense"
+            align="left"
+            type="text"
+            value={recordFilter}
+            onChange={(e) => setRecordFilter(e.target.value)}
+            >
+              <MenuItem value="all">All Records</MenuItem>
+              <MenuItem value="vaccination">Vaccinations</MenuItem>
+              <MenuItem value="genetic-condition">Genetic Conditions</MenuItem>
+              <MenuItem value="award">Awards</MenuItem>
+              <MenuItem value="other">Other</MenuItem>
+            </Select>
+            <RoutedButton
+              asModal={isNotMobile}
+              to={`/dogs/${dog.microchipNumber}/records/create`}
+              variant="contained"
+              color="secondary"
+            >
+              Add Record
+            </RoutedButton>
+          </div>
+
+          <Padder height={theme.spacing(2)} />
           {dog.medicals &&
-            dog.medicals.map((record, index) => (
+            dog.medicals.filter(x => recordFilter == "all" || x.recordType == recordFilter).map((record, index) => (
               <>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -248,19 +277,7 @@ const DogCard = (props) => {
                 <Divider />
               </>
             ))}
-
-          {/*-- BOTTOM BUTTONS -- */}
-          <Padder height={theme.spacing(2)} />
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <RoutedButton
-              asModal={isNotMobile}
-              to={`/dogs/${dog.microchipNumber}/records/create`}
-              variant="contained"
-              color="secondary"
-            >
-              Add Record
-            </RoutedButton>
-          </div>
+          {!dog.medicals || !dog.medicals.some(x => recordFilter == "all" || x.recordType == recordFilter) && <p>No Records Found</p>}
         </CardContent>
       </Collapse>
     </Card>
