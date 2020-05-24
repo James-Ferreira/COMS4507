@@ -61,7 +61,7 @@ export function computeGenealogy(dog) {
     //TODO there should be a better way than this
     for (let ancestor of children[0].ancestors) {
       for (let ancestor2 of children[1].ancestors) {
-        if (ancestor.id === ancestor2.id) {
+        if (ancestor.microchipNumber === ancestor2.microchipNumber) {
           intersection.add(ancestor);
         }
       }
@@ -87,6 +87,7 @@ export function computeGenealogy(dog) {
 /**
  *  Called if sire_tree ∩ dam_tree, ∃ inbreeding.
  *  Calculates Coefficient of  Inbreeding (COI) according to Wrights Equation
+ * https://www.instituteofcaninebiology.org/blog/coi-faqs-understanding-the-coefficient-of-inbreeding
  * @param {*} dam : mother of COI target
  * @param {*} sire : father of COI target
  * @param {*} commonAncestors : set of shared ancestors between dam x sire
@@ -94,10 +95,12 @@ export function computeGenealogy(dog) {
 export function calculateCOI(dam, sire, commonAncestors) {
   let coi = 0;
   for (let ancestor of commonAncestors) {
+    console.log("coi calc: " + ancestor.microchipNumber + "||" + ancestor.coi);
     let Fa = ancestor.coi; //COI of common ancestor (CA)
     let n1 = dam.generation - ancestor.generation; //distance from dam to CA
     let n2 = sire.generation - ancestor.generation; //distance from sire to CA
     coi += Math.pow(0.5, n1 + n2 + 1.0) * (1.0 + Fa);
+    console.log("FA:" + Fa + ", n1:" + n1 + ", n2:" + n2 + "=" + coi);
   }
   return coi;
 }
