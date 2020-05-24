@@ -24,7 +24,7 @@ const NavBar = (props) => {
   const styles = useStyles();
   const history = useHistory();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
-  const { account } = Ethereum.useContainer(); // The Ethereum interface from context.
+  const { account, isApproved } = Ethereum.useContainer(); // The Ethereum interface from context.
 
   const [menuAnchor, setMenuAnchor] = useState(null);
 
@@ -47,15 +47,18 @@ const NavBar = (props) => {
 
         <DogSearchBar />
 
-
+        { isApproved ? 
         <RoutedButton
           asModal={isNotMobile}
           variant="text"
           color="secondary"
           to="/register"
+
         >
           Register Dog
         </RoutedButton>
+        : null
+        }
 
         <Button className={styles.account} color="inherit" onClick={handleClick}>
           {(account ? <FaUser style={{ paddingRight: theme.spacing(1) }} size="1.5em" /> :

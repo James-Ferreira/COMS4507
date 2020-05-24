@@ -24,8 +24,18 @@ const useEthereum = () => {
 
   /* Store the current account information */
   const [account, setAccount] = useState(null);
+  const [isOwner, setIsOwner] = useState();
+  const [isApproved, setIsApproved] = useState();
 
-  return { web3, account, setAccount, contracts: { dogAncestry, vetRegistry } };
+  return { 
+    web3, 
+    account, 
+    setAccount, 
+    isOwner, 
+    setIsOwner,
+    isApproved,
+    setIsApproved, 
+    contracts: { dogAncestry, vetRegistry } };
 };
 
 const Ethereum = createContainer(useEthereum);
