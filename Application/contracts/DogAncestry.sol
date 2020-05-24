@@ -65,12 +65,13 @@ contract DogAncestry {
         registerDog(106, "breeder2", "Jindette", false, "Labradoodle", 333333333, setUpColours, 104, 105);
 
         //[FULL SIBLING INBRED SUBTREE]
-        registerDog(200, "breeder3", "Sarah", true, "Beagle", 111111111, setUpColours, 0, 0);
-        registerDog(201, "breeder3", "Stevay", false, "Husky", 333333333, setUpColours, 104, 105);
-        registerDog(202, "breeder3", "Adele", true, "Labrador", 111111111, setUpColours, 0, 0);
+        registerDog(200, "breeder3", "Eve", true, "Beagle", 333333333, setUpColours, 104, 105);
+        registerDog(201, "breeder3", "Adam", false, "Husky", 333333333, setUpColours, 104, 105);
 
-        registerDog(203, "breeder3", "Sandette", false, "Labrador", 444444444, setUpColours, 200, 201);
-        registerDog(204, "breeder3", "Whitney", true, "Poodle", 444444444, setUpColours, 202, 201);
+        registerDog(202, "breeder3", "Cain", true, "Labrador", 444444444, setUpColours, 200, 201);
+        registerDog(203, "breeder3", "Abel", false, "Labrador", 444444444, setUpColours, 200, 201);
+
+        registerDog(204, "breeder3", "Inbredette", true, "Mutant", 555555555, setUpColours, 202, 203);
 
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useTheme, Button, Box, Typography } from "@material-ui/core";
 import moment from "moment";
@@ -10,12 +10,21 @@ const ViewRecord = (props) => {
   const theme = useTheme();
   const history = useHistory();
   const [record, setRecord] = useState(null);
-  const [fetchAttempted, setFetchAttempted] = useState(false);
   const alert = useAlert();
   const { contracts } = Ethereum.useContainer(); // The Ethereum interface from context.
 
   const microchipNumber = props.match.params.microchipnumber;
   const recordNumber = props.match.params.recordnumber;
+
+  const getNiceRecordType = (recordType) => {
+    switch(recordType) {
+      case "award": return "Award";
+      case "vaccination": return "Vaccination";
+      case "genetic-condition": return "Genetic Condition";
+      case "other": return "Other";
+      default: return recordType;
+    }
+  }
 
   const fetchRecord = async () => {
     /* Get the dog structure from the blockchain using our custom method */
@@ -42,10 +51,9 @@ const ViewRecord = (props) => {
     setRecord(dog.medicals[recordNumber]);
   };
 
-  if (!fetchAttempted) {
-    setFetchAttempted(true);
+  useEffect(() => {
     fetchRecord();
-  }
+  }, []);
 
   return (
     <Box>
@@ -67,7 +75,7 @@ const ViewRecord = (props) => {
 
       {record ? (
         <>
-          <Typography variant="h6">{record.title}</Typography>
+          <Typography variant="h6">{getNiceRecordType(record.recordType)}: <strong>{record.title}</strong></Typography>
           <Typography variant="subtitle" align="right">
             {moment.unix(record.date).format("DD/MM/YYYY")}
           </Typography>
