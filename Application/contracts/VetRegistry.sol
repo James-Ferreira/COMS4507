@@ -4,7 +4,7 @@ pragma experimental ABIEncoderV2;
 
 contract VetRegistry {
     struct Vet {
-        address account;
+        address addr;
         string license;
         string name;
         string location;
@@ -12,10 +12,19 @@ contract VetRegistry {
         bool exists;
     }
 
+    struct Application {
+        address addr;
+        bool processed;
+    }
+
+    struct ApplicationList {
+        Application[] list;
+        uint size;
+    }
+
     address owner;
     mapping(address => Vet) public vets;
-    address[] public pending;
-
+    ApplicationList public applications;
 
     event ApplicationLodged(string _license);
     event ApplicationApproved(string _license);
@@ -51,14 +60,16 @@ contract VetRegistry {
         require(bytes(_name).length != 0, "Name is required");
         require(bytes(_location).length != 0, "Location is required");
 
-        vets[msg.sender].account = msg.sender;
+        vets[msg.sender].addr = msg.sender;
         vets[msg.sender].name = _name;
         vets[msg.sender].license = _license;
         vets[msg.sender].location = _location;
         vets[msg.sender].approved = false;
         vets[msg.sender].exists = true;
 
-        pending.push(msg.sender);
+        Application memory application = Application(msg.sender, false);
+        applications.list.push(application);
+        applications.size++;
 
         emit ApplicationLodged(_license);
     }
@@ -72,10 +83,10 @@ contract VetRegistry {
 
         vets[_account].approved = true;
 
-        // Remove address from pending
-        for (uint i = 0; i < pending.length; i++) {
-            if (pending[i] == msg.sender) {
-                pending[i] = pending[pending.length - 1];
+        // Change application status to processed
+        for (uint i = 0; i < applications.size; i++) {
+            if (applications.list[i].addr == msg.sender) {
+                applications.list[i].processed = true;
                 break;
             }
         }
@@ -84,11 +95,39 @@ contract VetRegistry {
 
     // Returns true if sender is an approved vet, otherwise false.
     function isApprovedVet(address _sender) public view returns (bool){
-        return vets[_sender].approved || _sender == owner;
+        return vets[_sender].approved || isOwner(_sender);
     }
 
     // Returns true if sender is owner, otherwise false.
     function isOwner(address _sender) public view returns (bool){
         return _sender == owner;
     }
+
+    // Returns the number of applications applications
+    function getApplicationCount() public view returns (uint) {
+        return applications.size;
+    }
+
+    // Return true if the application corresponding to the given index is pending (i.e.
+    // has yet to be processed) and the given index is not out of bounds, otherwise false.
+    function isPending(uint _index) public view returns (bool) {
+        if (_index > 0 && _index < applications.size) {
+            return !applications.list[_index].processed;
+        } else {
+            return false;
+        }
+    }
+
+    // Returns the Vet corresposnding to the given application index. If the given index
+    // is out of bounds, returns "blank" vet with default values.
+    function getVetByApplicationIndex(uint _index) public view returns (Vet memory) {
+        Vet memory vet;
+        // Return "blank" vet if array index is out of bounds
+        if (_index > 0 && _index < applications.size) {
+            address addr = applications.list[_index].addr;
+            vet = vets[addr];
+        }
+        return vet;
+    }
+
 }
