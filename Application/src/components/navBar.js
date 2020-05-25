@@ -94,7 +94,7 @@ const NavBar = (props) => {
           open={Boolean(menuAnchor)}
           onClose={handleClose}
         >
-          <Typography variant="caption">{account}</Typography>
+          <Typography variant="caption">{account || "Not logged in"}</Typography>
 
           <RoutedMenuItem asModal={isNotMobile} to={"/apply"}>
             Vet Application
