@@ -9,8 +9,8 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { FaUser, FaUserAltSlash } from "react-icons/fa";
 
 import RoutedButton from "../components/routedButton";
@@ -18,15 +18,25 @@ import RoutedMenuItem from "../components/routedMenuItem";
 import Ethereum from "../state/ethereum";
 import PointerLogo from "../images/pointer.svg";
 import DogSearchBar from "./dogSearchBar";
+import { hexToRGBA } from "../util/color";
+import { isHome } from "../util/navigation";
+
+const blackToWhite = (transitionAmount) => {
+  return `rgba(${transitionAmount * 255},${transitionAmount * 255}, ${
+    transitionAmount * 255
+  }, 1)`;
+};
 
 const NavBar = (props) => {
   const theme = useTheme();
   const styles = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const { account, isApproved, isOwner } = Ethereum.useContainer(); // The Ethereum interface from context.
 
   const [menuAnchor, setMenuAnchor] = useState(null);
+  const [transitionAmount, setTransitionAmount] = useState(1);
 
   const handleClick = (event) => {
     setMenuAnchor(event.currentTarget);
@@ -36,8 +46,25 @@ const NavBar = (props) => {
     setMenuAnchor(null);
   };
 
+  useEffect(() => {
+    if (isHome(location)) {
+      setTransitionAmount(window.scrollY < 100 ? window.scrollY / 100 : 1);
+      document.addEventListener("scroll", () => {
+        setTransitionAmount(window.scrollY < 100 ? window.scrollY / 100 : 1);
+      });
+    } else {
+      setTransitionAmount(1);
+    }
+  }, [location]);
+
   return (
-    <AppBar position="static">
+    <AppBar
+      position="fixed"
+      style={{
+        background: hexToRGBA(theme.palette.primary.main, transitionAmount),
+      }}
+      elevation={transitionAmount === 1 ? 4 : 0}
+    >
       <Toolbar className={styles.toolbar}>
         <div className={styles.leftSection}>
           <div className={styles.logo} onClick={() => history.push("/")}>
@@ -48,43 +75,49 @@ const NavBar = (props) => {
               width="60em"
             />
           </div>
-          <DogSearchBar />
+          <DogSearchBar style={{ opacity: transitionAmount }} />
         </div>
         <div className={styles.rightSection}>
-          { isOwner &&
-          <RoutedButton
-            asModal={isNotMobile}
-            variant="text"
-            color="secondary"
-            to="/approve"
-          >
-            View Applications
-          </RoutedButton>
-          }     
-          { isApproved &&
-          <RoutedButton
-            asModal={isNotMobile}
-            variant="text"
-            color="secondary"
-            to="/register"
-          >
-            Register Dog
-          </RoutedButton>
-          }     
-          <Button
-            className={styles.account}
-            color="inherit"
-            onClick={handleClick}
-          >
-            {account ? (
-              <FaUser style={{ paddingRight: theme.spacing(1) }} size="1.5em" />
-            ) : (
-              <FaUserAltSlash
-                style={{ paddingRight: theme.spacing(1) }}
-                size="1.5em"
-              />
-            )}
-          </Button>
+          {isOwner && (
+            <RoutedButton
+              asModal={isNotMobile}
+              variant="text"
+              color="secondary"
+              to="/approve"
+            >
+              View Applications
+            </RoutedButton>
+          )}
+          {isApproved && (
+            <RoutedButton
+              asModal={isNotMobile}
+              variant="text"
+              color="secondary"
+              to="/register"
+            >
+              Register Dog
+            </RoutedButton>
+          )}
+
+          <div style={{ color: blackToWhite(transitionAmount) }}>
+            <Button
+              className={styles.account}
+              onClick={handleClick}
+              color="inherit"
+            >
+              {account ? (
+                <FaUser
+                  style={{ paddingRight: theme.spacing(1) }}
+                  size="1.5em"
+                />
+              ) : (
+                <FaUserAltSlash
+                  style={{ paddingRight: theme.spacing(1) }}
+                  size="1.5em"
+                />
+              )}
+            </Button>
+          </div>
         </div>
 
         <Menu
@@ -111,14 +144,13 @@ const NavBar = (props) => {
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    backgroundColor: theme.palette.primary.main,
     justifyContent: "space-between",
   },
   logo: {
     display: "flex",
     justifyContent: "flex-start",
     cursor: "pointer",
-    paddingRight: 20
+    paddingRight: 20,
   },
   account: {
     whiteSpace: "nowrap",
