@@ -27,12 +27,13 @@ contract VetRegistry {
     ApplicationList public applications;
 
     event ApplicationLodged(address _addr);
-    event ApplicationApproved(address _addr);
+    event ApplicationProcessed(address _addr, bool approved);
+    event ApprovalRevoked(address _addr);
 
     // From https://solidity.readthedocs.io/en/v0.4.24/common-patterns.html
-    modifier onlyBy(address _account) {
+    modifier onlyBy(address _addr) {
         require(
-            msg.sender == _account,
+            msg.sender == _addr,
             "Sender not authorised."
         );
         _;
@@ -55,39 +56,41 @@ contract VetRegistry {
         string memory _license,
         string memory _location
     ) public {
-        require(bytes(_license).length != 0, "ID is required");
         require(bytes(_name).length != 0, "Name is required");
+        require(bytes(_license).length != 0, "ID is required");
         require(bytes(_location).length != 0, "Location is required");
-
-        vets[msg.sender].addr = msg.sender;
-        vets[msg.sender].name = _name;
-        vets[msg.sender].license = _license;
-        vets[msg.sender].location = _location;
-        vets[msg.sender].approved = false;
-        vets[msg.sender].exists = true;
 
         if (vets[msg.sender].exists) {
             // Vet has applied previously with this address, "renew" application
             int appIndex = getApplicationIndex(msg.sender);
             assert(appIndex >= 0);
             applications.list[uint(appIndex)].processed = false;
-        } else {
+        }
+        else {
             Application memory application = Application(msg.sender, false);
             applications.list.push(application);
             applications.size++;
         }
-
+        
+        vets[msg.sender].addr = msg.sender;
+        vets[msg.sender].name = _name;
+        vets[msg.sender].license = _license;
+        vets[msg.sender].location = _location;
+        vets[msg.sender].approved = false;
+        vets[msg.sender].exists = true;
+        
         emit ApplicationLodged(msg.sender);
     }
 
-    // Sets the vet with the given address to approved, if they exist. Restricted to
-    // contract owner.
-    function approveApplication(
-        address _account
+    // Sets the approved status of the vet with the given address to the given value, if
+    // the vet exists. Restricted to contract owner.
+    function processApplication(
+        address _addr,
+        bool _approved
     ) public onlyBy(owner) {
-        require(vets[_account].exists == true, "Vet does not exist");
+        require(vets[_addr].exists == true, "Vet does not exist");
 
-        vets[_account].approved = true;
+        vets[_addr].approved = _approved;
 
         // Change application status to processed
         for (uint i = 0; i < applications.size; i++) {
@@ -96,7 +99,17 @@ contract VetRegistry {
                 break;
             }
         }
-        emit ApplicationApproved(vets[_account].addr);
+        emit ApplicationProcessed(vets[_addr].addr, _approved);
+    }
+
+    // Sets the status of the vet with the given address to not approved, if the vet
+    // exists. Restriced to contract owner.
+    function revokeApproval(address _addr) public onlyBy(owner) {
+        require(vets[_addr].exists == true, "Vet does not exist");
+        
+        vets[_addr].approved = false;
+
+        emit ApprovalRevoked(_addr);
     }
 
     // Returns true if given address is an approved vet, otherwise false.
@@ -122,7 +135,7 @@ contract VetRegistry {
     // Return true if the application corresponding to the given index is pending (i.e.
     // has yet to be processed) and the given index is not out of bounds, otherwise false.
     function isPending(uint _index) public view returns (bool) {
-        if (_index > 0 && _index < applications.size) {
+        if (_index >= 0 && _index < applications.size) {
             return !applications.list[_index].processed;
         } else {
             return false;
@@ -145,7 +158,7 @@ contract VetRegistry {
     function getVet(uint _index) public view returns (Vet memory) {
         Vet memory vet;
         // Return "blank" vet if array index is out of bounds
-        if (_index > 0 && _index < applications.size) {
+        if (_index >= 0 && _index < applications.size) {
             address addr = applications.list[_index].addr;
             vet = vets[addr];
         }

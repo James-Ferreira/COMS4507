@@ -1,7 +1,9 @@
 /**
  * Vet application page.
  */
-import React from "react";
+import React, {useState} from "react";
+import { Redirect } from "react-router-dom";
+
 import {
   makeStyles,
   useTheme,
@@ -28,6 +30,8 @@ const VetApplication = (props) => {
   const alert = useAlert();
   const { contracts, account } = Ethereum.useContainer();
 
+  const [doRedirect, setDoRedirect] = useState(false);
+
   const form = useForm(
     {
       name: "",
@@ -44,6 +48,7 @@ const VetApplication = (props) => {
           "Your application was successfully submitted.",
           SEVERITY.SUCCESS
         );
+        setDoRedirect(true);
       } catch (err) {
         console.error(err);
         alert.show("Application failed, please try again.", SEVERITY.ERROR);
@@ -69,6 +74,10 @@ const VetApplication = (props) => {
 
   return (
     <div className={styles.root}>
+      {
+        doRedirect &&
+        <Redirect to="/" />
+      }
       <Typography variant="h4">Apply for Veterinary Status</Typography>
       <TextField
         autoFocus

@@ -134,7 +134,7 @@ const NavBar = (props) => {
           }
         
           {
-            !(isApproved || isOwner) && 
+            !isApproved && 
             <RoutedMenuItem asModal={isNotMobile} to={"/apply"}>
               Vet Application
             </RoutedMenuItem>

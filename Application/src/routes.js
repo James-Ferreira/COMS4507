@@ -31,7 +31,6 @@ const Routes = (props) => {
       <Switch location={loc}>
         <Route exact path="/" component={Home} />
         <Route exact path="/apply" component={Apply} />
-        <Route exact path="/vets" component={isOwner ? Vets : AccessDenied} />
         <Route exact path="/register" component={isApproved ? Register : AccessDenied} />
         <Route exact path="/dogs/:microchipnumber" component={SearchResult} />
         <Route
@@ -44,6 +43,9 @@ const Routes = (props) => {
           path="/dogs/:microchipnumber/records/:recordnumber"
           component={ViewRecord}
         />
+        <Route exact path="/vets" component={Vets} />
+        <Route exact path="/vets/:address" component={AccessDenied} />
+        <Route exact path="/vets/:address/approve" component={isOwner ? AccessDenied : AccessDenied } />
       </Switch>
     );
   };
