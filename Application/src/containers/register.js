@@ -64,12 +64,12 @@ const Register = (props) => {
         alert.show("Please enter a date of birth", SEVERITY.ERROR);
         return false;
       }
-      if (data.dam && data.dam <= 0) {
+      if (data.dam <= 0) {
         alert.show("Dam's microchip Number must be greater than 0", SEVERITY.ERROR);
         return false;
       }
-      if (data.sire && data.sire <= 0) {
-        alert.show("Dam's microchip Number must be greater than 0", SEVERITY.ERROR);
+      if (data.sire <= 0) {
+        alert.show("Sire's microchip Number must be greater than 0", SEVERITY.ERROR);
         return false;
       }
       if (data.colours.length === 0 || data.colours.includes("")) {
