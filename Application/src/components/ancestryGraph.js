@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 import * as d3_base from "d3";
 import * as d3_dag from "d3-dag";
 import { event as d3Event } from "d3-selection"; // the order of this import matters for some reason
-import { useTheme, makeStyles, Card } from "@material-ui/core";
+import { useTheme, makeStyles, Card, Typography } from "@material-ui/core";
 import useDimensions from "../hooks/useDimensions";
 
 const d3 = Object.assign({}, d3_base, d3_dag);
@@ -20,9 +20,9 @@ const AncestryGraph = (props) => {
   const styles = useStyles();
   const [ref, { width, height }] = useDimensions();
 
+  const data = props.data;
   useEffect(() => {
-    const data = props.data;
-    if (!data || !(width && height)) {
+    if (!(data && data.links.length > 0) || !(width && height)) {
       return;
     }
 
@@ -480,7 +480,13 @@ const AncestryGraph = (props) => {
   return (
     <Card className={styles.root}>
       <div className={styles.container} ref={ref}>
-        <svg id="graph" width={width} height={height}></svg>
+        {data.links.length > 0 ? (
+          <svg id="graph" width={width} height={height}></svg>
+        ) : (
+          <Typography variant="h6">
+            {data.persons[data.start].name} does not have any relationships to display.
+          </Typography>
+        )}
       </div>
     </Card>
   );
@@ -497,6 +503,9 @@ const useStyles = makeStyles((theme) => ({
   container: {
     width: "100%",
     height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 
