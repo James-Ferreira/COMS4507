@@ -17,7 +17,7 @@ import AccessDenied from "./components/accessDenied";
 const Routes = (props) => {
   const location = useLocation();
   const history = useHistory();
-  const { isApproved } = Ethereum.useContainer(); // The Ethereum interface from context.
+  const { isApproved, isOwner } = Ethereum.useContainer(); // The Ethereum interface from context.
 
   const closeDialog = (e) => {
     e.stopPropagation();
@@ -31,6 +31,7 @@ const Routes = (props) => {
       <Switch location={loc}>
         <Route exact path="/" component={Home} />
         <Route exact path="/apply" component={Apply} />
+        <Route exact path="/approve" component={isOwner ? Approve : AccessDenied} />
         <Route exact path="/register" component={isApproved ? Register : AccessDenied} />
         <Route exact path="/dogs/:microchipnumber" component={SearchResult} />
         <Route
