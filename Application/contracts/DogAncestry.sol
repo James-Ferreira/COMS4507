@@ -168,8 +168,8 @@ contract DogAncestry {
         string memory title,
         string memory details
     ) public {
-        // we need to add some kind of access control here to limit who can actually create records for the dog
-
+        VetRegistry registry = VetRegistry(vetRegistryAddress);
+        require(registry.isApprovedVet(msg.sender), "Sender must be an approved vet");
         require(
             dogs[microchipNumber].microchipNumber != 0,
             "Dog is not registered"

@@ -26,6 +26,8 @@ import {
 import clsx from "clsx";
 import { FaChevronDown, FaMars, FaVenus } from "react-icons/fa";
 
+import Ethereum from "../state/ethereum";
+
 import Padder from "./padder";
 
 import {
@@ -66,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 const DogCard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-
+  const { isApproved } = Ethereum.useContainer(); // The Ethereum interface from context.
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [expanded, setExpanded] = React.useState(false);
@@ -247,14 +249,17 @@ const DogCard = (props) => {
               <MenuItem value="award">Awards</MenuItem>
               <MenuItem value="other">Other</MenuItem>
             </Select>
-            <RoutedButton
-              asModal={isNotMobile}
-              to={`/dogs/${dog.microchipNumber}/records/create`}
-              variant="contained"
-              color="secondary"
-            >
-              Add Record
-            </RoutedButton>
+            {
+              isApproved &&
+              <RoutedButton
+                asModal={isNotMobile}
+                to={`/dogs/${dog.microchipNumber}/records/create`}
+                variant="contained"
+                color="secondary"
+              >
+                Add Record
+              </RoutedButton>
+            }
           </div>
 
           <Padder height={theme.spacing(2)} />

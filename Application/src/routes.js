@@ -37,7 +37,7 @@ const Routes = (props) => {
         <Route
           exact
           path="/dogs/:microchipnumber/records/create"
-          component={CreateRecord}
+          component={isApproved ? CreateRecord : AccessDenied}
         />
         <Route
           exact
