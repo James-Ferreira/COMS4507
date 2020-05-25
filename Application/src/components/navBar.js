@@ -33,7 +33,7 @@ const NavBar = (props) => {
   const history = useHistory();
   const location = useLocation();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
-  const { account, isApproved, isOwner } = Ethereum.useContainer(); // The Ethereum interface from context.
+  const { account, isApproved, isOwner, isVet } = Ethereum.useContainer(); // The Ethereum interface from context.
 
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [transitionAmount, setTransitionAmount] = useState(1);
@@ -83,7 +83,7 @@ const NavBar = (props) => {
               asModal={isNotMobile}
               variant="text"
               color="secondary"
-              to="/approve"
+              to="/vets"
             >
               View Applications
             </RoutedButton>
@@ -128,6 +128,10 @@ const NavBar = (props) => {
           onClose={handleClose}
         >
           <Typography variant="caption">{account || "Not logged in"}</Typography>
+          {
+            isVet &&
+            <Typography variant="caption">Status: {isApproved ? "Approved " : "Not Approved"}</Typography>
+          }
         
           {
             !(isApproved || isOwner) && 

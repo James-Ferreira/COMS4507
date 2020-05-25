@@ -10,7 +10,7 @@ import Register from "./containers/register";
 import CreateRecord from "./containers/createRecord";
 import SearchResult from "./containers/searchResult";
 import ViewRecord from "./containers/viewRecord";
-import Approve from "./containers/approve";
+import Vets from "./containers/vets";
 
 import AccessDenied from "./components/accessDenied";
 
@@ -31,7 +31,7 @@ const Routes = (props) => {
       <Switch location={loc}>
         <Route exact path="/" component={Home} />
         <Route exact path="/apply" component={Apply} />
-        <Route exact path="/approve" component={isOwner ? Approve : AccessDenied} />
+        <Route exact path="/vets" component={isOwner ? Vets : AccessDenied} />
         <Route exact path="/register" component={isApproved ? Register : AccessDenied} />
         <Route exact path="/dogs/:microchipnumber" component={SearchResult} />
         <Route
@@ -44,7 +44,6 @@ const Routes = (props) => {
           path="/dogs/:microchipnumber/records/:recordnumber"
           component={ViewRecord}
         />
-        <Route exact path="/approve" component={Approve}/>
       </Switch>
     );
   };

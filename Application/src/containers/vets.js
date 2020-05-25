@@ -21,7 +21,7 @@ import RoutedButton from "../components/routedButton";
 
 import Padder from "../components/padder";
 
-function Approve() {
+function Vets() {
 
   const { contracts } = Ethereum.useContainer();
 
@@ -34,4 +34,4 @@ function Approve() {
   );
 }
 
-export default Approve;
+export default Vets;

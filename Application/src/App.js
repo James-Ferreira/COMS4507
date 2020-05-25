@@ -30,10 +30,14 @@ function App() {
       const accounts = await web3.eth.getAccounts();
       setAccount(accounts[0]);
       let ownerStatus = false;
+      let vetStatus = false;
       let approvedStatus = false;
       if (accounts[0]) {
         ownerStatus = await contracts.vetRegistry.methods
           .isOwner(accounts[0])
+          .call();
+        vetStatus = await contracts.vetRegistry.methods
+          .isVet(accounts[0])
           .call();
         approvedStatus = await contracts.vetRegistry.methods
           .isOwner(accounts[0])

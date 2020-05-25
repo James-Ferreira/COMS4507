@@ -25,6 +25,7 @@ const useEthereum = () => {
   /* Store the current account information */
   const [account, setAccount] = useState(null);
   const [isOwner, setIsOwner] = useState();
+  const [isVet, setIsVet] = useState();
   const [isApproved, setIsApproved] = useState();
 
   return { 
@@ -33,6 +34,8 @@ const useEthereum = () => {
     setAccount, 
     isOwner, 
     setIsOwner,
+    isVet,
+    setIsVet,
     isApproved,
     setIsApproved, 
     contracts: { dogAncestry, vetRegistry } };
