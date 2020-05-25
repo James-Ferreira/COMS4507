@@ -26,8 +26,8 @@ contract VetRegistry {
     mapping(address => Vet) public vets;
     ApplicationList public applications;
 
-    event ApplicationLodged(string _license);
-    event ApplicationApproved(string _license);
+    event ApplicationLodged(address _addr);
+    event ApplicationApproved(address _addr);
 
     // From https://solidity.readthedocs.io/en/v0.4.24/common-patterns.html
     modifier onlyBy(address _account) {
@@ -55,7 +55,6 @@ contract VetRegistry {
         string memory _license,
         string memory _location
     ) public {
-        require(vets[msg.sender].exists != true, "Vet already registered with this address");
         require(bytes(_license).length != 0, "ID is required");
         require(bytes(_name).length != 0, "Name is required");
         require(bytes(_location).length != 0, "Location is required");
@@ -67,11 +66,18 @@ contract VetRegistry {
         vets[msg.sender].approved = false;
         vets[msg.sender].exists = true;
 
-        Application memory application = Application(msg.sender, false);
-        applications.list.push(application);
-        applications.size++;
+        if (vets[msg.sender].exists) {
+            // Vet has applied previously with this address, "renew" application
+            int appIndex = getApplicationIndex(msg.sender);
+            assert(appIndex >= 0);
+            applications.list[uint(appIndex)].processed = false;
+        } else {
+            Application memory application = Application(msg.sender, false);
+            applications.list.push(application);
+            applications.size++;
+        }
 
-        emit ApplicationLodged(_license);
+        emit ApplicationLodged(msg.sender);
     }
 
     // Sets the vet with the given address to approved, if they exist. Restricted to
@@ -90,7 +96,7 @@ contract VetRegistry {
                 break;
             }
         }
-        emit ApplicationApproved(vets[_account].license);
+        emit ApplicationApproved(vets[_account].addr);
     }
 
     // Returns true if sender is an approved vet, otherwise false.
@@ -118,9 +124,20 @@ contract VetRegistry {
         }
     }
 
-    // Returns the Vet corresposnding to the given application index. If the given index
+    // Returns the index of the application in the stored ApplicationList corresponding
+    // to the given address if there exists a Vet with that address, otherwise -1.
+    function getApplicationIndex(address _addr) public view returns (int) {
+        for (uint i = 0; i < applications.size; i++) {
+            if (applications.list[i].addr == _addr) {
+                return int(i);
+            }
+        }
+        return -1;
+    }
+
+    // Returns the Vet corresponding to the given application index. If the given index
     // is out of bounds, returns "blank" vet with default values.
-    function getVetByApplicationIndex(uint _index) public view returns (Vet memory) {
+    function getVet(uint _index) public view returns (Vet memory) {
         Vet memory vet;
         // Return "blank" vet if array index is out of bounds
         if (_index > 0 && _index < applications.size) {
