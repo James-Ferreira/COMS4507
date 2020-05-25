@@ -1,6 +1,6 @@
 pragma solidity >=0.5.0 <0.7.0;
 pragma experimental ABIEncoderV2;
-
+import "./VetRegistry.sol";
 
 contract DogAncestry {
 
@@ -40,8 +40,12 @@ contract DogAncestry {
 
     string[] setUpColours; // TODO: delete me
 
+    address vetRegistryAddress;
+
     // A special function only run during the creation of the contract
-    constructor() public {
+    constructor(address _vetRegistryAddress) public {
+
+        vetRegistryAddress = _vetRegistryAddress;
 
         //register format = ID, name, isFemale, Breed, DOB, DAM ID, SIRE ID
 
@@ -88,6 +92,9 @@ contract DogAncestry {
         uint256 dam,
         uint256 sire
     ) public {
+        VetRegistry registry = VetRegistry(vetRegistryAddress);
+        
+        require(registry.isApprovedVet(msg.sender), "Sender must be an approved vet");
         require(microchipNumber != 0, "Microchip number cannot be zero");
         require(
             dogs[microchipNumber].microchipNumber == 0,
