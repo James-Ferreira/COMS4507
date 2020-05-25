@@ -95,11 +95,14 @@ const NavBar = (props) => {
           onClose={handleClose}
         >
           <Typography variant="caption">{account || "Not logged in"}</Typography>
-
-          <RoutedMenuItem asModal={isNotMobile} to={"/apply"}>
-            Vet Application
-          </RoutedMenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
+        
+          {
+            !(isApproved || isOwner) && 
+            <RoutedMenuItem asModal={isNotMobile} to={"/apply"}>
+              Vet Application
+            </RoutedMenuItem>
+          }
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>
