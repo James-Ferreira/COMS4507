@@ -99,14 +99,19 @@ contract VetRegistry {
         emit ApplicationApproved(vets[_account].addr);
     }
 
-    // Returns true if sender is an approved vet, otherwise false.
-    function isApprovedVet(address _sender) public view returns (bool){
-        return vets[_sender].approved || isOwner(_sender);
+    // Returns true if given address is an approved vet, otherwise false.
+    function isApprovedVet(address _addr) public view returns (bool){
+        return vets[_addr].approved || isOwner(_addr);
     }
 
-    // Returns true if sender is owner, otherwise false.
-    function isOwner(address _sender) public view returns (bool){
-        return _sender == owner;
+    // Returns true if given address is owner, otherwise false.
+    function isOwner(address _addr) public view returns (bool){
+        return _addr == owner;
+    }
+
+    // Returns true if the given address is a vet (approved or non-approved), otherwise false.
+    function isVet(address _addr) public view returns (bool){
+        return vets[_addr].exists;
     }
 
     // Returns the number of applications applications
