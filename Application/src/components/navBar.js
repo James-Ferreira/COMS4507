@@ -139,7 +139,6 @@ const NavBar = (props) => {
               Vet Application
             </RoutedMenuItem>
           }
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>
