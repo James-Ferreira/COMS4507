@@ -46,6 +46,7 @@ const Routes = (props) => {
         <Route exact path="/vets" component={Vets} />
         <Route exact path="/vets/:address" component={AccessDenied} />
         <Route exact path="/vets/:address/approve" component={isOwner ? AccessDenied : AccessDenied } />
+        <Route exact path="/vets/:address/deny" component={isOwner ? AccessDenied : AccessDenied } />
       </Switch>
     );
   };

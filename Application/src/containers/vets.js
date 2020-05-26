@@ -13,11 +13,14 @@ import {
   useTheme,
   CardHeader,
   Avatar,
+  List,
+  ListItem,
 } from "@material-ui/core";
 
 import Ethereum from "../state/ethereum";
 
 import RoutedButton from "../components/routedButton";
+import VetCard from "../components/vetCard";
 
 import Padder from "../components/padder";
 
@@ -26,22 +29,48 @@ function Vets() {
   const { contracts, isOwner } = Ethereum.useContainer();
 
   const [size, setSize] = useState();
+  // Array of Vet objects retrieved from contract
+  const [vets, setVets] = useState();
+  // Array of indices into 'vets' of approved vets
+  const [approved, setApproved] = useState();
+  // Array of indices into 'vets' of pending vets
+  const [pending, setPending] = useState();
 
   // Method to retrieve size of application list from contract
   const fetchSize = async () => {
     let result = await contracts.vetRegistry.methods.getApplicationCount().call();
+    console.log("Size: ", size);
     setSize(result);
   };
  
   // Method to retrieve vet corresponding to given application index from contract
-  const fetchVet = async (index) => {
-    return await contracts.vetRegistry.methods.getVet(index).call();
-  };
+  const fetchVets = async (size) => {
+    let vetsResult = [];
+    let approvedResult = []
+    for (let i = 0; i < size; i++) {
+      let vet = await contracts.vetRegistry.methods.getVet(i).call();
+      vetsResult.push(vet);
+      if (vet.approved) {
+        approvedResult.push(i);
+      }
+    }
+    console.log("Vets: ", vetsResult);
+    setVets(vetsResult);
+    setApproved(approvedResult);
+  }
  
-  // Method to check if application with given index is pending
-  const fetchIsPending = async (index) => {
-    return await contracts.vetRegistry.methods.isPending(index).call();
-  };
+  // Method to retrieve vet corresponding to given application index from contract
+  const fetchPending = async (size) => {
+    let result = [];
+    for (let i = 0; i < size; i++) {
+      let isPending = await contracts.vetRegistry.methods.isPending(i).call();
+      if (isPending) {
+        result.push(i);
+      }
+    }
+    console.log("Pending: ", result);
+    setPending(result);
+  }
   
   useEffect(() => {
     if (!size) {
@@ -49,57 +78,51 @@ function Vets() {
     }
   }, [ fetchSize, size ]);
  
-  let pendingVets = []
-  let approvedVets = []
-
-  for (let i = 0; i < size; i++) {
-    let vet = null;
-    fetchVet(i).then(result => {
-      console.log("Vet: ", result);
-      vet = result;
-    }).catch(e => {
-      console.log(e);
-    });
-    if (!vet) {
-      console.log("No vet");
-      continue;
+  useEffect(() => {
+    if (size && !vets) {
+      fetchVets(size);
     }
-    
-    if (vet.approved) {
-      approvedVets.push(vet);
-      continue;
+  }, [size, fetchVets]);
+  
+  useEffect(() => {
+    if (size && !pending) {
+      fetchPending(size)
     }
-    
-    let isPending = false;
-    fetchIsPending(i).then(result => {
-      console.log("Is Pending: ", result);
-      isPending = result;
-    }).catch(e => {
-      console.log(e);
-    });
-    if (isPending) {
-      pendingVets.push(vet);
-    }
-  }
-  console.log("All Pending: ", pendingVets);
-  console.log("All Approved: ", approvedVets);
-
+  }, [size, fetchPending]);
+  
   return (
     <>
       {
         isOwner &&
         <div>
           <h2>Pending</h2>
-          <ul>
-            {pendingVets.map((pending) => <li>pending.name</li>)}
-          </ul>
+          { 
+            vets && pending && pending.length > 0 ?
+            <List>
+              {pending.map((index) => 
+                <ListItem>
+                  <VetCard data={vets[index]} pending={true} index={index} />
+                </ListItem>
+              )}
+            </List>
+            : "No pending vets"
+          }
         </div>
       }
       <div>
         <h2>Approved</h2>
-        <ul>
-          {approvedVets.map((approved) => <li>approved.name</li>)}
-        </ul>
+
+        {
+          vets && approved && approved.length > 0 ?
+          <List>
+            {approved.map((index) => 
+              <ListItem>
+                <VetCard data={vets[index]} pending={false} index={index} />
+              </ListItem>
+            )}
+          </List>
+          : "No approved vets"
+        }
       </div>
     </>
   );

@@ -48,7 +48,7 @@ const VetApplication = (props) => {
           "Your application was successfully submitted.",
           SEVERITY.SUCCESS
         );
-        setDoRedirect(true);
+        // setDoRedirect(true);
       } catch (err) {
         console.error(err);
         alert.show("Application failed, please try again.", SEVERITY.ERROR);
