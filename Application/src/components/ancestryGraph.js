@@ -13,6 +13,8 @@ import { event as d3Event } from "d3-selection"; // the order of this import mat
 import { useTheme, makeStyles, Card, Typography } from "@material-ui/core";
 import useDimensions from "../hooks/useDimensions";
 import { useHistory } from "react-router-dom";
+import { hasGeneticCondition } from "../util/genealogy";
+import { FaDisease } from "react-icons";
 
 const d3 = Object.assign({}, d3_base, d3_dag);
 
@@ -121,11 +123,18 @@ const AncestryGraph = (props) => {
       .append("circle")
       .attr("class", "node")
       .attr("r", 1e-6)
-      .attr("fill", function (d) {
-        return "#fff";
-      })
+      .attr("fill", getNodeFill)
       .attr("stroke-width", 3)
-      .attr("stroke", theme.palette.secondary.main);
+      .attr("stroke", getNodeStroke);
+
+    // Add genetic condition markers
+    nodeEnter
+      .append("text")
+      .attr("dy", "4")
+      .attr("x", -2)
+      .style("font", "12px sans-serif")
+      .text(getNodeText)
+      .attr("cursor", "pointer");
 
     // Add names as node labels
     nodeEnter
@@ -159,9 +168,7 @@ const AncestryGraph = (props) => {
     nodeUpdate
       .select("circle.node")
       .attr("r", (d) => 10 * !d.data.isUnion + 0 * d.data.isUnion)
-      .style("fill", function (d) {
-        return "#fff";
-      })
+      .style("fill", getNodeFill)
       .attr("cursor", "pointer");
 
     // ****************** links section ***************************
@@ -222,6 +229,23 @@ const AncestryGraph = (props) => {
     }
   };
 
+  const getNodeFill = (node) => {
+    return "#fff";
+  };
+
+  const getNodeStroke = (node) => {
+    if (!node.data.isUnion && hasGeneticCondition(node.data)) {
+      return theme.palette.error.light
+    }
+    return theme.palette.secondary.main;
+  };
+
+  const getNodeText = (node) => {
+    if (!node.data.isUnion && hasGeneticCondition(node.data)) {
+      return "!";
+    }
+  };
+
   const nodeClicked = (node) => {
     history.push(`/dogs/${node.data.microchipNumber}`);
     centerNode(node);
@@ -250,6 +274,9 @@ const AncestryGraph = (props) => {
             display.
           </Typography>
         )}
+        <div className={styles.legend}>
+          <Typography variant="body2">! = Genetic Condition</Typography>
+        </div>
       </div>
     </Card>
   );
@@ -264,12 +291,18 @@ const useStyles = makeStyles((theme) => ({
     height: 800,
   },
   container: {
+    position: "relative",
     width: "100%",
     height: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
+  legend: {
+    position: "absolute",
+    top: 10,
+    left: 10
+  }
 }));
 
 export default AncestryGraph;
