@@ -121,6 +121,19 @@ const DogCard = (props) => {
               ? `${dog.sire.name} (${dog.sire.microchipNumber})`
               : "Unknown"}
           </ListItemText>
+          <ListItemText>
+            <strong>Breeder: </strong>{" "}
+            {dog.breederId !== 0
+              ? `${dog.breederId}`
+              : "Unknown"}
+          </ListItemText>
+          <ListItemText>
+            <strong>Colours: </strong>{" "}
+            {dog.colours.map((colour) => (
+                `${colour}/`
+            ))}
+          </ListItemText>
+          
         </List>
       </CardContent>
 
