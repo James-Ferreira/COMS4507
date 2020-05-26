@@ -113,23 +113,6 @@ function SearchResult(props) {
     }
   }
 
-  function stripDogs() {
-    return dogs.map((d) => {
-      let parentIds = [];
-      if (Number(d.dam) !== 0) {
-        parentIds.push(d.dam);
-      }
-      if (Number(d.sire) !== 0) {
-        parentIds.push(d.sire);
-      }
-      return {
-        id: d.microchipNumber,
-        parentIds,
-        isRoot: d.microchipNumber === selectedDog.microchipNumber,
-      };
-    });
-  }
-
   const updateDog = async () => {
     /* Get the dog structure from the blockchain using our custom method */
     let dog = await contracts.dogAncestry.methods.getDog(search).call();
