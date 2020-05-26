@@ -3,7 +3,7 @@ import { TextField, InputAdornment } from "@material-ui/core";
 import { FaSearch } from "react-icons/fa";
 import RoutedButton from "../components/routedButton";
 
-const DogSearchBar = () => {
+const DogSearchBar = (props) => {
   const [search, setSearch] = useState(""); // Microchip search string.
 
   return (
@@ -19,9 +19,9 @@ const DogSearchBar = () => {
       variant="outlined"
       fullWidth
       size="small"
-      onChange={(e) => setSearch(e.target.value.replace(/\D/g, ""))}
+      onChange={(e) => setSearch(e.target.value)}
       InputProps={{
-        style: { color: "white" },
+        style: { color: "inherit", ...props.style },
         startAdornment: (
           <InputAdornment position="start">
             <FaSearch />
