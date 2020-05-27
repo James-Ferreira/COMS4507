@@ -104,7 +104,6 @@ const DogCard = (props) => {
     setDialogOpen(!dialogOpen);
   };
 
-
   let dog = props.data;
   let breedData = calculateBreedData(dog.breedMap);
 
@@ -154,10 +153,7 @@ const DogCard = (props) => {
               : "Unknown"}
           </ListItemText>
           <ListItemText>
-            <strong>Colours: </strong>{" "}
-            {dog.colours.map((colour) => (
-                `${colour}/`
-            ))}
+            <strong>Colour{dog.colours.length > 1 && "s"}:</strong> {dog.colours.join(", ")}
           </ListItemText>
           <ListItemText>
             <strong>Dam: </strong>{" "}
