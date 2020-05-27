@@ -48,6 +48,8 @@ import {
   DiscreteColorLegend,
 } from "react-vis";
 
+import { Link } from "react-router-dom";
+
 import RoutedButton from "./routedButton";
 import { calculateBreedData } from "../util/genealogy";
 
@@ -158,13 +160,13 @@ const DogCard = (props) => {
           <ListItemText>
             <strong>Dam: </strong>{" "}
             {dog.dam !== 0
-              ? `${dog.dam.name} (${dog.dam.microchipNumber})`
+              ? <Link to={`/dogs/${dog.dam.microchipNumber}`}>{dog.dam.name} ({dog.dam.microchipNumber})</Link>
               : "Unknown"}
           </ListItemText>
           <ListItemText>
             <strong>Sire: </strong>{" "}
             {dog.sire !== 0
-              ? `${dog.sire.name} (${dog.sire.microchipNumber})`
+              ? <Link to={`/dogs/${dog.sire.microchipNumber}`}>{dog.sire.name} ({dog.sire.microchipNumber})</Link>
               : "Unknown"}
           </ListItemText>
         </List>
