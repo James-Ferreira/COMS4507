@@ -27,9 +27,7 @@ const VetApplication = (props) => {
   const styles = useStyles();
   const theme = useTheme();
   const alert = useAlert();
-  const { contracts, account } = Ethereum.useContainer();
-
-  const [doRedirect, setDoRedirect] = useState(false);
+  const { contracts, account, isApproved } = Ethereum.useContainer();
 
   const form = useForm(
     {
@@ -74,7 +72,7 @@ const VetApplication = (props) => {
   return (
     <div className={styles.root}>
       {
-        doRedirect &&
+        isApproved &&
         <Redirect to="/" />
       }
       <Typography variant="h4">Apply for Veterinary Status</Typography>
