@@ -40,7 +40,7 @@ function App() {
           .isVet(accounts[0])
           .call();
         approvedStatus = await contracts.vetRegistry.methods
-          .isOwner(accounts[0])
+          .isApproved(accounts[0])
           .call();
       }
       setIsOwner(ownerStatus);

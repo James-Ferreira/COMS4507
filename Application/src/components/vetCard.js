@@ -3,28 +3,15 @@ import React from 'react';
 
 import {
   makeStyles,
-  Card,
-  CardHeader,
-  CardContent,
-  Collapse,
-  Avatar,
-  IconButton,
   Typography,
-  Divider,
   useMediaQuery,
   useTheme,
-  List,
-  ListItemText,
-  Select,
-  MenuItem,
   Grid,
   Paper,
-  ButtonBase,
+  Button,
 } from "@material-ui/core";
 
 import Padder from "./padder";
-
-import RoutedButton from "./routedButton";
 
 import { FaUserMd } from "react-icons/fa";
 
@@ -47,9 +34,11 @@ const VetCard = (props) => {
   const theme = useTheme();
   const isNotMobile = useMediaQuery(theme.breakpoints.up("sm"));
   
-  let vet = props.data;
-  let pending = props.pending;
+  let vet = props.data || {};
+  let pending = props.pending || false;
+  let approved = props.approved || false;
   let index = props.index;
+  let process = props.process || (() => {});
 
   return (
     <div className={classes.root}>
@@ -72,15 +61,23 @@ const VetCard = (props) => {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item>
-              <RoutedButton
-                asModal={isNotMobile}
-                color="primary"
-                to={"/vets/" + vet.addr + "/approve"}
-              >
-                Approve
-              </RoutedButton>
-            </Grid>
+              {
+                pending ?
+                <Grid item>
+                  <Button onClick={() => process(vet.addr, true, index)}>
+                    Approve
+                  </Button>
+                  <Button onClick={() => process(vet.addr, false, index)}>
+                    Deny
+                  </Button>
+                </Grid>
+                : approved &&
+                <Grid item>
+                  <Button onClick={() => process(vet.addr)}>
+                    Revoke
+                  </Button>
+                </Grid>
+              }
           </Grid>
         </Grid>
       </Paper>

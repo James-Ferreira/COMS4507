@@ -80,7 +80,6 @@ const NavBar = (props) => {
         <div className={styles.rightSection}>
           {isOwner && (
             <RoutedButton
-              asModal={isNotMobile}
               variant="text"
               color="secondary"
               to="/vets"

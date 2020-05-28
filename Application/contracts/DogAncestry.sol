@@ -94,7 +94,7 @@ contract DogAncestry {
     ) public {
         VetRegistry registry = VetRegistry(vetRegistryAddress);
         
-        require(registry.isApprovedVet(msg.sender), "Sender must be an approved vet");
+        require(registry.isApproved(msg.sender), "Sender must be an approved vet");
         require(microchipNumber != 0, "Microchip number cannot be zero");
         require(
             dogs[microchipNumber].microchipNumber == 0,
@@ -169,7 +169,7 @@ contract DogAncestry {
         string memory details
     ) public {
         VetRegistry registry = VetRegistry(vetRegistryAddress);
-        require(registry.isApprovedVet(msg.sender), "Sender must be an approved vet");
+        require(registry.isApproved(msg.sender), "Sender must be an approved vet");
         require(
             dogs[microchipNumber].microchipNumber != 0,
             "Dog is not registered"

@@ -94,12 +94,27 @@ contract VetRegistry {
 
         // Change application status to processed
         for (uint i = 0; i < applications.size; i++) {
-            if (applications.list[i].addr == msg.sender) {
+            if (applications.list[i].addr == _addr) {
                 applications.list[i].processed = true;
                 break;
             }
         }
         emit ApplicationProcessed(vets[_addr].addr, _approved);
+    }
+
+
+    // Sets the approved status of the vet corresponding to the give application index
+    // to the given value, if index is within range. More efficient if the application
+    // index is known. Restricted to contract owner.
+    function processApplication(
+        uint _index,
+        bool _approved
+    ) public onlyBy(owner) {
+        require(_index >= 0 && _index < applications.size, "Application index out of range");
+        address addr = applications.list[_index].addr;
+        applications.list[_index].processed = true;
+        vets[addr].approved = _approved;
+        emit ApplicationProcessed(addr, _approved);
     }
 
     // Sets the status of the vet with the given address to not approved, if the vet
@@ -113,7 +128,7 @@ contract VetRegistry {
     }
 
     // Returns true if given address is an approved vet, otherwise false.
-    function isApprovedVet(address _addr) public view returns (bool){
+    function isApproved(address _addr) public view returns (bool){
         return vets[_addr].approved || isOwner(_addr);
     }
 
