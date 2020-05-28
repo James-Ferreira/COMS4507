@@ -20,11 +20,22 @@ import {
   List,
   ListItemText,
   Select,
-  MenuItem
+  MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from "@material-ui/core";
 
 import clsx from "clsx";
-import { FaChevronDown, FaMars, FaVenus } from "react-icons/fa";
+import { 
+  FaChevronDown, 
+  FaMars, 
+  FaVenus,
+  FaQuestionCircle
+} from "react-icons/fa";
 
 import Ethereum from "../state/ethereum";
 
@@ -38,6 +49,8 @@ import {
   XAxis,
   DiscreteColorLegend,
 } from "react-vis";
+
+import { Link } from "react-router-dom";
 
 import RoutedButton from "./routedButton";
 import { calculateBreedData } from "../util/genealogy";
@@ -63,6 +76,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
   },
+
+  dialogButton: {
+    display: "flex",
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+
 }));
 
 const DogCard = (props) => {
@@ -73,6 +93,7 @@ const DogCard = (props) => {
 
   const [expanded, setExpanded] = React.useState(false);
   const [recordsExpanded, setRecordsExpanded] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const [recordFilter, setRecordFilter] = React.useState("all");
 
   const handleExpandClick = () => {
@@ -83,12 +104,19 @@ const DogCard = (props) => {
     setRecordsExpanded(!recordsExpanded);
   };
 
+  const handleDialogClick = () => {
+    setDialogOpen(!dialogOpen);
+  };
+
   let dog = props.data;
   let breedData = calculateBreedData(dog.breedMap);
 
   return (
     <Card className={classes.root}>
       <CardHeader
+        classes={{
+          action: classes.dialogButton,
+        }}
         avatar={
           dog.isBitch ? (
             <Avatar variant="rounded" style={{ backgroundColor: "#d8b2db" }}>
@@ -103,32 +131,54 @@ const DogCard = (props) => {
         title={`${dog.name}`}
         titleTypographyProps={{ variant: "h6" }}
         subheader={`ID: (${dog.microchipNumber})`}
+        action={
+          <Button
+            variant="text" 
+            onClick={handleDialogClick}
+          >
+            <FaQuestionCircle size="1.75em"
+              style={{ color: theme.palette.secondary.dark }}
+            />
+          </Button>
+        }
       />
 
       {/*-- BASIC INFO -- */}
       <CardContent>
+
         <List>
           <ListItemText>
-            <strong>DOB: </strong> {moment.unix(dog.dob).format("DD/MM/YYYY")}
+            <strong>Date-of-Birth: </strong> {moment.unix(dog.dob).format("DD/MM/YYYY")}
           </ListItemText>
           <ListItemText>
-            <strong>DAM: </strong>{" "}
-            {dog.dam !== 0
-              ? `${dog.dam.name} (${dog.dam.microchipNumber})`
+            <strong>Breeder ID: </strong>{" "}
+            {dog.breederId !== 0
+              ? `${dog.breederId}`
               : "Unknown"}
           </ListItemText>
           <ListItemText>
-            <strong>SIRE: </strong>{" "}
+            <strong>Colour{dog.colours.length > 1 && "s"}:</strong> {dog.colours.join(", ")}
+          </ListItemText>
+          <ListItemText>
+            <strong>Dam: </strong>{" "}
+            {dog.dam !== 0
+              ? <Link to={`/dogs/${dog.dam.microchipNumber}`}>{dog.dam.name} ({dog.dam.microchipNumber})</Link>
+              : "Unknown"}
+          </ListItemText>
+          <ListItemText>
+            <strong>Sire: </strong>{" "}
             {dog.sire !== 0
-              ? `${dog.sire.name} (${dog.sire.microchipNumber})`
+              ? <Link to={`/dogs/${dog.sire.microchipNumber}`}>{dog.sire.name} ({dog.sire.microchipNumber})</Link>
               : "Unknown"}
           </ListItemText>
         </List>
+
       </CardContent>
 
       <Divider />
 
       {/*-- COLLAPSIBLE INFORMATION-- */}
+      
       <div
         title={expanded ? "Hide Statistics" : "Show Statistics"}
         className="collapseLabel"
@@ -177,7 +227,8 @@ const DogCard = (props) => {
           <Typography align="center">
             <br />
             Co-efficient of Inbreeding [{`${dog.coi}`}]
-          </Typography>
+          </Typography>         
+
 
           <XYPlot width={350} height={75} xDomain={[0, 1]}>
             <GradientDefs>
@@ -285,6 +336,62 @@ const DogCard = (props) => {
           {!dog.medicals || !dog.medicals.some(x => recordFilter == "all" || x.recordType == recordFilter) && <p>No Records Found</p>}
         </CardContent>
       </Collapse>
+
+
+      
+      {/*-- POPUP ADDITIONAL INFO -- */} 
+      <Dialog
+          open={dialogOpen}
+          onClose={handleDialogClick}
+          aria-labelledby="info-dialog-title"
+          aria-describedby="info-dialog-description"
+        >
+          <DialogTitle id="info-dialog-title">{"Additional Information"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="info-dialog-description">
+              <Divider />
+              <Padder height={theme.spacing(2)} />
+              <Typography align="left" variant="body1">
+                <strong>Coefficient-of-Inbreeding [COI]: </strong>
+                Ranging between 0 (no inbreeding exists in the ancestry) and 1 
+                (the organism is completely inbred), the COI indicates the
+                probability of an allele from a single ancestor propagating down
+                either side of a pedigree and resulting in a descendant that
+                will express the gene. <br/> <br/>
+                
+                Consequences of inbreeding include lower general health,
+                physical defects and shorter lifespans. These effects generally
+                manifest in individual animals at a COI > <strong>5%</strong>,
+                and permanently reduce the viability of a genetic line at a 
+                COI > <strong>10%</strong>.
+              </Typography>
+              <Divider />
+              <Padder height={theme.spacing(2)} />
+              <Typography align="left" variant="body1">
+                <strong>Genetic Conditions: </strong>
+                Genetic conditions are stored by veterinarians as a permanent
+                record on the Barkchain, allowing for users to identify the
+                genetic risks for existing dogs or potential mate pairings.
+                <br/><br/>
+                <strong>Awards: </strong>
+                In the business of show dogs, competitive victories increase the
+                value of descendants and can be used to breed 
+                unrelated genetic lines for the fixation of physical traits as
+                a sustainable alternative to inbreeding.
+
+              </Typography>
+
+
+            </DialogContentText>
+          </DialogContent>
+          
+          <DialogActions>
+            <Button onClick={handleDialogClick} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+
     </Card>
   );
 };

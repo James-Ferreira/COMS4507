@@ -69,7 +69,7 @@ const Register = (props) => {
         return false;
       }
       if (data.sire && data.sire <= 0) {
-        alert.show("Dam's microchip Number must be greater than 0", SEVERITY.ERROR);
+        alert.show("Sire's microchip Number must be greater than 0", SEVERITY.ERROR);
         return false;
       }
       if (data.colours.length === 0 || data.colours.includes("")) {

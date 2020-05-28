@@ -31,10 +31,12 @@ npm install react-tree-graph --save
 
 ## Running The Project
 ### Truffle
-To recompile and deploy smart contracts, run the following:
+To recompile and deploy smart contracts, as well as to prepopulate
+with pedigree data - run the following:
 ```
 truffle compile
 truffle migrate --reset
+truffle exec preloadTX.js
 ```
 ### React App
 With Ganache running, start the project from the root directory.

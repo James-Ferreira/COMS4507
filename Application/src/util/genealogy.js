@@ -139,3 +139,13 @@ export function calculateBreedData(breedMap) {
 
   return breedData;
 }
+
+/**
+ * Returns true if the dog has a genetic condition medical record.
+ * @param {Dog} dog
+ */
+export function hasGeneticCondition(dog) {
+  return dog.medicals.some(
+    (record) => record.recordType == "genetic-condition"
+  );
+}
