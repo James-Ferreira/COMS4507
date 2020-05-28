@@ -67,7 +67,7 @@ function Vets() {
       );
       statuses[index].approved = false;
     } catch (err) {
-      alert.show("Revocation failed. Please try again.") 
+      alert.show("Revocation failed. Please try again.", SEVERITY.ERROR); 
     }
   }
 
