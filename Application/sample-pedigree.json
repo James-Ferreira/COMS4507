@@ -1,1 +1,828 @@
-[{"dam":0,"microchipNumber":1,"breederId":"Douglas Doglover","dob":4038,"isBitch":true,"name":"Dulce","sire":0,"breed":"German Shepherd","colours":["White","Black"]},{"dam":0,"microchipNumber":2,"breederId":"Douglas Doglover","dob":6086,"isBitch":true,"name":"Consolata","sire":0,"breed":"Labrador","colours":["White","Gold"]},{"dam":0,"microchipNumber":3,"breederId":"Douglas Doglover","dob":8134,"isBitch":true,"name":"Eustacia","sire":0,"breed":"Poodle","colours":["White","Black"]},{"dam":0,"microchipNumber":4,"breederId":"Douglas Doglover","dob":10182,"isBitch":false,"name":"Clari","sire":0,"breed":"Akita","colours":["Red","Black"]},{"dam":0,"microchipNumber":5,"breederId":"Douglas Doglover","dob":12230,"isBitch":false,"name":"Lenka","sire":0,"breed":"Corgi","colours":["Gold","Grey"]},{"dam":0,"microchipNumber":6,"breederId":"Douglas Doglover","dob":14278,"isBitch":false,"name":"Pandora","sire":0,"breed":"English Pointer","colours":["Red","Gold"]},{"dam":0,"microchipNumber":7,"breederId":"Douglas Doglover","dob":16326,"isBitch":true,"name":"Ronny","sire":0,"breed":"German Shepherd","colours":["Black","White"]},{"dam":0,"microchipNumber":8,"breederId":"Douglas Doglover","dob":18374,"isBitch":true,"name":"Abbi","sire":0,"breed":"Beagle","colours":["Black","Brown"]},{"dam":0,"microchipNumber":9,"breederId":"Douglas Doglover","dob":20422,"isBitch":true,"name":"Anthia","sire":0,"breed":"Beagle","colours":["White","Brown"]},{"dam":0,"microchipNumber":10,"breederId":"Douglas Doglover","dob":22470,"isBitch":false,"name":"Ingeberg","sire":0,"breed":"Husky","colours":["Gold","Black"]},{"dam":1,"microchipNumber":11,"breederId":"Douglas Doglover","dob":24519,"isBitch":false,"name":"Jacinta","sire":4,"breed":"German Shepherd","colours":["Red","Black"]},{"dam":1,"microchipNumber":12,"breederId":"Douglas Doglover","dob":26567,"isBitch":false,"name":"Fleur","sire":4,"breed":"Akita","colours":["Red","Black"]},{"dam":2,"microchipNumber":13,"breederId":"Douglas Doglover","dob":28615,"isBitch":true,"name":"Giana","sire":6,"breed":"Labrador","colours":["Red","Gold"]},{"dam":2,"microchipNumber":14,"breederId":"Douglas Doglover","dob":30663,"isBitch":false,"name":"Yoshiko","sire":6,"breed":"English Pointer","colours":["Red","Gold"]},{"dam":1,"microchipNumber":15,"breederId":"Douglas Doglover","dob":32711,"isBitch":false,"name":"Luelle","sire":5,"breed":"Corgi","colours":["Gold","Grey"]},{"dam":3,"microchipNumber":16,"breederId":"Douglas Doglover","dob":34759,"isBitch":false,"name":"Hatty","sire":6,"breed":"Poodle","colours":["Red","Gold"]},{"dam":3,"microchipNumber":17,"breederId":"Douglas Doglover","dob":36807,"isBitch":true,"name":"Tonia","sire":6,"breed":"Poodle","colours":["Red","Gold"]},{"dam":7,"microchipNumber":18,"breederId":"Douglas Doglover","dob":38855,"isBitch":false,"name":"Kiley","sire":5,"breed":"German Shepherd","colours":["Gold","Grey"]},{"dam":7,"microchipNumber":19,"breederId":"Douglas Doglover","dob":40903,"isBitch":true,"name":"Andy","sire":5,"breed":"Corgi","colours":["Gold","Grey"]},{"dam":7,"microchipNumber":20,"breederId":"Douglas Doglover","dob":42951,"isBitch":false,"name":"Fredericka","sire":5,"breed":"German Shepherd","colours":["Gold","Grey"]},{"dam":8,"microchipNumber":21,"breederId":"Douglas Doglover","dob":44999,"isBitch":false,"name":"Ofella","sire":6,"breed":"English Pointer","colours":["Red","Gold"]},{"dam":8,"microchipNumber":22,"breederId":"Douglas Doglover","dob":47047,"isBitch":true,"name":"Honoria","sire":6,"breed":"Beagle","colours":["Red","Gold"]},{"dam":8,"microchipNumber":23,"breederId":"Douglas Doglover","dob":49095,"isBitch":true,"name":"Mariann","sire":6,"breed":"English Pointer","colours":["Red","Gold"]},{"dam":9,"microchipNumber":24,"breederId":"Douglas Doglover","dob":51143,"isBitch":false,"name":"Jobi","sire":5,"breed":"Beagle","colours":["Gold","Grey"]},{"dam":1,"microchipNumber":25,"breederId":"Douglas Doglover","dob":53191,"isBitch":false,"name":"Rhea","sire":10,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":1,"microchipNumber":26,"breederId":"Douglas Doglover","dob":55239,"isBitch":false,"name":"Chrysler","sire":10,"breed":"Husky","colours":["Gold","Black"]},{"dam":17,"microchipNumber":27,"breederId":"Douglas Doglover","dob":57288,"isBitch":true,"name":"Marcelia","sire":18,"breed":"Poodle","colours":["Gold","Grey"]},{"dam":17,"microchipNumber":28,"breederId":"Douglas Doglover","dob":59336,"isBitch":true,"name":"Lorette","sire":18,"breed":"German Shepherd","colours":["Gold","Grey"]},{"dam":17,"microchipNumber":29,"breederId":"Douglas Doglover","dob":61384,"isBitch":true,"name":"Eadie","sire":18,"breed":"Poodle","colours":["Gold","Grey"]},{"dam":19,"microchipNumber":30,"breederId":"Douglas Doglover","dob":63432,"isBitch":false,"name":"Jacinda","sire":11,"breed":"Corgi","colours":["Red","Black"]},{"dam":19,"microchipNumber":31,"breederId":"Douglas Doglover","dob":65480,"isBitch":false,"name":"Darb","sire":11,"breed":"Corgi","colours":["Red","Black"]},{"dam":19,"microchipNumber":32,"breederId":"Douglas Doglover","dob":67528,"isBitch":true,"name":"Yvette","sire":11,"breed":"German Shepherd","colours":["Red","Black"]},{"dam":22,"microchipNumber":33,"breederId":"Douglas Doglover","dob":69576,"isBitch":false,"name":"Shannen","sire":20,"breed":"German Shepherd","colours":["Gold","Grey"]},{"dam":23,"microchipNumber":34,"breederId":"Douglas Doglover","dob":71624,"isBitch":true,"name":"Pris","sire":15,"breed":"English Pointer","colours":["Gold","Grey"]},{"dam":23,"microchipNumber":35,"breederId":"Douglas Doglover","dob":73672,"isBitch":true,"name":"Doralynn","sire":15,"breed":"Corgi","colours":["Gold","Grey"]},{"dam":19,"microchipNumber":36,"breederId":"Douglas Doglover","dob":75720,"isBitch":false,"name":"Dulce","sire":25,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":19,"microchipNumber":37,"breederId":"Douglas Doglover","dob":77768,"isBitch":false,"name":"Laurella","sire":25,"breed":"Corgi","colours":["Gold","Black"]},{"dam":19,"microchipNumber":38,"breederId":"Douglas Doglover","dob":79816,"isBitch":false,"name":"Brigid","sire":25,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":22,"microchipNumber":39,"breederId":"Douglas Doglover","dob":81864,"isBitch":true,"name":"Neille","sire":26,"breed":"Beagle","colours":["Gold","Black"]},{"dam":39,"microchipNumber":40,"breederId":"Douglas Doglover","dob":83913,"isBitch":true,"name":"Glenn","sire":30,"breed":"Beagle","colours":["Red","Black"]},{"dam":39,"microchipNumber":41,"breederId":"Douglas Doglover","dob":85961,"isBitch":true,"name":"Fionna","sire":30,"breed":"Beagle","colours":["Red","Black"]},{"dam":32,"microchipNumber":42,"breederId":"Douglas Doglover","dob":88009,"isBitch":true,"name":"Staci","sire":36,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":32,"microchipNumber":43,"breederId":"Douglas Doglover","dob":90057,"isBitch":true,"name":"Winna","sire":36,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":32,"microchipNumber":44,"breederId":"Douglas Doglover","dob":92105,"isBitch":true,"name":"Evvie","sire":36,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":34,"microchipNumber":45,"breederId":"Douglas Doglover","dob":94153,"isBitch":true,"name":"Ashleigh","sire":38,"breed":"English Pointer","colours":["Gold","Black"]},{"dam":34,"microchipNumber":46,"breederId":"Douglas Doglover","dob":96201,"isBitch":false,"name":"Willyt","sire":38,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":43,"microchipNumber":47,"breederId":"Douglas Doglover","dob":98250,"isBitch":true,"name":"Margarethe","sire":46,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":43,"microchipNumber":48,"breederId":"Douglas Doglover","dob":100298,"isBitch":false,"name":"Rosetta","sire":46,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":43,"microchipNumber":49,"breederId":"Douglas Doglover","dob":102346,"isBitch":true,"name":"Wilone","sire":46,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":45,"microchipNumber":50,"breederId":"Douglas Doglover","dob":104394,"isBitch":true,"name":"Trudi","sire":46,"breed":"English Pointer","colours":["Gold","Black"]},{"dam":41,"microchipNumber":51,"breederId":"Douglas Doglover","dob":106442,"isBitch":false,"name":"Shoshanna","sire":46,"breed":"Beagle","colours":["Gold","Black"]},{"dam":41,"microchipNumber":52,"breederId":"Douglas Doglover","dob":108490,"isBitch":true,"name":"Cornela","sire":46,"breed":"Beagle","colours":["Gold","Black"]},{"dam":47,"microchipNumber":53,"breederId":"Douglas Doglover","dob":110539,"isBitch":false,"name":"Corabella","sire":48,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":50,"microchipNumber":54,"breederId":"Douglas Doglover","dob":112587,"isBitch":true,"name":"Ashely","sire":51,"breed":"English Pointer","colours":["Gold","Black"]},{"dam":54,"microchipNumber":55,"breederId":"Douglas Doglover","dob":114636,"isBitch":true,"name":"Luelle","sire":53,"breed":"English Pointer","colours":["Gold","Black"]},{"dam":54,"microchipNumber":56,"breederId":"Douglas Doglover","dob":116684,"isBitch":true,"name":"Kamillah","sire":53,"breed":"English Pointer","colours":["Gold","Black"]},{"dam":54,"microchipNumber":57,"breederId":"Douglas Doglover","dob":118732,"isBitch":false,"name":"Jaquelin","sire":53,"breed":"English Pointer","colours":["Gold","Black"]},{"dam":54,"microchipNumber":58,"breederId":"Douglas Doglover","dob":120780,"isBitch":true,"name":"Josi","sire":53,"breed":"German Shepherd","colours":["Gold","Black"]},{"dam":55,"microchipNumber":59,"breederId":"Douglas Doglover","dob":122829,"isBitch":false,"name":"Alyson","sire":57,"breed":"English Pointer","colours":["Gold","Black"]}]
+[
+  {
+    "dam": 0,
+    "microchipNumber": 1,
+    "breederId": "Douglas Doglover",
+    "dob": 4038,
+    "isBitch": true,
+    "name": "Dulce",
+    "sire": 0,
+    "breed": "German Shepherd",
+    "colours": [
+      "White",
+      "Black"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 2,
+    "breederId": "Douglas Doglover",
+    "dob": 6086,
+    "isBitch": true,
+    "name": "Consolata",
+    "sire": 0,
+    "breed": "Labrador",
+    "colours": [
+      "White",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 3,
+    "breederId": "Douglas Doglover",
+    "dob": 8134,
+    "isBitch": true,
+    "name": "Eustacia",
+    "sire": 0,
+    "breed": "Poodle",
+    "colours": [
+      "White",
+      "Black"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 4,
+    "breederId": "Douglas Doglover",
+    "dob": 10182,
+    "isBitch": false,
+    "name": "Clari",
+    "sire": 0,
+    "breed": "Akita",
+    "colours": [
+      "Red",
+      "Black"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 5,
+    "breederId": "Douglas Doglover",
+    "dob": 12230,
+    "isBitch": false,
+    "name": "Lenka",
+    "sire": 0,
+    "breed": "Corgi",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 6,
+    "breederId": "Douglas Doglover",
+    "dob": 14278,
+    "isBitch": false,
+    "name": "Pandora",
+    "sire": 0,
+    "breed": "English Pointer",
+    "colours": [
+      "Red",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 7,
+    "breederId": "Douglas Doglover",
+    "dob": 16326,
+    "isBitch": true,
+    "name": "Ronny",
+    "sire": 0,
+    "breed": "German Shepherd",
+    "colours": [
+      "Black",
+      "White"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 8,
+    "breederId": "Douglas Doglover",
+    "dob": 18374,
+    "isBitch": true,
+    "name": "Abbi",
+    "sire": 0,
+    "breed": "Beagle",
+    "colours": [
+      "Black",
+      "Brown"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 9,
+    "breederId": "Douglas Doglover",
+    "dob": 20422,
+    "isBitch": true,
+    "name": "Anthia",
+    "sire": 0,
+    "breed": "Beagle",
+    "colours": [
+      "White",
+      "Brown"
+    ]
+  },
+  {
+    "dam": 0,
+    "microchipNumber": 10,
+    "breederId": "Douglas Doglover",
+    "dob": 22470,
+    "isBitch": false,
+    "name": "Ingeberg",
+    "sire": 0,
+    "breed": "Husky",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 1,
+    "microchipNumber": 11,
+    "breederId": "Douglas Doglover",
+    "dob": 24519,
+    "isBitch": false,
+    "name": "Jacinta",
+    "sire": 4,
+    "breed": "German Shepherd",
+    "colours": [
+      "Red",
+      "Black"
+    ]
+  },
+  {
+    "dam": 1,
+    "microchipNumber": 12,
+    "breederId": "Douglas Doglover",
+    "dob": 26567,
+    "isBitch": false,
+    "name": "Fleur",
+    "sire": 4,
+    "breed": "Akita",
+    "colours": [
+      "Red",
+      "Black"
+    ]
+  },
+  {
+    "dam": 2,
+    "microchipNumber": 13,
+    "breederId": "Douglas Doglover",
+    "dob": 28615,
+    "isBitch": true,
+    "name": "Giana",
+    "sire": 6,
+    "breed": "Labrador",
+    "colours": [
+      "Red",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 2,
+    "microchipNumber": 14,
+    "breederId": "Douglas Doglover",
+    "dob": 30663,
+    "isBitch": false,
+    "name": "Yoshiko",
+    "sire": 6,
+    "breed": "English Pointer",
+    "colours": [
+      "Red",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 1,
+    "microchipNumber": 15,
+    "breederId": "Douglas Doglover",
+    "dob": 32711,
+    "isBitch": false,
+    "name": "Luelle",
+    "sire": 5,
+    "breed": "Corgi",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 3,
+    "microchipNumber": 16,
+    "breederId": "Douglas Doglover",
+    "dob": 34759,
+    "isBitch": false,
+    "name": "Hatty",
+    "sire": 6,
+    "breed": "Poodle",
+    "colours": [
+      "Red",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 3,
+    "microchipNumber": 17,
+    "breederId": "Douglas Doglover",
+    "dob": 36807,
+    "isBitch": true,
+    "name": "Tonia",
+    "sire": 6,
+    "breed": "Poodle",
+    "colours": [
+      "Red",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 7,
+    "microchipNumber": 18,
+    "breederId": "Douglas Doglover",
+    "dob": 38855,
+    "isBitch": false,
+    "name": "Kiley",
+    "sire": 5,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 7,
+    "microchipNumber": 19,
+    "breederId": "Douglas Doglover",
+    "dob": 40903,
+    "isBitch": true,
+    "name": "Andy",
+    "sire": 5,
+    "breed": "Corgi",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 7,
+    "microchipNumber": 20,
+    "breederId": "Douglas Doglover",
+    "dob": 42951,
+    "isBitch": false,
+    "name": "Fredericka",
+    "sire": 5,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 8,
+    "microchipNumber": 21,
+    "breederId": "Douglas Doglover",
+    "dob": 44999,
+    "isBitch": false,
+    "name": "Ofella",
+    "sire": 6,
+    "breed": "English Pointer",
+    "colours": [
+      "Red",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 8,
+    "microchipNumber": 22,
+    "breederId": "Douglas Doglover",
+    "dob": 47047,
+    "isBitch": true,
+    "name": "Honoria",
+    "sire": 6,
+    "breed": "Beagle",
+    "colours": [
+      "Red",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 8,
+    "microchipNumber": 23,
+    "breederId": "Douglas Doglover",
+    "dob": 49095,
+    "isBitch": true,
+    "name": "Mariann",
+    "sire": 6,
+    "breed": "English Pointer",
+    "colours": [
+      "Red",
+      "Gold"
+    ]
+  },
+  {
+    "dam": 9,
+    "microchipNumber": 24,
+    "breederId": "Douglas Doglover",
+    "dob": 51143,
+    "isBitch": false,
+    "name": "Jobi",
+    "sire": 5,
+    "breed": "Beagle",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 1,
+    "microchipNumber": 25,
+    "breederId": "Douglas Doglover",
+    "dob": 53191,
+    "isBitch": false,
+    "name": "Rhea",
+    "sire": 10,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 1,
+    "microchipNumber": 26,
+    "breederId": "Douglas Doglover",
+    "dob": 55239,
+    "isBitch": false,
+    "name": "Chrysler",
+    "sire": 10,
+    "breed": "Husky",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 17,
+    "microchipNumber": 27,
+    "breederId": "Douglas Doglover",
+    "dob": 57288,
+    "isBitch": true,
+    "name": "Marcelia",
+    "sire": 18,
+    "breed": "Poodle",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 17,
+    "microchipNumber": 28,
+    "breederId": "Douglas Doglover",
+    "dob": 59336,
+    "isBitch": true,
+    "name": "Lorette",
+    "sire": 18,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 17,
+    "microchipNumber": 29,
+    "breederId": "Douglas Doglover",
+    "dob": 61384,
+    "isBitch": true,
+    "name": "Eadie",
+    "sire": 18,
+    "breed": "Poodle",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 19,
+    "microchipNumber": 30,
+    "breederId": "Douglas Doglover",
+    "dob": 63432,
+    "isBitch": false,
+    "name": "Jacinda",
+    "sire": 11,
+    "breed": "Corgi",
+    "colours": [
+      "Red",
+      "Black"
+    ]
+  },
+  {
+    "dam": 19,
+    "microchipNumber": 31,
+    "breederId": "Douglas Doglover",
+    "dob": 65480,
+    "isBitch": false,
+    "name": "Darb",
+    "sire": 11,
+    "breed": "Corgi",
+    "colours": [
+      "Red",
+      "Black"
+    ]
+  },
+  {
+    "dam": 19,
+    "microchipNumber": 32,
+    "breederId": "Douglas Doglover",
+    "dob": 67528,
+    "isBitch": true,
+    "name": "Yvette",
+    "sire": 11,
+    "breed": "German Shepherd",
+    "colours": [
+      "Red",
+      "Black"
+    ]
+  },
+  {
+    "dam": 22,
+    "microchipNumber": 33,
+    "breederId": "Douglas Doglover",
+    "dob": 69576,
+    "isBitch": false,
+    "name": "Shannen",
+    "sire": 20,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 23,
+    "microchipNumber": 34,
+    "breederId": "Douglas Doglover",
+    "dob": 71624,
+    "isBitch": true,
+    "name": "Pris",
+    "sire": 15,
+    "breed": "English Pointer",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 23,
+    "microchipNumber": 35,
+    "breederId": "Douglas Doglover",
+    "dob": 73672,
+    "isBitch": true,
+    "name": "Doralynn",
+    "sire": 15,
+    "breed": "Corgi",
+    "colours": [
+      "Gold",
+      "Grey"
+    ]
+  },
+  {
+    "dam": 19,
+    "microchipNumber": 36,
+    "breederId": "Douglas Doglover",
+    "dob": 75720,
+    "isBitch": false,
+    "name": "Dulce",
+    "sire": 25,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 19,
+    "microchipNumber": 37,
+    "breederId": "Douglas Doglover",
+    "dob": 77768,
+    "isBitch": false,
+    "name": "Laurella",
+    "sire": 25,
+    "breed": "Corgi",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 19,
+    "microchipNumber": 38,
+    "breederId": "Douglas Doglover",
+    "dob": 79816,
+    "isBitch": false,
+    "name": "Brigid",
+    "sire": 25,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 22,
+    "microchipNumber": 39,
+    "breederId": "Douglas Doglover",
+    "dob": 81864,
+    "isBitch": true,
+    "name": "Neille",
+    "sire": 26,
+    "breed": "Beagle",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 39,
+    "microchipNumber": 40,
+    "breederId": "Douglas Doglover",
+    "dob": 83913,
+    "isBitch": true,
+    "name": "Glenn",
+    "sire": 30,
+    "breed": "Beagle",
+    "colours": [
+      "Red",
+      "Black"
+    ]
+  },
+  {
+    "dam": 39,
+    "microchipNumber": 41,
+    "breederId": "Douglas Doglover",
+    "dob": 85961,
+    "isBitch": true,
+    "name": "Fionna",
+    "sire": 30,
+    "breed": "Beagle",
+    "colours": [
+      "Red",
+      "Black"
+    ]
+  },
+  {
+    "dam": 32,
+    "microchipNumber": 42,
+    "breederId": "Douglas Doglover",
+    "dob": 88009,
+    "isBitch": true,
+    "name": "Staci",
+    "sire": 36,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 32,
+    "microchipNumber": 43,
+    "breederId": "Douglas Doglover",
+    "dob": 90057,
+    "isBitch": true,
+    "name": "Winna",
+    "sire": 36,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 32,
+    "microchipNumber": 44,
+    "breederId": "Douglas Doglover",
+    "dob": 92105,
+    "isBitch": true,
+    "name": "Evvie",
+    "sire": 36,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 34,
+    "microchipNumber": 45,
+    "breederId": "Douglas Doglover",
+    "dob": 94153,
+    "isBitch": true,
+    "name": "Ashleigh",
+    "sire": 38,
+    "breed": "English Pointer",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 34,
+    "microchipNumber": 46,
+    "breederId": "Douglas Doglover",
+    "dob": 96201,
+    "isBitch": false,
+    "name": "Willyt",
+    "sire": 38,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 43,
+    "microchipNumber": 47,
+    "breederId": "Douglas Doglover",
+    "dob": 98250,
+    "isBitch": true,
+    "name": "Margarethe",
+    "sire": 46,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 43,
+    "microchipNumber": 48,
+    "breederId": "Douglas Doglover",
+    "dob": 100298,
+    "isBitch": false,
+    "name": "Rosetta",
+    "sire": 46,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 43,
+    "microchipNumber": 49,
+    "breederId": "Douglas Doglover",
+    "dob": 102346,
+    "isBitch": true,
+    "name": "Wilone",
+    "sire": 46,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 45,
+    "microchipNumber": 50,
+    "breederId": "Douglas Doglover",
+    "dob": 104394,
+    "isBitch": true,
+    "name": "Trudi",
+    "sire": 46,
+    "breed": "English Pointer",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 41,
+    "microchipNumber": 51,
+    "breederId": "Douglas Doglover",
+    "dob": 106442,
+    "isBitch": false,
+    "name": "Shoshanna",
+    "sire": 46,
+    "breed": "Beagle",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 41,
+    "microchipNumber": 52,
+    "breederId": "Douglas Doglover",
+    "dob": 108490,
+    "isBitch": true,
+    "name": "Cornela",
+    "sire": 46,
+    "breed": "Beagle",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 47,
+    "microchipNumber": 53,
+    "breederId": "Douglas Doglover",
+    "dob": 110539,
+    "isBitch": false,
+    "name": "Corabella",
+    "sire": 48,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 50,
+    "microchipNumber": 54,
+    "breederId": "Douglas Doglover",
+    "dob": 112587,
+    "isBitch": true,
+    "name": "Ashely",
+    "sire": 51,
+    "breed": "English Pointer",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 54,
+    "microchipNumber": 55,
+    "breederId": "Douglas Doglover",
+    "dob": 114636,
+    "isBitch": true,
+    "name": "Luelle",
+    "sire": 53,
+    "breed": "English Pointer",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 54,
+    "microchipNumber": 56,
+    "breederId": "Douglas Doglover",
+    "dob": 116684,
+    "isBitch": true,
+    "name": "Kamillah",
+    "sire": 53,
+    "breed": "English Pointer",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 54,
+    "microchipNumber": 57,
+    "breederId": "Douglas Doglover",
+    "dob": 118732,
+    "isBitch": false,
+    "name": "Jaquelin",
+    "sire": 53,
+    "breed": "English Pointer",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 54,
+    "microchipNumber": 58,
+    "breederId": "Douglas Doglover",
+    "dob": 120780,
+    "isBitch": true,
+    "name": "Josi",
+    "sire": 53,
+    "breed": "German Shepherd",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  },
+  {
+    "dam": 55,
+    "microchipNumber": 59,
+    "breederId": "Douglas Doglover",
+    "dob": 122829,
+    "isBitch": false,
+    "name": "Alyson",
+    "sire": 57,
+    "breed": "English Pointer",
+    "colours": [
+      "Gold",
+      "Black"
+    ]
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "types": [
+    "vaccination",
+    "genetic-condition",
+    "award"
+  ],
+  "vaccinationTitles": [
+    "Bordetella Bronchiseptica Vaccination",
+    "Canine Distemper Vaccination",
+    "Canine Hepatitis Vaccination",
+    "Canine Parainfluenza Vaccination",
+    "Coronavirus Vaccination",
+    "Heartworm Vaccination",
+    "Kennel Cough Vaccination",
+    "Leptospirosis Vaccination",
+    "Lyme Disease Vaccination",
+    "Parvovirus Vaccination,",
+    "Rabies Vaccination"
+  ],
+  "awardTitles": [
+    "Champion",
+    "Champion - Grand",
+    "Champion – Supreme",
+    "Champion - Neutered",
+    "Champion - Grand Neutered",
+    "Champion - Dual",
+    "Champion – Triple",
+    "Agility Champion",
+    "Freestyle Champion",
+    "Earthdog Champion",
+    "Field Trial Champion",
+    "Herding Champion",
+    "Herding Grand Champion",
+    "Herding Versatile Champion",
+    "Herding Versatile Champion Excellent",
+    "Field Champion",
+    "Singles Field Champion",
+    "Veterans Field Champion",
+    "Retrieving Trial Champion",
+    "Grand Retrieving Trial Champion",
+    "Obedience Champion",
+    "Rally Obedience Champion",
+    "Grand Obedience Champion",
+    "Tracking Champion"
+  ],
+  "geneticConditionTitles": [
+    "Cancer",
+    "Progressive Retinal Atrophy",
+    "Hereditary Epilepsy",
+    "Hip Dysplasia",
+    "Hypothyroidism",
+    "Congenital Heart Anomalies",
+    "Allergic Skin Disease",
+    "Patella Luxation",
+    "Elbow Dysplasia",
+    "Gastric Dilatation",
+    "von Willebrand's disease (vWD)"
+  ],
+  "descriptions": [
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dignissim diam in velit bibendum, ultrices porta purus laoreet. Maecenas ac ultricies felis. Sed eros enim, lacinia et elit in, luctus aliquet urna. Morbi varius vehicula tellus eget volutpat. Donec ut porttitor nulla, in sollicitudin mauris. Morbi et commodo mauris. Vestibulum pulvinar odio diam, sed varius risus mattis vitae. Vivamus et dapibus ipsum. Aliquam erat volutpat. Aliquam erat volutpat.",
+    "Nam posuere, mi in facilisis pellentesque, felis dolor consectetur nisl, sed mollis metus mi et justo. Morbi ut mi blandit, vulputate turpis eget, rhoncus quam. Donec quis orci eu felis finibus pretium. Sed facilisis, lacus eget ultrices volutpat, velit sem viverra nunc, a cursus dolor orci vel arcu. In fermentum vestibulum sapien, dictum dignissim enim lacinia quis. Pellentesque sed elementum turpis, in eleifend elit. Nunc posuere laoreet aliquam.",
+    "Vestibulum a nisl eget lorem hendrerit facilisis vel sit amet nisi. Sed tristique in ligula quis cursus. Aliquam tincidunt velit et porttitor pharetra. Sed arcu orci, condimentum mollis tristique et, vestibulum ut ipsum. Nulla sodales ex dignissim tellus viverra, nec dignissim erat gravida. Sed ligula sem, tincidunt id tellus at, molestie consequat arcu. Etiam euismod leo eu ultrices ullamcorper. Morbi vulputate nibh ante, a porta libero ullamcorper et. Quisque nunc leo, finibus tristique pulvinar non, mollis quis odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum metus turpis, auctor eget mauris efficitur, maximus sodales nibh. Pellentesque ut accumsan ante.",
+    "Morbi id nisi malesuada, iaculis nunc a, tempus massa. Nullam porta porttitor libero, sed euismod eros interdum nec. Nam ut urna congue, luctus sapien id, interdum quam. Nunc interdum orci sit amet diam suscipit sagittis. Nullam commodo nec diam nec luctus. Nullam fermentum, tortor a bibendum venenatis, ex diam sodales nulla, quis dapibus purus quam sit amet mauris. Duis ex nunc, convallis vel convallis vitae, cursus eu arcu. Nullam volutpat, orci sed commodo hendrerit, purus felis feugiat sem, ultricies laoreet leo lectus vitae justo.",
+    "Nullam vel elementum lectus. Phasellus in ipsum nec enim molestie auctor in ut odio. Etiam efficitur leo neque, nec interdum nunc consequat eu. Nunc aliquet nisi quis aliquet posuere. Pellentesque lacus eros, dictum vitae rutrum vitae, vestibulum sit amet metus. Vivamus elementum rutrum laoreet. Nulla feugiat at mauris nec vehicula. Sed blandit ac magna mollis blandit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec lacinia tellus eget elementum efficitur. Donec velit purus, ullamcorper a finibus non, finibus id libero. Nunc pharetra nec arcu eget eleifend. Pellentesque a felis aliquet velit porta tincidunt. Vivamus vel mattis elit, nec scelerisque purus. Quisque posuere tellus ut mollis bibendum. Proin laoreet elit sit amet nisl viverra, nec malesuada augue suscipit.",
+    "Proin sit amet massa convallis, aliquet ante id, iaculis ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse vitae ex at augue pulvinar malesuada non congue mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet mi urna. Donec in suscipit sem, sit amet condimentum nibh. Phasellus eget accumsan felis. Nulla volutpat et arcu nec egestas. Suspendisse ac dignissim dui. Proin eu ligula nec enim placerat finibus eu vel odio. Proin sapien mi, ullamcorper sit amet quam eu, sollicitudin ultrices sem. Aliquam a tortor quis massa imperdiet venenatis eleifend eu lectus. Sed sed posuere massa. Cras at porttitor nunc. Quisque gravida lacus eget vulputate consequat.",
+    "Donec id tempus dolor, quis consequat lorem. Donec dignissim turpis metus, ac commodo est volutpat sed. Nulla pulvinar tincidunt augue, in tempus dui lacinia congue. Sed id risus enim. Vestibulum non vehicula metus. Aenean ultricies massa cursus pellentesque efficitur. Vestibulum ac nulla felis. Sed metus orci, sodales ac nunc ut, dapibus convallis nunc. Suspendisse vel enim vel nisi consequat feugiat. Sed sagittis justo vitae ornare ornare. Quisque eros dui, ornare sit amet enim sit amet, porta iaculis ipsum. Praesent lectus diam, blandit dapibus felis eu, pharetra mattis urna. Morbi faucibus consequat est, nec tincidunt velit rutrum nec. Aliquam erat volutpat. Curabitur tincidunt blandit dapibus. Etiam volutpat iaculis ex sed semper.",
+    "Cras non auctor enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc nunc enim, egestas id velit ut, pellentesque pulvinar risus. Aenean in sem non quam malesuada vestibulum a a nulla. Nulla facilisi. Etiam lacinia convallis leo, eu sollicitudin turpis feugiat vel. Fusce magna ipsum, pulvinar non iaculis eget, tempor at libero. Maecenas euismod lorem in tellus interdum, ac eleifend metus ullamcorper. Donec mi enim, faucibus non erat vel, semper fringilla tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel arcu malesuada, lobortis augue sit amet, bibendum sem. Aenean laoreet dui est, sit amet imperdiet odio semper congue. Suspendisse facilisis ligula vitae cursus convallis.",
+    "In ultrices felis nibh, sed suscipit tellus rutrum eu. Etiam ut diam at nunc commodo luctus. Sed posuere nisl dui, nec consectetur metus imperdiet vitae. Aliquam non velit nec mi gravida aliquam ac eu mi. Duis rhoncus, orci vel iaculis lobortis, erat quam mattis arcu, eu luctus turpis nibh quis lectus. Nam rutrum commodo ex, et bibendum arcu dapibus vel. Proin venenatis at est fringilla tempor. Curabitur in nisl at eros mattis efficitur. Proin molestie efficitur luctus. Fusce consequat venenatis nisi, sit amet tempor arcu. Nunc dolor magna, imperdiet nec tellus eu, volutpat consequat enim. Sed sed vestibulum est. Nulla facilisi. Ut finibus lacus at quam ultricies, quis maximus diam feugiat. Nam pretium, ante eu pretium volutpat, lectus leo porttitor ex, at viverra ligula lectus ut nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "Proin ultricies a ex vitae volutpat. Nam lacus sem, auctor sit amet lacus quis, auctor aliquet eros. Morbi eget fringilla tortor. Maecenas et dolor accumsan, ultrices risus vitae, commodo odio. Praesent nec posuere quam. Aenean vulputate facilisis libero vel consequat. Duis vel posuere nibh."
+  ]
+}
