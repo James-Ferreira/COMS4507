@@ -38,13 +38,10 @@ contract DogAncestry {
 
     event DogRegistered(uint256 dogId);
 
-    string[] setUpColours; // TODO: delete me
-
     address vetRegistryAddress;
 
     // A special function only run during the creation of the contract
     constructor(address _vetRegistryAddress) public {
-
         vetRegistryAddress = _vetRegistryAddress;
     }
 
