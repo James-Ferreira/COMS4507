@@ -128,11 +128,6 @@ const NavBar = (props) => {
         >
           <Typography variant="caption">{account || "Not logged in"}</Typography>
           {
-            isVet &&
-            <Typography variant="caption">Status: {isApproved ? "Approved " : "Not Approved"}</Typography>
-          }
-        
-          {
             !isApproved && 
             <RoutedMenuItem asModal={isNotMobile} to={"/apply"}>
               Vet Application

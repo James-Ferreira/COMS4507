@@ -73,7 +73,7 @@ const VetCard = (props) => {
                 </Grid>
                 : approved &&
                 <Grid item>
-                  <Button onClick={() => process(vet.addr)}>
+                  <Button onClick={() => process(vet.addr, index)}>
                     Revoke
                   </Button>
                 </Grid>

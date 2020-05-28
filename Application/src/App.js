@@ -22,6 +22,7 @@ function App() {
     setAccount,
     setIsOwner,
     setIsApproved,
+    setIsVet,
     contracts,
   } = Ethereum.useContainer(); // The Ethereum interface from context.
 
@@ -45,12 +46,14 @@ function App() {
       }
       setIsOwner(ownerStatus);
       setIsApproved(approvedStatus);
+      setIsVet(vetStatus);
     })();
   }, [
     web3,
     setAccount,
     setIsOwner,
     setIsApproved,
+    setIsVet,
     contracts.vetRegistry.methods,
   ]);
 

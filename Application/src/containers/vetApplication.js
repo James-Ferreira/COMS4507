@@ -22,7 +22,6 @@ import useForm from "../hooks/useForm";
 import { useAlert, SEVERITY } from "../hooks/useAlert";
 
 import Ethereum from "../state/ethereum";
-import Web3 from "web3"; // Web3 for interaction with Ethereum
 
 const VetApplication = (props) => {
   const styles = useStyles();

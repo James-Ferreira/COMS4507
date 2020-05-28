@@ -6,13 +6,8 @@ import React, {useState, useEffect} from "react";
 
 import {
   makeStyles,
-  Card,
-  CardContent,
   Typography,
-  useMediaQuery,
   useTheme,
-  CardHeader,
-  Avatar,
   List,
   ListItem,
 } from "@material-ui/core";
@@ -20,9 +15,7 @@ import {
 import Ethereum from "../state/ethereum";
 import { useAlert, SEVERITY } from "../hooks/useAlert";
 
-import RoutedButton from "../components/routedButton";
 import VetCard from "../components/vetCard";
-import Padder from "../components/padder";
 
 const useStyles = makeStyles((theme) => ({
   "vetList": {
@@ -35,12 +28,12 @@ function Vets() {
   const classes = useStyles();
   const alert = useAlert();
 
-  const { contracts, isOwner, account, isApproved } = Ethereum.useContainer();
+  const { contracts, isOwner, account } = Ethereum.useContainer();
 
   const [size, setSize] = useState();
   // Array of Vet objects retrieved from contract
   const [vets, setVets] = useState();
-
+  // Mapping of application indices to pending and approved statuses
   const [statuses, setStatuses] = useState();
 
   async function processApplication (address, approved, index) {
@@ -49,74 +42,68 @@ function Vets() {
       .processApplication(address, approved)
       .send({from: account});
       alert.show(
-        `Application successfully {approved ? "approved" : "denied"}.`,
+        `Application successfully ${approved ? "approved" : "denied"}.`,
         SEVERITY.SUCCESS
       );
-      let newStatuses = statuses;
-      newStatuses[index].approved = true;
-      newStatuses[index].pending = false;
-      setStatuses(newStatuses);
+      statuses[index].approved = approved;
+      statuses[index].pending = false;
     } catch (err) {
+      console.log(err);
       alert.show(
-        `Application {approved ? "approval" : "denial"} failed. Please try again.`,
+        `Application ${approved ? "approval" : "denial"} failed. Please try again.`,
         SEVERITY.ERROR
       );
     }
   };
 
-  async function revokeApproval(address) {
+  async function revokeApproval(address, index) {
     try {
       await contracts.vetRegistry.methods
       .revokeApproval(address)
       .send({from: account});
+      alert.show(
+        "Approval successfully revoked.",
+        SEVERITY.SUCCESS
+      );
+      statuses[index].approved = false;
     } catch (err) {
       alert.show("Revocation failed. Please try again.") 
     }
   }
 
-  // Retrieves size of application list from contract
-  const fetchSize = async () => {
-    let result = await contracts.vetRegistry.methods.getApplicationCount().call();
-    console.log("Size: ", size);
-    setSize(result);
-  };
- 
-  // Retrieves all vets from the contract. Sets vet, approved, and pending states.
-  const fetchVets = async (size) => {
-    let vetsResult = [];
-    let statusesResult = {}
-
-    for (let i = 0; i < size; i++) {
-      let vet = await contracts.vetRegistry.methods.getVet(i).call();
-      let isPending = await contracts.vetRegistry.methods.isPending(i).call();
-      vetsResult.push(vet);
-      statusesResult[i] = {
-        "pending": isPending,
-        "approved": vet.approved,
-      };
-    }
-    console.log("Vets: ", vetsResult);
-    console.log("Statuses: ", statusesResult); 
-    setVets(vetsResult);
-    setStatuses(statusesResult);
-  }
-
-  function componentDidUpdate(prev) {
-    console.log("DID UPDATE");
-  }
+  useEffect(() => {
+    // Retrieves size of application list from contract
+    const fetchSize = async () => {
+      let result = await contracts.vetRegistry.methods.getApplicationCount().call();
+      console.log("Size: ", size);
+      setSize(result);
+    };
+    fetchSize();
+  }, [ size, contracts.vetRegistry.methods ]);
  
   useEffect(() => {
-    if (!size) {
-      fetchSize();
-    }
-  }, [ fetchSize, size ]);
- 
-  useEffect(() => {
-    if (size && !vets) {
+    // Retrieves all vets from the contract. Sets vet, approved, and pending states.
+    const fetchVets = async (size) => {
+      let vetsResult = [];
+      let statusesResult = {}
+
+      for (let i = 0; i < size; i++) {
+        let vet = await contracts.vetRegistry.methods.getVet(i).call();
+        let isPending = await contracts.vetRegistry.methods.isPending(i).call();
+        vetsResult.push(vet);
+        statusesResult[i] = {
+          "pending": isPending,
+          "approved": vet.approved,
+        };
+      }
+      setVets(vetsResult);
+      setStatuses(statusesResult);
+    };
+    if (size) {
       fetchVets(size);
     }
-  }, [size, fetchVets, vets]);
-  
+  }, [ size, contracts.vetRegistry.methods, statuses ]);
+
   return (
     <>
       {
@@ -124,7 +111,7 @@ function Vets() {
         <div className={classes.vetList}>
           <Typography variant="h4">Pending</Typography>
           { 
-            vets && statuses ?
+            vets && statuses &&
             <List>
               {Object.keys(statuses).map((index) => 
                   statuses[index].pending &&
@@ -139,16 +126,16 @@ function Vets() {
                   </ListItem>
               )}
             </List>
-            : "No pending vets"
           }
         </div>
       }
       <div className={classes.vetList}>
         <Typography variant="h4">Approved</Typography>
         {
-          vets && statuses ?
+          vets && statuses &&
           <List>
-            {Object.keys(statuses).map((index) => 
+            {
+            Object.keys(statuses).map((index) => 
                 statuses[index].approved &&
                 <ListItem >
                   <VetCard
@@ -159,10 +146,11 @@ function Vets() {
                     process={revokeApproval}
                   />
                 </ListItem>
-            )}
+            )
+            }
           </List>
-          : "No approved vets"
         }
+        {alert.component}
       </div>
     </>
   );
