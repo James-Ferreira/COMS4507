@@ -89,6 +89,9 @@ contract VetRegistry {
         bool _approved
     ) public onlyBy(owner) {
         require(vets[_addr].exists == true, "Vet does not exist");
+        if (vets[_addr].approved) {
+            return;
+        }
 
         vets[_addr].approved = _approved;
 
@@ -100,21 +103,6 @@ contract VetRegistry {
             }
         }
         emit ApplicationProcessed(vets[_addr].addr, _approved);
-    }
-
-
-    // Sets the approved status of the vet corresponding to the give application index
-    // to the given value, if index is within range. More efficient if the application
-    // index is known. Restricted to contract owner.
-    function processApplication(
-        uint _index,
-        bool _approved
-    ) public onlyBy(owner) {
-        require(_index >= 0 && _index < applications.size, "Application index out of range");
-        address addr = applications.list[_index].addr;
-        applications.list[_index].processed = true;
-        vets[addr].approved = _approved;
-        emit ApplicationProcessed(addr, _approved);
     }
 
     // Sets the status of the vet with the given address to not approved, if the vet
