@@ -145,9 +145,7 @@ export function calculateBreedData(breedMap) {
  * @param {Dog} dog
  */
 export function hasGeneticCondition(dog) {
-  const yes = dog.medicals.some(
+  return dog.medicals.some(
     (record) => record.recordType == "genetic-condition"
   );
-  console.log(yes);
-  return yes;
 }
