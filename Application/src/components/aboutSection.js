@@ -7,7 +7,7 @@ const AboutSection = (props) => {
 
   const imageSide = (
     <div className={styles.aboutSectionSide} style={{ textAlign: "center" }}>
-      <props.IconComponent color={theme.palette.secondary.dark} size="10em" />
+      <props.IconComponent color={theme.palette.secondary.dark} style={{flex:1}} />
     </div>
   );
 

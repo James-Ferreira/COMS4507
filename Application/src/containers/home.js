@@ -14,6 +14,8 @@ import {
   CardHeader,
   Avatar,
   Fab,
+  Paper,
+  CardActions,
 } from "@material-ui/core";
 
 /* Images and Icons */
@@ -32,7 +34,7 @@ import Ethereum from "../state/ethereum";
 import RoutedButton from "../components/routedButton";
 import Padder from "../components/padder";
 import DogSearchBar from "../components/dogSearchBar";
-import AboutSection from "../components/aboutSection";
+import AboutCard from "../components/aboutCard";
 import scrollToRef from "../util/scrollToRef";
 
 function Home() {
@@ -132,84 +134,87 @@ function Home() {
         </div>
       </div>
 
-      <div ref={refAbout} className={styles.about}>
-        <AboutSection variant="left" title="PEDIGREE" IconComponent={FaSitemap}>
-          The system allows a user to visually traverse a dog's pedigree, and
-          view the stored information of ancestors
-        </AboutSection>
-        <AboutSection
-          variant="right"
-          title="GENETIC TRANSPARENCY"
-          IconComponent={FaDna}
-        >
-          The application helps mitigate intentional misinformation regarding a
-          dog's breed, the prevalence of inbreeding and the existence of harmful
-          genetic predispositions
-        </AboutSection>
-        <AboutSection variant="left" title="TRUST" IconComponent={FaUserMd}>
-          The system utilises veterinarians as the trusted entities responsible
-          for registering a dog's information
-        </AboutSection>
-        <AboutSection
-          variant="right"
-          title="MEDICAL HISTORY"
-          IconComponent={FaFileMedicalAlt}
-        >
-          Storing medical information on the public Barkchain prevents breeders
-          witholding pertinent medical information
-        </AboutSection>
-        <AboutSection
-          variant="left"
-          title="COMPETITION AWARDS"
-          IconComponent={FaTrophy}
-        >
-          To promote adoption of the BarkChain for breeders, the system can
-          store records of competitive victories - increasing the value of a
-          pedigree line
-        </AboutSection>
-      </div>
+      <div ref={refAbout} className={styles.additionalInfo}>
+        <div className={styles.about}>
+          <AboutCard variant="left" title="PEDIGREE" IconComponent={FaSitemap}>
+            The system allows a user to visually traverse a dog's pedigree, and
+            view the stored information of ancestors
+          </AboutCard>
+          <AboutCard
+            variant="right"
+            title="GENETIC TRANSPARENCY"
+            IconComponent={FaDna}
+          >
+            The application helps mitigate intentional misinformation regarding
+            a dog's breed, the prevalence of inbreeding and the existence of
+            harmful genetic predispositions
+          </AboutCard>
+          <AboutCard variant="left" title="TRUST" IconComponent={FaUserMd}>
+            The system utilises veterinarians as the trusted entities
+            responsible for registering a dog's information
+          </AboutCard>
+          <AboutCard
+            variant="right"
+            title="MEDICAL HISTORY"
+            IconComponent={FaFileMedicalAlt}
+          >
+            Storing medical information on the public Barkchain prevents
+            breeders witholding pertinent medical information
+          </AboutCard>
+          <AboutCard
+            variant="left"
+            title="COMPETITION AWARDS"
+            IconComponent={FaTrophy}
+          >
+            To promote adoption of the BarkChain for breeders, the system can
+            store records of competitive victories - increasing the value of a
+            pedigree line
+          </AboutCard>
+        </div>
+        <div className={styles.recentDogs}>
+          <Typography variant="h4">Recent Registrations</Typography>
+          <Padder height={theme.spacing(1)} />
+          <div className={styles.recentDogsList}>
+            {latestDogs &&
+              latestDogs.map((dog) => (
+                <Card className={styles.dogCard} key={dog.microchipNumber}>
+                  <CardHeader
+                    avatar={
+                      dog.isBitch ? (
+                        <Avatar
+                          variant="rounded"
+                          style={{ backgroundColor: "#d8b2db" }}
+                        >
+                          <FaVenus size="1.25em" />
+                        </Avatar>
+                      ) : (
+                        <Avatar
+                          variant="rounded"
+                          style={{ backgroundColor: "#99acc9" }}
+                        >
+                          <FaMars size="1.25em" />
+                        </Avatar>
+                      )
+                    }
+                    title={`${dog.name}`}
+                    titleTypographyProps={{ variant: "h6" }}
+                    subheader={`ID: (${dog.microchipNumber})`}
+                  />
 
-      <div className={styles.dogCardsContainer}>
-        <div className={styles.dogCardsWrapper}>
-          {latestDogs &&
-            latestDogs.map((dog) => (
-              <Card className={styles.dogCard} key={dog.microchipNumber}>
-                <CardHeader
-                  avatar={
-                    dog.isBitch ? (
-                      <Avatar
-                        variant="rounded"
-                        style={{ backgroundColor: "#d8b2db" }}
+                  <CardContent>
+                    <center>
+                      <RoutedButton
+                        to={`/dogs/${dog.microchipNumber}`}
+                        variant="contained"
+                        color="primary"
                       >
-                        <FaVenus size="1.25em" />
-                      </Avatar>
-                    ) : (
-                      <Avatar
-                        variant="rounded"
-                        style={{ backgroundColor: "#99acc9" }}
-                      >
-                        <FaMars size="1.25em" />
-                      </Avatar>
-                    )
-                  }
-                  title={`${dog.name}`}
-                  titleTypographyProps={{ variant: "h6" }}
-                  subheader={`ID: (${dog.microchipNumber})`}
-                />
-
-                <CardContent>
-                  <center>
-                    <RoutedButton
-                      to={`/dogs/${dog.microchipNumber}`}
-                      variant="contained"
-                      color="primary"
-                    >
-                      View
-                    </RoutedButton>
-                  </center>
-                </CardContent>
-              </Card>
-            ))}
+                        View
+                      </RoutedButton>
+                    </center>
+                  </CardContent>
+                </Card>
+              ))}
+          </div>
         </div>
       </div>
     </div>
@@ -282,54 +287,40 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 
-  about: {
+  additionalInfo: {
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
-    margin: "0 10%",
+    height: `${window.innerHeight - theme.mixins.toolbar.minHeight}px`,
   },
-  aboutSection: {
+  about: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  aboutSectionSide: {
-    flex: 1,
+    justifyContent: "center",
+    alignItems: "stretch",
+    flexWrap: "wrap",
+    margin: "0 10%",
   },
 
   dogLogo: {
     width: "15em",
   },
 
-  cardsWrapper: {
-    padding: "2em",
-    display: "flex",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    flexWrap: "wrap",
-    flexGrow: "1",
-  },
-
-  dogCardsContainer: {
-    overflowX: "auto",
-    backgroundColor: theme.palette.primary.main,
-    //boxShadow: "inset 0px 0px 8px #00000055",
-    padding: "2em 0",
+  recentDogs: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
     width: "100vw",
+    textAlign: "center",
+    margin: "2vh 0",
   },
 
-  dogCardsWrapper: {
+  recentDogsList: {
     display: "flex",
-    flexDirection: "row-reverse",
-    justifyContent: "space-evenly",
-    boxShadow: "inset 0px 0px 8px #00000055",
-    backgroundColor: "#00000022",
-    width: "max-content",
-    padding: "0 1em",
-    minWidth: "calc(100vw - 2em)",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    padding: "0% 1%",
   },
 
   cardImg: {
@@ -338,22 +329,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   dogCard: {
-    width: "15em",
-    minWidth: "15em",
-    maxWidth: "15em",
-    margin: "0 1em",
-    backgroundColor: theme.palette.secondary.main,
+    textAlign: "left",
     transform: "scale(0.9)",
     transition: "transform 0.1s ease",
     "&:hover": {
-      transform: "scale(1.1)",
+      transform: "scale(1.0)",
     },
-  },
-
-  infoCard: {
-    border: "none",
-    width: "20em",
-    textAlign: "center",
+    flex: 1,
+    margin: 5,
   },
 }));
 
