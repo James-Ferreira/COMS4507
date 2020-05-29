@@ -44,30 +44,32 @@ function SearchResult(props) {
       return alert.show("Dog not registered.", SEVERITY.ERROR);
     }
 
-    await BFS(dog);
-
+    const localDogs = await BFS(dog);
+    
     /* Get dog's ancestry */
-    dog = await getAncestry(dog);
+    dog = getAncestry(dog, localDogs);
+
+    setDogs(localDogs);
     setSelectedDog(dog);
   };
 
   /* Recursively get ancestry of a dog. We will want to implement pagination on this later. */
-  const getAncestry = async (dog) => {
+  const getAncestry = (root, dogsList) => {
     /* Create a new array to store the ancestors as a list rather than a tree */
     let dam = 0;
-    if (Number(dog.dam) !== 0) {
-      dam = await contracts.dogAncestry.methods.getDog(dog.dam).call();
-      dam = await getAncestry(dam);
+    if (Number(root.dam) !== 0) {
+      dam = dogsList.find(d => d.microchipNumber == root.dam)
+      dam = getAncestry(dam, dogsList);
     }
 
     let sire = 0;
-    if (Number(dog.sire) !== 0) {
-      sire = await contracts.dogAncestry.methods.getDog(dog.sire).call();
-      sire = await getAncestry(sire);
+    if (Number(root.sire) !== 0) {
+      sire = dogsList.find(d => d.microchipNumber == root.dam)
+      sire = getAncestry(sire, dogsList);
     }
 
     return {
-      ...dog,
+      ...root,
       dam,
       sire,
     };
@@ -104,7 +106,7 @@ function SearchResult(props) {
         q.enqueue(dog);
       });
     }
-    setDogs(found);
+    return found;
   }
 
   async function asyncForEach(array, callback) {
