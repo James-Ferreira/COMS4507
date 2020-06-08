@@ -64,7 +64,7 @@ function SearchResult(props) {
 
     let sire = 0;
     if (Number(root.sire) !== 0) {
-      sire = dogsList.find(d => d.microchipNumber == root.dam)
+      sire = dogsList.find(d => d.microchipNumber == root.sire)
       sire = getAncestry(sire, dogsList);
     }
 

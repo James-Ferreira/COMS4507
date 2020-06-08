@@ -319,6 +319,7 @@ const useStyles = makeStyles((theme) => ({
   recentDogsList: {
     display: "flex",
     justifyContent: "space-between",
+    flexDirection: "row-reverse",
     alignItems: "stretch",
     padding: "0% 1%",
   },
